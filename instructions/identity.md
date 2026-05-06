@@ -90,7 +90,7 @@ This applies to: skills, hooks, cloud routines, model config, sync state, curric
 - Running a 22-week Python + Stats + SQL bootcamp targeting FAANG DA/DS roles
 - **Target:** application-ready by **July 2026**
 - **Bootcamp started:** Feb 24, 2026
-- **Current bootcamp state:** read `state/current_day.md` (two-dimension schema: bootcamp + loop_week) and `instructions/curriculum/progress_state.xml`. Do NOT assume from this file. Pipeline repo at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\` is authoritative for bootcamp scope.
+- **Current bootcamp state:** read `state/current_day.md` (two-dimension schema: bootcamp + loop_week) and `instructions/curriculum/progress_state.xml`. Do NOT assume from this file. Pipeline repo (`Sudhan09/python_bootcamp_claude_code`, `config/` directory) is authoritative for bootcamp scope.
 
 ### Interests
 

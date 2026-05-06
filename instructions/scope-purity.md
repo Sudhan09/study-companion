@@ -1,4 +1,4 @@
-<!-- Per design §G adapt: spirit of rules.xml v2.5 Rule 1 (scope_purity) from C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\rules.xml -->
+<!-- Per design §G adapt: spirit of rules.xml v2.5 Rule 1 (scope_purity) from the bootcamp pipeline (Sudhan09/python_bootcamp_claude_code) config/rules.xml -->
 <!-- Authoritative XMLs synced daily by study-curriculum-sync routine into instructions/curriculum/. Read those files for the runtime registry. -->
 <!-- Per design §C: new file. -->
 
@@ -53,7 +53,7 @@ If no → remove that part of the drill. Do not ask. **Fail closed.**
 
 - **Live registry:** `instructions/curriculum/progress_state.xml` `<completed_through_day>` + active curriculum chunk per `<active_files>` + `instructions/curriculum/deviation_log.xml` `<scope_additions>`.
 - **Synced daily** by the `study-curriculum-sync` routine at 08:30 IST (cron `0 3 * * *` UTC).
-- **Pipeline repo** at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\` is the authoritative source. Study companion does NOT fork these files — it subscribes.
+- **Pipeline repo** (`Sudhan09/python_bootcamp_claude_code`, `config/` directory) is the authoritative source. Study companion does NOT fork these files — it subscribes.
 
 ## On scope violation
 

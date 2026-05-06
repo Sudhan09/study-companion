@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-05-06T22:00:00+05:30
+last_updated: 2026-05-06T22:30:00+05:30
 updated_by: audit-remediation-2026-05-06
 ---
 
@@ -49,5 +49,5 @@ Other state files have only the two required fields.
 
 ## Curriculum scope (separate registry, synced not authored)
 
-- `instructions/curriculum/*.xml` is synced daily by `study-curriculum-sync` from the pipeline repo at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\`.
+- `instructions/curriculum/*.xml` is synced daily by `study-curriculum-sync` from the pipeline repo (`Sudhan09/python_bootcamp_claude_code`, `config/` directory).
 - That pipeline repo is authoritative; this registry is read-only with respect to scope.
