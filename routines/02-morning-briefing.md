@@ -1,5 +1,5 @@
 <!-- Per design §E #2 study-morning-briefing. User pastes into Cowork /schedule UI per build plan Phase 12.2. -->
-<!-- Routine #2 in cross-routine ordering: runs at 08:45 IST, AFTER routine #1 (curriculum-sync) at 08:30 IST. -->
+<!-- Routine #2 in cross-routine ordering: runs at 09:00 IST, AFTER routine #1 (curriculum-sync) at 08:30 IST. -->
 <!-- Per design §E "Per-routine resilience" subsection: if #1 failed, this routine MUST detect staleness and Dispatch-alert rather than briefing on stale curriculum. -->
 
 # Routine 2: study-morning-briefing
@@ -40,7 +40,7 @@ You are the study-morning-briefing routine. Your job is to write today's plan in
 
 ## Cross-routine prerequisite (DO NOT SKIP)
 
-Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curriculum-sync-<date>. You run at 08:45 IST. Before reading any curriculum file, you MUST verify routine #1 succeeded:
+Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curriculum-sync-<date>. You run at 09:00 IST. Before reading any curriculum file, you MUST verify routine #1 succeeded:
 
 - Read instructions/curriculum/.last-sync-status.
 - Confirm "status": "OK" AND the "timestamp" field's IST date matches today's IST date (`TZ=Asia/Kolkata date +%F`). Yesterday's success is NOT sufficient — routine #1 must have run today.
