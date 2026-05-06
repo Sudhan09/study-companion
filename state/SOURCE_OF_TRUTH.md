@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-05-06T21:00:00+05:30
+last_updated: 2026-05-06T21:30:00+05:30
 updated_by: audit-remediation-2026-05-06
 ---
 
@@ -27,6 +27,19 @@ Each fact has exactly ONE writer file. SessionStart hook (claude.ai/code) reads 
 | RTI live state                | `room-to-improve/state/current_state.md`   | `/post-session`                           | `/rti-preflight`                                             |
 | Tracked git repos             | `state/repos.md`                           | user (manual edits)                       | `study-github-commit-reminder` routine                       |
 | Wins (gold-standard)          | `wins/<date>-<slug>.md`                    | `/lock-decision`                          | `/teach-from-win`, `/self-review`, manual review             |
+
+## Allowed extra frontmatter fields
+
+Beyond `last_updated` and `updated_by`, the following extra fields are permitted per file. Validator does not currently enforce this allowlist — it's documentation; future validator versions may.
+
+| File                          | Extra fields allowed                                          |
+|-------------------------------|---------------------------------------------------------------|
+| `current_day.md`              | `bootcamp` (object), `loop_week` (object)                     |
+| `active_weak_spots.md`        | `total_active` (int)                                          |
+| `last_session_summary.md`     | `session_id` (string), `session_duration_min` (int)           |
+| `room-to-improve/state/current_state.md` | `phase`, `rollout_day`, `latest_session`, `independence_score`, `active_targets`, `escalated_bugs`, `band_status` (object) |
+
+Other state files have only the two required fields.
 
 ## Freshness rules
 
