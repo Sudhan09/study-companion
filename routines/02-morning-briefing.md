@@ -5,9 +5,9 @@
 # Routine 2: study-morning-briefing
 
 ## Schedule
-- **Cron (UTC):** `15 3 * * *`
-- **IST equivalent:** 08:45 daily (every day of week)
-- **Frequency:** Daily, 15 minutes after curriculum-sync (#1) — gives #1 time to complete + commit
+- **Cron (UTC):** `30 3 * * *`
+- **IST equivalent:** 09:00 daily (every day of week)
+- **Frequency:** Daily, 30 minutes after curriculum-sync (#1) — gives #1 time to complete + commit (cold-start sandbox + clone + LLM-driven sync routinely takes 5-10 min wall-clock)
 
 ## Repository config
 - **Repo:** Sudhan09/study-companion (private)
@@ -42,7 +42,7 @@ You are the study-morning-briefing routine. Your job is to write today's plan in
 Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curriculum-sync-<date>. You run at 08:45 IST. Before reading any curriculum file, you MUST verify routine #1 succeeded:
 
 - Read instructions/curriculum/.last-sync-status.
-- Confirm "status": "OK" and "timestamp" is within the last 30 minutes.
+- Confirm "status": "OK" AND the "timestamp" field's IST date matches today's IST date (`TZ=Asia/Kolkata date +%F`). Yesterday's success is NOT sufficient — routine #1 must have run today.
 - If status is STALE, missing, or timestamp >30 min old, you are briefing on stale curriculum. DO NOT proceed normally:
   1. Dispatch alert: "study-morning-briefing on STALE curriculum — sync routine failed. Briefing will be marked [STALE-CURRICULUM]."
   2. Continue with briefing BUT prepend the entire state/schedule.md output with a [STALE-CURRICULUM] warning block at the top, citing the sync status timestamp + reason.
@@ -96,7 +96,7 @@ stale_flags: [<list of STALE_FLAGs encountered, or empty>]
 ## Curriculum anchor
 [Phase <P> • Day <D> • Block <B>] — sourced from progress_state.xml + active-chunk.xml.
 
-Atomic-write: write state/schedule.md.tmp then rename to state/schedule.md.
+Atomic-write: use `bash scripts/atomic-write.sh state/schedule.md.tmp state/schedule.md` (added in Task 3.10).
 
 Step 5: Stamp logs/<YYYY-MM-DD>.md header.
 
@@ -122,8 +122,9 @@ date: <YYYY-MM-DD>
 
 Step 6: Commit + push.
 - git add state/schedule.md logs/<YYYY-MM-DD>.md
-- git commit -m "chore(morning-briefing): plan for <YYYY-MM-DD> [<phase>/<day>]<stale tag if any>"
-- git push origin claude/morning-briefing-<YYYY-MM-DD>
+- msg=$(printf 'chore(morning-briefing): plan for %s [%q/%q]%s' "$date" "$phase" "$day" "$stale_tag")
+  git commit -m "$msg"
+- git push origin claude/morning-briefing-$(TZ=Asia/Kolkata date +%F)
 
 Step 7: Dispatch (optional, only if no STALE flags).
 Send 1-line: "Day <D> — Loop Week Day <LWD> — <topic> — <N> active weak spots (<comma-separated ids>)"
@@ -151,4 +152,4 @@ If any STALE flag was set during the run, ALWAYS Dispatch with the alert text fr
 - MUST NOT fabricate day numbers, phase, active chunk filename, or weak-spot list. All must come from disk; missing data = staleness flag, never a guess.
 - MUST NOT push to `main`. Only to `claude/morning-briefing-<date>`.
 - MUST NOT silently reconcile current_day.md vs progress_state.xml mismatches — surface as freshness warning.
-- MUST NOT skip atomic-write pattern (tmpfile + rename).
+- MUST NOT skip the atomic-write helper (`scripts/atomic-write.sh`).
