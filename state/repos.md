@@ -1,8 +1,9 @@
-<!-- Per design §E routine 4 (study-github-commit-reminder). Optional list of repos to check git log on. If absent, routine falls through to study-companion only. -->
 ---
 last_updated: 2026-05-06T20:00:00+05:30
 updated_by: build-init
 ---
+
+<!-- Per design §E routine 4 (study-github-commit-reminder). Optional list of repos to check git log on. If absent, routine falls through to study-companion only. -->
 
 # Repositories tracked by github-commit-reminder routine
 

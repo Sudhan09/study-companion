@@ -25,7 +25,8 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/monday-distillation-<YYYY-MM-DD>`.
-- No Dispatch (this is a maintenance routine; output is the cleaner `logs/` directory).
+- This is a maintenance routine; output is the cleaner `logs/` directory and the running `state/distilled.md` index.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. -->
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -38,8 +39,8 @@ Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
 Step 2: Identify candidate logs.
 - Cron fires Monday 09:00 IST.
-- Cutoff: today minus 7 days (exclusive). Any logs/<YYYY-MM-DD>.md where date < cutoff is a candidate.
-- Build the list. If empty (week 1 of the study companion, or all already archived), write a "nothing to archive" status to state/distilled.md (or update its last_run timestamp), commit, exit. No Dispatch.
+- Cutoff: today (IST) minus 7 days. Any logs/<YYYY-MM-DD>.md where the date in its filename is strictly less than (today_IST - 7 days) is a candidate. Today's log (if morning-briefing already wrote it) MUST be excluded — verify by computing today_IST = `TZ=Asia/Kolkata date +%F` and comparing as strings.
+- Build the list. If empty (week 1 of the study companion, or all already archived), write a "nothing to archive" status to state/distilled.md (or update its last_run timestamp), commit, exit.
 
 Step 3: For each candidate log, distill it.
 
@@ -82,7 +83,7 @@ source_log: logs/<YYYY-MM-DD>.md
 - <quote from log>
 [or "None"]
 
-Atomic-write: tmpfile + rename, per file.
+Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>` (added in Task 3.10). DO NOT use direct Write to the destination — guards against half-written files if the routine is killed mid-run.
 
 Step 4: Update state/distilled.md (the running index).
 
@@ -99,7 +100,7 @@ last_run: <YYYY-MM-DD>
 
 Append one row per newly archived date (and merge with any existing rows; sort by date desc). Each row links to archive/completed_days/<date>.md.
 
-Atomic-write.
+Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>` (added in Task 3.10). DO NOT use direct Write to the destination — guards against half-written files if the routine is killed mid-run.
 
 Step 5: Remove source logs.
 For each successfully archived date:
@@ -114,7 +115,7 @@ Step 7: Commit + push.
 - git add archive/completed_days/ state/distilled.md
 - git rm -- (any removed files; git mv handles staging)
 - git commit -m "chore(monday-distillation): archived <N> logs from <oldest-date> to <newest-archived>"
-- git push origin claude/monday-distillation-<YYYY-MM-DD>
+- git push origin claude/monday-distillation-$(TZ=Asia/Kolkata date +%F)
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 

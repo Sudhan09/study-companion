@@ -1,13 +1,13 @@
 <!-- Per design §E #2 study-morning-briefing. User pastes into Cowork /schedule UI per build plan Phase 12.2. -->
-<!-- Routine #2 in cross-routine ordering: runs at 08:45 IST, AFTER routine #1 (curriculum-sync) at 08:30 IST. -->
-<!-- Per design §E "Per-routine resilience" subsection: if #1 failed, this routine MUST detect staleness and Dispatch-alert rather than briefing on stale curriculum. -->
+<!-- Routine #2 in cross-routine ordering: runs at 09:00 IST, AFTER routine #1 (curriculum-sync) at 08:30 IST. -->
+<!-- Per design §E "Per-routine resilience" subsection: if #1 failed, this routine MUST detect staleness and flag the briefing with [STALE-CURRICULUM] rather than briefing on stale curriculum. -->
 
 # Routine 2: study-morning-briefing
 
 ## Schedule
-- **Cron (UTC):** `15 3 * * *`
-- **IST equivalent:** 08:45 daily (every day of week)
-- **Frequency:** Daily, 15 minutes after curriculum-sync (#1) — gives #1 time to complete + commit
+- **Cron (UTC):** `30 3 * * *`
+- **IST equivalent:** 09:00 daily (every day of week)
+- **Frequency:** Daily, 30 minutes after curriculum-sync (#1) — gives #1 time to complete + commit (cold-start sandbox + clone + LLM-driven sync routinely takes 5-10 min wall-clock)
 
 ## Repository config
 - **Repo:** Sudhan09/study-companion (private)
@@ -30,7 +30,8 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/morning-briefing-<YYYY-MM-DD>`.
-- Optional Dispatch: 1-line summary to user's phone (e.g., "Day 35 — Loop Week Day 3 — Strings & VW Shapes — 3 active weak spots (A1, B2, F3)").
+- The committed `state/schedule.md` is the user's polling surface (no external dispatch).
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. -->
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -39,14 +40,15 @@ You are the study-morning-briefing routine. Your job is to write today's plan in
 
 ## Cross-routine prerequisite (DO NOT SKIP)
 
-Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curriculum-sync-<date>. You run at 08:45 IST. Before reading any curriculum file, you MUST verify routine #1 succeeded:
+Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curriculum-sync-<date>. You run at 09:00 IST. Before reading any curriculum file, you MUST verify routine #1 succeeded:
 
 - Read instructions/curriculum/.last-sync-status.
-- Confirm "status": "OK" and "timestamp" is within the last 30 minutes.
-- If status is STALE, missing, or timestamp >30 min old, you are briefing on stale curriculum. DO NOT proceed normally:
-  1. Dispatch alert: "study-morning-briefing on STALE curriculum — sync routine failed. Briefing will be marked [STALE-CURRICULUM]."
+- Confirm "status": "OK" AND the "timestamp" field's IST date matches today's IST date (`TZ=Asia/Kolkata date +%F`). Yesterday's success is NOT sufficient — routine #1 must have run today.
+- If status is STALE, missing, or timestamp's IST date != today's IST date, you are briefing on stale curriculum. DO NOT proceed normally:
+  1. The [STALE-CURRICULUM] flag in `state/schedule.md` IS the alert — morning-briefing surfaces it for the user to see when they read schedule.md.
   2. Continue with briefing BUT prepend the entire state/schedule.md output with a [STALE-CURRICULUM] warning block at the top, citing the sync status timestamp + reason.
   3. DO NOT invent scope or guess day numbers from memory. Use only what's already on disk; flag uncertainty.
+  <!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed state/schedule.md with [STALE-CURRICULUM] flag is the polling surface. -->
 
 ## Steps
 
@@ -96,7 +98,7 @@ stale_flags: [<list of STALE_FLAGs encountered, or empty>]
 ## Curriculum anchor
 [Phase <P> • Day <D> • Block <B>] — sourced from progress_state.xml + active-chunk.xml.
 
-Atomic-write: write state/schedule.md.tmp then rename to state/schedule.md.
+Atomic-write: use `bash scripts/atomic-write.sh state/schedule.md.tmp state/schedule.md` (added in Task 3.10).
 
 Step 5: Stamp logs/<YYYY-MM-DD>.md header.
 
@@ -122,17 +124,18 @@ date: <YYYY-MM-DD>
 
 Step 6: Commit + push.
 - git add state/schedule.md logs/<YYYY-MM-DD>.md
-- git commit -m "chore(morning-briefing): plan for <YYYY-MM-DD> [<phase>/<day>]<stale tag if any>"
-- git push origin claude/morning-briefing-<YYYY-MM-DD>
+- msg=$(printf 'chore(morning-briefing): plan for %s [%q/%q]%s' "$date" "$phase" "$day" "$stale_tag")
+  git commit -m "$msg"
+- git push origin claude/morning-briefing-$(TZ=Asia/Kolkata date +%F)
 
-Step 7: Dispatch (optional, only if no STALE flags).
-Send 1-line: "Day <D> — Loop Week Day <LWD> — <topic> — <N> active weak spots (<comma-separated ids>)"
-
-If any STALE flag was set during the run, ALWAYS Dispatch with the alert text from step 2 (already sent) plus the briefing summary.
+Step 7: Confirm audit-trail file is the deliverable.
+- The committed `state/schedule.md` contains the day summary (Phase, Day, Loop Week, topic, weak spots) in its header.
+- If any STALE flag was set during the run, [STALE-CURRICULUM] / [STALE-INPUT] tags are baked into the file at the top.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. Read the committed state/schedule.md. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
-- DO NOT brief on stale curriculum without flagging. If .last-sync-status is STALE/missing, the briefing top must say [STALE-CURRICULUM] and Dispatch must alert.
+- DO NOT brief on stale curriculum without flagging. If .last-sync-status is STALE/missing, the briefing top must say [STALE-CURRICULUM] (the file IS the alert).
 - DO NOT invent the day number, phase, active chunk, or weak spots from memory. Read them from disk. If unreadable, flag.
 - DO NOT push to main. Push only to claude/morning-briefing-<date>.
 - DO NOT silently overwrite a current_day vs progress_state mismatch. Surface it in the briefing as a freshness warning.
@@ -144,11 +147,11 @@ If any STALE flag was set during the run, ALWAYS Dispatch with the alert text fr
 - `logs/<YYYY-MM-DD>.md` exists with the morning-briefing header.
 - A new commit appears on `claude/morning-briefing-<YYYY-MM-DD>`.
 - If `.last-sync-status` was OK and within 30 min, no STALE flags in the briefing.
-- If routine #1 failed, briefing is still produced but [STALE-CURRICULUM] is the first thing in `state/schedule.md` and a Dispatch alert was emitted.
+- If routine #1 failed, briefing is still produced but [STALE-CURRICULUM] is the first thing in `state/schedule.md` (the committed file IS the alert).
 
 ## What this routine MUST NOT do
-- MUST NOT brief on stale curriculum silently. If routine #1 (curriculum-sync) failed or its `.last-sync-status` is missing/old, the briefing MUST be flagged `[STALE-CURRICULUM]` at the top and an alert MUST be Dispatched.
+- MUST NOT brief on stale curriculum silently. If routine #1 (curriculum-sync) failed or its `.last-sync-status` is missing/old, the briefing MUST be flagged `[STALE-CURRICULUM]` at the top of the committed `state/schedule.md`.
 - MUST NOT fabricate day numbers, phase, active chunk filename, or weak-spot list. All must come from disk; missing data = staleness flag, never a guess.
 - MUST NOT push to `main`. Only to `claude/morning-briefing-<date>`.
 - MUST NOT silently reconcile current_day.md vs progress_state.xml mismatches — surface as freshness warning.
-- MUST NOT skip atomic-write pattern (tmpfile + rename).
+- MUST NOT skip the atomic-write helper (`scripts/atomic-write.sh`).

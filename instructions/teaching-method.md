@@ -1,5 +1,9 @@
 <!-- Per design §G port plan: verbatim port of openclaw_setup/bootcamp/loop-week/teaching_method_locked.md -->
-<!-- DO NOT EDIT. The 5 locked rules are battle-tested. Tighten via teaching-method-tightenings.md instead. -->
+<!-- DO NOT EDIT. The 5 locked rules are battle-tested. Tighten via
+     instructions/teaching-method-tightenings.md (lazy-created on first
+     drift-audit signal that crosses the top-pattern threshold; see
+     routines/07-drift-audit.md step 7). Until then, the file does not
+     exist; that is expected. -->
 
 # Teaching Method — Locked Methods (Day 2 onward)
 

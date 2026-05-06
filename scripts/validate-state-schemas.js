@@ -10,6 +10,19 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..');
 const stateDir = path.join(repoRoot, 'state');
 
+// Per state/SOURCE_OF_TRUTH.md registry. Each state file has a fixed set of
+// allowed `updated_by` values. `build-init` is tolerated as a transient seed
+// value. Update this map when you add new state files.
+const ALLOWED_WRITERS = {
+  'SOURCE_OF_TRUTH.md':   ['build-init', 'audit-remediation-2026-05-06', 'manual-edit'],
+  'current_day.md':       ['build-init', '/day-wrap'],
+  'active_weak_spots.md': ['build-init', '/post-session', '/lock-weak-spot', 'user'],
+  'drift_log.md':         ['build-init', 'stop-hook'],
+  'last_session_summary.md': ['build-init', '/post-session', '/day-wrap'],
+  'schedule.md':          ['build-init', 'study-morning-briefing'],
+  'repos.md':             ['build-init', 'user'],
+};
+
 const errors = [];
 const filesChecked = [];
 
@@ -26,7 +39,9 @@ for (const entry of fs.readdirSync(stateDir)) {
   filesChecked.push(entry);
 
   const content = fs.readFileSync(full, 'utf8');
-  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---/);
+  // Require frontmatter as the first block: ^---\n ... \n---\n
+  // The trailing \n after the closing --- prevents matching mid-body horizontal rules.
+  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n/);
   if (!fmMatch) {
     errors.push(`${entry}: missing YAML frontmatter`);
     continue;
@@ -48,12 +63,38 @@ for (const entry of fs.readdirSync(stateDir)) {
     errors.push(`${entry}: missing 'updated_by' frontmatter field`);
   }
 
+  const ubMatch = fmRaw.match(/^updated_by:\s*(\S.*?)\s*$/m);
+  if (ubMatch) {
+    const writer = ubMatch[1];
+    const allowed = ALLOWED_WRITERS[entry];
+    if (allowed && !allowed.includes(writer)) {
+      errors.push(`${entry}: 'updated_by: ${writer}' is not in allowed writers ${JSON.stringify(allowed)} (per SOURCE_OF_TRUTH.md registry)`);
+    }
+  }
+
   if (entry === 'current_day.md') {
     if (!/^bootcamp:/m.test(content)) {
       errors.push(`current_day.md: missing 'bootcamp:' section (per design §J #11 two-dimension schema)`);
     }
     if (!/^loop_week:/m.test(content)) {
       errors.push(`current_day.md: missing 'loop_week:' section (per design §J #11 two-dimension schema)`);
+    }
+  }
+
+  if (entry === 'active_weak_spots.md') {
+    // Per audit finding #019: file is user-editable AND @-imported into every session.
+    // Best-effort regex screening for prompt-injection-shaped content. Not a complete
+    // defense — raises cost for casual injection attempts.
+    const SUSPICIOUS_RE = /^(IMPORTANT:|System:|Ignore (all )?previous|New instruction:|<\|im_start\|>)/im;
+    if (SUSPICIOUS_RE.test(content)) {
+      errors.push(`active_weak_spots.md: contains suspicious instruction-shaped tokens (possible prompt injection)`);
+    }
+    // Header allowlist: every '## X' header must match ^[A-F]\d — .* pattern.
+    const headers = [...content.matchAll(/^## (.+)$/gm)].map(m => m[1]);
+    const validHeader = /^[A-F]\d — /;
+    const badHeaders = headers.filter(h => !validHeader.test(h));
+    if (badHeaders.length) {
+      errors.push(`active_weak_spots.md: non-allowlisted headers ${JSON.stringify(badHeaders)} (expected pattern: '<family-letter><digit> — <description>')`);
     }
   }
 }

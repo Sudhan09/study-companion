@@ -3,3 +3,14 @@ state/.compact-state-pending.json
 *.swp
 .DS_Store
 Thumbs.db
+# Audit finding #030: common-secret defense-in-depth
+.env
+.env.*
+*.key
+*.pem
+id_rsa*
+credentials*
+*.log
+
+# Routine 1's pipeline clone workdir (sandbox-ephemeral; never commit)
+pipeline/

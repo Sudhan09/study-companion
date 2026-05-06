@@ -1,5 +1,5 @@
 <!-- Per design §E #1 study-curriculum-sync. User pastes into Cowork /schedule UI per build plan Phase 12.2. -->
-<!-- Routine #1 in cross-routine ordering: runs at 08:30 IST, BEFORE routine #2 (morning-briefing) at 08:45 IST. -->
+<!-- Routine #1 in cross-routine ordering: runs at 08:30 IST, BEFORE routine #2 (morning-briefing) at 09:00 IST. -->
 
 # Routine 1: study-curriculum-sync
 
@@ -10,8 +10,8 @@
 
 ## Repository config
 - **Push target (write):** `Sudhan09/study-companion` (private). Configured as the primary repo in the Cowork /schedule UI.
-- **Pipeline source (read-only clone):** `Sudhan09/python_bootcamp_claude_code` (private). Cloned by the routine prompt itself via `git clone` inside the sandbox — does NOT need to be configured as a second repo in the UI.
-- **Authentication:** Anthropic-managed proxy (Claude GitHub App installed on **BOTH** repos). User-action prerequisite: ensure App is installed on `python_bootcamp_claude_code` in addition to `study-companion` (visit github.com/apps/claude/installations and verify both repos appear in the access list).
+- **Pipeline source (read-only clone):** `Sudhan09/python_bootcamp_claude_code` (private). MUST be added as a secondary repo in the Cowork /schedule UI for this routine; Cowork's runtime then clones it before the routine starts. The `git clone` step in the routine prompt becomes a no-op verification (the directory should already exist).
+- **Authentication:** Anthropic-managed proxy (Claude GitHub App installed on **BOTH** repos AND both repos in the routine's /schedule UI repo list). User-action prerequisite: (a) install Claude GitHub App on `python_bootcamp_claude_code`; (b) add it to this routine's repo list in /schedule UI.
 - **Branch policy:** push to `claude/curriculum-sync-<YYYY-MM-DD>` on study-companion. Default-deny on main per design §H Rule 9. Pipeline repo is never written to.
 
 ## Reads
@@ -44,8 +44,9 @@ To `instructions/curriculum/` in the study repo:
 **Overwrite semantics:** straight overwrite. No diff merge. Pipeline is authoritative.
 
 ## Output target
-- Commit + push to `claude/curriculum-sync-<YYYY-MM-DD>`.
-- Dispatch alert ONLY on STALE/error (success runs are silent).
+- Commit + push to `claude/curriculum-sync-<YYYY-MM-DD>` (IST date via `TZ=Asia/Kolkata date +%F`).
+- On STALE/error, the `.last-sync-status` JSON is the user's polling surface (downstream routines and morning-briefing read it).
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed .last-sync-status file is the polling surface. -->
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -54,9 +55,9 @@ You are the study-curriculum-sync routine. Your one job is to mirror authoritati
 
 ## Critical rules (read first, do not skip)
 
-1. The pipeline repo `Sudhan09/python_bootcamp_claude_code` is READ-ONLY. You will clone it locally into `./pipeline/`, read files from there, and at end of run NEVER push, commit, or modify anything in the pipeline repo. Any attempt to do so is a routine failure — abort and Dispatch alert.
+1. The pipeline repo `Sudhan09/python_bootcamp_claude_code` is READ-ONLY. You will clone it locally into `./pipeline/`, read files from there, and at end of run NEVER push, commit, or modify anything in the pipeline repo. Any attempt to do so is a routine failure — abort and write STALE marker.
 
-2. DO NOT FABRICATE curriculum scope. If a required pipeline file is missing or unreadable, write a STALE marker and alert. Never invent `<completed_through_day>`, `<active_files>`, or any scope content.
+2. DO NOT FABRICATE curriculum scope. If a required pipeline file is missing or unreadable, write a STALE marker. Never invent `<completed_through_day>`, `<active_files>`, or any scope content.
 
 3. Pipeline is authoritative. Overwrite study repo files directly. No diff merge, no reconciliation. If the pipeline says completed_through_day=21, the study repo gets completed_through_day=21 — period.
 
@@ -64,12 +65,13 @@ You are the study-curriculum-sync routine. Your one job is to mirror authoritati
 
 Step 1: Clone the pipeline repo into ./pipeline/.
 - Run: `git clone https://github.com/Sudhan09/python_bootcamp_claude_code.git pipeline`
-- The clone goes through Anthropic's GitHub proxy; auth is via the Claude GitHub App installed on the pipeline repo. No PAT needed.
+- The clone is performed by Cowork's runtime at routine start (because the pipeline repo is in the routine's /schedule UI repo list — see Setup prerequisite below). The shell `git clone` line above is a verification step; if the directory `./pipeline/` doesn't exist, the secondary repo is misconfigured.
+- If the directory does NOT exist after Cowork's runtime initialization, jump to STALE-handling (step 7) with error: "pipeline repo not configured in /schedule UI repo list".
 - If clone fails (404, auth error, network), jump to STALE-handling (step 7) with error: "pipeline clone failed: <stderr>".
 - Verify `pipeline/config/` directory exists. If missing, jump to step 7.
 
 Step 2: Read pipeline/config/progress_state.xml.
-- Read state/SOURCE_OF_TRUTH.md to confirm the registry table includes instructions/curriculum/ as a synced target.
+- Read state/SOURCE_OF_TRUTH.md and confirm its "Curriculum scope (separate registry, synced not authored)" subsection mentions instructions/curriculum/ as synced from the pipeline.
 - Parse the `<active_files>` element in pipeline/config/progress_state.xml to determine the active curriculum chunk filename (e.g., curriculum_weeks04-06.xml). Do NOT hardcode this name — use whatever `<active_files>` resolves to.
 - If `<active_files>` is empty/malformed/missing, that is a STALE condition. Go to step 7.
 
@@ -93,19 +95,26 @@ Step 4: Verify all required files exist + are readable.
 
 Step 5: Copy files (only if step 4 passed cleanly).
 - For each required file: read content from pipeline/config/<filename>, write to instructions/curriculum/<filename> in the study repo. Overwrite without prompting.
-- Atomic-write pattern: write to tmpfile (e.g., progress_state.xml.tmp) then rename. This guards against half-written files if the routine is killed mid-copy.
+- Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>` (added in Task 3.10) per file. DO NOT direct-Write to the destination.
 
 Step 6: Write success status.
 - Write instructions/curriculum/.last-sync-status with JSON:
   {"status": "OK", "timestamp": "<ISO-8601 with timezone>", "active_chunk": "<resolved filename from step 2>", "pipeline_commit": "<git rev-parse HEAD inside pipeline/>", "files_synced": [<list>], "missing": []}
-- Stage all changes in study repo (NOT in pipeline/, which we leave untouched), commit with message "chore(curriculum-sync): mirror pipeline as of <date> (active=<chunk>, pipeline=<short-sha>)", push to claude/curriculum-sync-<YYYY-MM-DD>.
-- Done. No Dispatch alert on success.
+- Stage all changes in study repo (NOT in pipeline/, which we leave untouched).
+- Build commit message via `printf %q` to escape `<chunk>` and `<short-sha>`:
+    msg=$(printf 'chore(curriculum-sync): mirror pipeline as of %s (active=%q, pipeline=%s)' "$date" "$chunk" "$sha")
+    git commit -m "$msg"
+  This prevents shell-injection if the pipeline's <active_files> XML contains shell metacharacters.
+- Push to claude/curriculum-sync-$(TZ=Asia/Kolkata date +%F).
+- Done. The `.last-sync-status` with `"status": "OK"` is the success signal.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. -->
 
 Step 7: STALE / error handling.
 - Write instructions/curriculum/.last-sync-status with:
   {"status": "STALE", "timestamp": "<ISO-8601>", "active_chunk": "<best-guess or null>", "missing": [<list of unreadable/missing files>], "error": "<short description>"}
 - Commit + push the .last-sync-status file to claude/curriculum-sync-<YYYY-MM-DD> (so the next morning-briefing routine sees the STALE flag).
-- Dispatch alert: "study-curriculum-sync STALE: <reason>. Morning briefing will warn. Investigate pipeline repo accessibility."
+- The committed `.last-sync-status` with `"status": "STALE"` IS the alert — morning-briefing reads it and surfaces a [STALE-CURRICULUM] warning to the user.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The .last-sync-status file is the polling surface. -->
 - Exit with non-zero status code.
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
@@ -125,10 +134,11 @@ Step 7: STALE / error handling.
 - `.last-sync-status` exists with `"status": "OK"`, a fresh timestamp, and `pipeline_commit` pinning the upstream SHA.
 - A new commit appears on `claude/curriculum-sync-<YYYY-MM-DD>` branch of study-companion.
 - Pipeline repo on GitHub is unchanged (no push, no PR opened against it).
-- No Dispatch alert was emitted (success path is silent).
+- The `.last-sync-status` file holds the success/failure signal (no external dispatch in either path).
 
 ## Setup prerequisite (one-time, user-action)
 - Install Claude GitHub App on `Sudhan09/python_bootcamp_claude_code` (in addition to study-companion). Visit github.com/apps/claude/installations/new → select the pipeline repo. Without this, Step 1 clone will fail with auth error and routine will go STALE every run.
+- Add `Sudhan09/python_bootcamp_claude_code` as a secondary repo in this routine's Cowork /schedule UI repo list (Settings → routine 01 → "Connect repository"). Without this, the runtime cannot clone the pipeline.
 
 ## What this routine MUST NOT do
 - MUST NOT push, commit, or modify the cloned `pipeline/` directory or its upstream repo.

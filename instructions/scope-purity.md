@@ -1,4 +1,4 @@
-<!-- Per design §G adapt: spirit of rules.xml v2.5 Rule 1 (scope_purity) from C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\rules.xml -->
+<!-- Per design §G adapt: spirit of rules.xml v2.5 Rule 1 (scope_purity) from the bootcamp pipeline (Sudhan09/python_bootcamp_claude_code) config/rules.xml -->
 <!-- Authoritative XMLs synced daily by study-curriculum-sync routine into instructions/curriculum/. Read those files for the runtime registry. -->
 <!-- Per design §C: new file. -->
 
@@ -53,7 +53,15 @@ If no → remove that part of the drill. Do not ask. **Fail closed.**
 
 - **Live registry:** `instructions/curriculum/progress_state.xml` `<completed_through_day>` + active curriculum chunk per `<active_files>` + `instructions/curriculum/deviation_log.xml` `<scope_additions>`.
 - **Synced daily** by the `study-curriculum-sync` routine at 08:30 IST (cron `0 3 * * *` UTC).
-- **Pipeline repo** at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\` is the authoritative source. Study companion does NOT fork these files — it subscribes.
+- **Pipeline repo** (`Sudhan09/python_bootcamp_claude_code`, `config/` directory) is the authoritative source. Study companion does NOT fork these files — it subscribes.
+
+## Bootstrap / STALE handling
+
+Until `study-curriculum-sync` has run at least once, `instructions/curriculum/progress_state.xml` does not exist and the live registry is unavailable. In this state:
+
+- **Allowed:** concepts from completed bootcamp days as listed in `state/current_day.md`'s `bootcamp.completed_through_day` field. This is a fallback registry, less precise than progress_state.xml's `<scope_additions>`, but always present.
+- **Forbidden:** ANY out-of-scope concept usage in exercises, asserts, or solution hints — fail-closed posture is unchanged.
+- **Required action:** flag the missing-XML state in the response so user knows the routine hasn't run yet. Format: `[BOOTSTRAP — instructions/curriculum/progress_state.xml not yet synced; using state/current_day.md as fallback registry]`.
 
 ## On scope violation
 

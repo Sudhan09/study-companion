@@ -26,12 +26,13 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/weekly-review-<YYYY-MM-DD>`.
-- **Dispatch summary** to user's phone (3-5 line digest of the week).
+- Audit-trail file `state/weekly-review-<date>.md` is the user's polling surface.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
 ```
-You are the study-weekly-review routine. Your job is to summarize the last 7 days of study activity into a structured review and Dispatch a digest. You are summarizing WHAT IS THERE, not interpreting or inventing.
+You are the study-weekly-review routine. Your job is to summarize the last 7 days of study activity into a structured review file. You are summarizing WHAT IS THERE, not interpreting or inventing.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed state/weekly-review-<date>.md is the user's polling surface. -->
 
 ## Steps
 
@@ -56,7 +57,7 @@ Step 4: Compute counts (only from data that's there — no estimates).
 - Drift log entries: <count by severity: hard / soft>; <count by failure #>
 - Weak spots: <delta from a week ago — if the previous weekly-review file exists, diff the active_weak_spots count; otherwise just current count>
 
-If the previous weekly-review file (state/weekly-review-<previous-Sunday>.md) doesn't exist, do NOT fabricate a delta. Say "no prior review for delta".
+Compute previous-Sunday-IST = `TZ=Asia/Kolkata date -d "today -7 days" +%F`. The previous weekly-review file is `state/weekly-review-<that-date>.md`. If that file doesn't exist, do NOT fabricate a delta — write "No prior weekly review for delta." and proceed.
 
 Step 5: Compose state/weekly-review-<YYYY-MM-DD>.md.
 
@@ -96,19 +97,16 @@ stale_flags: [<list>]
 ## Suggested focus next week
 [2-3 bullets, deterministic from the data: highest-band weak spot → drill more; failure # with highest count → tightening candidate for /calibrate. NO speculative roadmap.]
 
-Atomic-write: tmpfile + rename.
+Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>`. DO NOT direct-Write to the destination — guards against half-written files if the routine is killed mid-run.
 
 Step 6: Commit + push.
 - git add state/weekly-review-<YYYY-MM-DD>.md
 - git commit -m "chore(weekly-review): summary for week ending <YYYY-MM-DD>"
-- git push origin claude/weekly-review-<YYYY-MM-DD>
+- git push origin claude/weekly-review-$(TZ=Asia/Kolkata date +%F)
 
-Step 7: Dispatch summary.
-
-Format (3-5 lines, ≤500 chars):
-"Week ending <date>: <N> sessions, <N> wins, <N> drift entries (<H>h/<S>s). Top weak spot: <id> Band <N>. Top drift: failure #<N> <count>x. Full review: state/weekly-review-<date>.md."
-
-If [STALE] flags set, prepend "[STALE]" and include 1 short reason.
+Step 7: Confirm audit-trail file is the deliverable.
+- The committed `state/weekly-review-<date>.md` contains the digest in its "## Activity counts" + "## Wins this week" + "## Drift patterns this week" sections. No external notification.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. Read the committed file. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
@@ -123,7 +121,7 @@ If [STALE] flags set, prepend "[STALE]" and include 1 short reason.
 ## Success criteria
 - `state/weekly-review-<YYYY-MM-DD>.md` exists with all sections (counts, wins, drift, weak spots, suggested focus).
 - A new commit appears on `claude/weekly-review-<YYYY-MM-DD>` branch.
-- A Dispatch summary arrives at user's phone with 3-5 lines.
+- The committed `state/weekly-review-<date>.md` contains the digest in its sections (no external dispatch).
 - All numbers in the file map back to actually-counted source files (verifiable by spot-check).
 
 ## What this routine MUST NOT do
@@ -132,4 +130,4 @@ If [STALE] flags set, prepend "[STALE]" and include 1 short reason.
 - MUST NOT speculate about "trends" beyond literal numeric deltas.
 - MUST NOT fabricate a week-over-week delta when no prior review exists.
 - MUST NOT push to `main`. Only `claude/weekly-review-<date>`.
-- MUST NOT skip Dispatch — the digest is the primary user-facing output of this routine.
+- MUST NOT skip writing the digest sections in the committed file — they are the primary user-facing output of this routine.

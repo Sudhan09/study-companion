@@ -9,8 +9,10 @@ import sys
 import zipfile
 from pathlib import Path
 
-src = Path(r"C:\Users\sudha\.claude\plugins\study-companion")
-dst = Path(r"C:\Users\sudha\study-companion-plugin.zip")
+default_src = Path.home() / ".claude" / "plugins" / "study-companion"
+default_dst = Path.home() / "study-companion-plugin.zip"
+src = Path(os.environ.get("PLUGIN_SRC_DIR", str(default_src)))
+dst = Path(os.environ.get("PLUGIN_ZIP_DST", str(default_dst)))
 
 if dst.exists():
     dst.unlink()

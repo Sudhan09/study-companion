@@ -6,7 +6,7 @@ concept: closure variable capture
 user_precondition: |
   historical — original confusion context not preserved in MEMORY.md;
   future captures will be higher fidelity per revised /lock-decision schema.
-concept_gap: "what does a closure carry" vs LEGB rules
+concept_gap: '"what does a closure carry" vs LEGB rules'
 test: |
   Counterfactual: if LEGB rules had been given as the answer instead, would have memorized
   the rule sequence (Local, Enclosing, Global, Built-in) but not internalized what's actually

@@ -26,7 +26,7 @@
 
 ## Curriculum scope (synced daily from pipeline repo)
 
-Note: `instructions/curriculum/*.xml` are read directly when scope questions arise. Not @-imported because XML in markdown context isn't useful — Claude reads them via file tools when needed. The sync routine `study-curriculum-sync` populates this directory at 08:30 IST daily; pipeline repo at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\` is authoritative.
+Note: `instructions/curriculum/*.xml` are read directly when scope questions arise. Not @-imported because XML in markdown context isn't useful — Claude reads them via file tools when needed. The sync routine `study-curriculum-sync` populates this directory at 08:30 IST daily; pipeline repo (`Sudhan09/python_bootcamp_claude_code`, `config/` directory) is authoritative.
 
 ## Operating reminders
 
