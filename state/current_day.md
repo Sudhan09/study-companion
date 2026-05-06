@@ -21,7 +21,7 @@ loop_week:
 
 ## Today
 
-Today's plan and yesterday's recap will be written by the `study-morning-briefing` routine (08:45 IST / 03:15 UTC daily). Until then, this section is a placeholder.
+Today's plan and yesterday's recap will be written by the `study-morning-briefing` routine (09:00 IST / 03:30 UTC daily). Until then, this section is a placeholder.
 
 ## Yesterday
 

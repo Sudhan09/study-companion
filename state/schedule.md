@@ -3,7 +3,7 @@ last_updated: 2026-05-06T20:00:00+05:30
 updated_by: build-init
 ---
 
-<!-- Per design §F: written by study-morning-briefing routine at 08:45 IST / 03:15 UTC daily. -->
+<!-- Per design §F: written by study-morning-briefing routine at 09:00 IST / 03:30 UTC daily. -->
 <!-- Placeholder: will be overwritten on first morning-briefing routine run. -->
 
 # Today's Schedule
