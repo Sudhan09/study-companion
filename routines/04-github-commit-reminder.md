@@ -23,12 +23,13 @@ From study repo (already cloned by routine sandbox):
 
 ## Output target
 - Commit + push to `claude/commit-reminder-<YYYY-MM-DD>` (IST date via `TZ=Asia/Kolkata date +%F`).
-- On zero-commit days, commit message includes a `[ZERO-COMMIT]` tag so the user can grep for nudge days. No external Dispatch.
+- On zero-commit days, commit message includes a `[ZERO-COMMIT]` tag so the user can grep for nudge days. No external notification.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
 ```
-You are the study-github-commit-reminder routine. Your job is to count today's commits across the user's repos and Dispatch a nudge ONLY if zero commits happened today.
+You are the study-github-commit-reminder routine. Your job is to count today's commits across the user's repos and tag the commit message `[ZERO-COMMIT]` ONLY if zero commits happened today.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The commit-message tag is the user's grep surface. -->
 
 ## Steps
 
@@ -54,7 +55,7 @@ Step 4: Count commits per repo, today.
 For each repo:
 - Run: git log --since="<YYYY-MM-DD>T00:00:00+05:30" --pretty=format:"%h %s" (no --until — count to "now"). Filter out the routine's own about-to-be-made commit by author email: add --invert-grep --grep="commit-reminder". If the configured author matches the routine's bot identity, also add --author=! <bot-email>.
 - Count lines.
-- For repos other than study-companion: if the routine sandbox cannot clone/access them (auth, network), record as "unreachable" — do NOT assume zero (that would be a false negative leading to a wrong Dispatch).
+- For repos other than study-companion: if the routine sandbox cannot clone/access them (auth, network), record as "unreachable" — do NOT assume zero (that would be a false negative leading to a wrong [ZERO-COMMIT] tag).
 
 Total commits today = sum of counts across reachable repos. Track unreachable repos separately.
 
@@ -71,7 +72,7 @@ Append:
   - <other-repo-1>: <N> commits or "unreachable"
   - ...
 - **Recent commit subjects (last 5):** <list, newest first>
-- **Status:** <"productive day" | "no commits — Dispatch sent" | "unreachable repos — partial count">
+- **Status:** <"productive day" | "no commits — [ZERO-COMMIT] tagged" | "unreachable repos — partial count">
 
 Step 6: Commit + push.
 - git add logs/<YYYY-MM-DD>.md
@@ -86,21 +87,21 @@ Step 7: Tag commit message based on outcome.
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
 - DO NOT count commits in the routine's own future commit (the chore commit-reminder commit you're about to make). Count strictly user-authored commits BEFORE the cron fires.
-- DO NOT assume an unreachable repo has zero commits. Mark it unreachable explicitly. False zero leads to false-positive Dispatches.
+- DO NOT assume an unreachable repo has zero commits. Mark it unreachable explicitly. False zero leads to false-positive [ZERO-COMMIT] tags.
 - DO NOT push to main. Only claude/commit-reminder-<date>.
-- DO NOT spam. If commits > 0, the file write is the only output. Dispatch is for silence-broken-by-zero-days.
+- DO NOT spam. If commits > 0, the file write is the only output and the commit message has no tag. The [ZERO-COMMIT] tag is for silence-broken-by-zero-days.
 - DO NOT use --author with a guessed email. If the configured author isn't known reliably, count all commits in the window (the user is the only committer in their personal repos).
 ```
 
 ## Success criteria
 - `logs/<YYYY-MM-DD>.md` has a `## Commit reminder` section with today's count + per-repo breakdown.
 - A new commit appears on `claude/commit-reminder-<YYYY-MM-DD>`.
-- Dispatch arrives at phone IFF total commits today == 0 (or all non-study repos unreachable + study has 0).
-- On productive days (commits >0), no Dispatch is sent.
+- Commit message bears `[ZERO-COMMIT]` tag IFF total commits today == 0 (or all non-study repos unreachable + study has 0).
+- On productive days (commits >0), no `[ZERO-COMMIT]` tag is added.
 
 ## What this routine MUST NOT do
 - MUST NOT count its own about-to-be-made chore commit as a "commit today" — that creates a self-fulfilling productive-day signal.
 - MUST NOT treat unreachable repos as zero-commit. Unreachable ≠ silent.
 - MUST NOT push to `main`. Only `claude/commit-reminder-<date>`.
-- MUST NOT Dispatch on productive days. The whole point is to interrupt only on zero-commit days.
+- MUST NOT tag the commit message `[ZERO-COMMIT]` on productive days. The whole point is to mark only zero-commit days.
 - MUST NOT skip the audit log even on productive days — the per-repo breakdown is useful weekly-review input.

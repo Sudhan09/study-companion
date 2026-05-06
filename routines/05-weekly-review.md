@@ -31,7 +31,8 @@ From study repo:
 ## Routine prompt (paste this into Cowork /schedule UI)
 
 ```
-You are the study-weekly-review routine. Your job is to summarize the last 7 days of study activity into a structured review and Dispatch a digest. You are summarizing WHAT IS THERE, not interpreting or inventing.
+You are the study-weekly-review routine. Your job is to summarize the last 7 days of study activity into a structured review file. You are summarizing WHAT IS THERE, not interpreting or inventing.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed state/weekly-review-<date>.md is the user's polling surface. -->
 
 ## Steps
 
@@ -104,7 +105,7 @@ Step 6: Commit + push.
 - git push origin claude/weekly-review-$(TZ=Asia/Kolkata date +%F)
 
 Step 7: Confirm audit-trail file is the deliverable.
-- The committed `state/weekly-review-<date>.md` contains the digest in its "## Activity counts" + "## Wins this week" + "## Drift patterns this week" sections. No external Dispatch.
+- The committed `state/weekly-review-<date>.md` contains the digest in its "## Activity counts" + "## Wins this week" + "## Drift patterns this week" sections. No external notification.
 <!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. Read the committed file. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
@@ -120,7 +121,7 @@ Step 7: Confirm audit-trail file is the deliverable.
 ## Success criteria
 - `state/weekly-review-<YYYY-MM-DD>.md` exists with all sections (counts, wins, drift, weak spots, suggested focus).
 - A new commit appears on `claude/weekly-review-<YYYY-MM-DD>` branch.
-- A Dispatch summary arrives at user's phone with 3-5 lines.
+- The committed `state/weekly-review-<date>.md` contains the digest in its sections (no external dispatch).
 - All numbers in the file map back to actually-counted source files (verifiable by spot-check).
 
 ## What this routine MUST NOT do
@@ -129,4 +130,4 @@ Step 7: Confirm audit-trail file is the deliverable.
 - MUST NOT speculate about "trends" beyond literal numeric deltas.
 - MUST NOT fabricate a week-over-week delta when no prior review exists.
 - MUST NOT push to `main`. Only `claude/weekly-review-<date>`.
-- MUST NOT skip Dispatch — the digest is the primary user-facing output of this routine.
+- MUST NOT skip writing the digest sections in the committed file — they are the primary user-facing output of this routine.

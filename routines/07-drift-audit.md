@@ -25,7 +25,7 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/drift-audit-<YYYY-MM-DD>`.
-- Executive summary in `state/drift-audit-<date>.md`'s `## Executive summary` section is the deliverable. No external Dispatch.
+- Executive summary in `state/drift-audit-<date>.md`'s `## Executive summary` section is the deliverable. No external notification.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -120,7 +120,7 @@ data_source: state/drift_log.md
 - Drift logged only from claude.ai/code (Cowork sessions don't log drift per #40495). Distinct claude.ai/code sessions in window: <N>.
 - If <N> is small (1-2), patterns may be noise — treat tightening proposals as hypotheses for next week, not firm changes.
 
-## Executive summary (also in Dispatch)
+## Executive summary
 <2-3 lines: total drift count, top failure id + count, top tightening proposal>
 
 Schema (no-data case):
@@ -175,7 +175,7 @@ Step 10: Audit-trail file is the deliverable.
 ## Success criteria
 - `state/drift-audit-<YYYY-MM-DD>.md` exists with either with-data or no-data schema, correctly chosen based on actual filtered entry count.
 - A new commit appears on `claude/drift-audit-<YYYY-MM-DD>` branch.
-- A Dispatch executive summary arrives at user's phone.
+- The committed `state/drift-audit-<date>.md` contains the executive summary in its dedicated section.
 - If drift_log was empty in the window, no top patterns or tightenings appear — only the no-data note + caveats.
 - All quoted drift details are byte-equal to entries in `state/drift_log.md`.
 

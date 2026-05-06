@@ -25,7 +25,8 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/monday-distillation-<YYYY-MM-DD>`.
-- No Dispatch (this is a maintenance routine; output is the cleaner `logs/` directory).
+- This is a maintenance routine; output is the cleaner `logs/` directory and the running `state/distilled.md` index.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. -->
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -39,7 +40,7 @@ Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 Step 2: Identify candidate logs.
 - Cron fires Monday 09:00 IST.
 - Cutoff: today (IST) minus 7 days. Any logs/<YYYY-MM-DD>.md where the date in its filename is strictly less than (today_IST - 7 days) is a candidate. Today's log (if morning-briefing already wrote it) MUST be excluded — verify by computing today_IST = `TZ=Asia/Kolkata date +%F` and comparing as strings.
-- Build the list. If empty (week 1 of the study companion, or all already archived), write a "nothing to archive" status to state/distilled.md (or update its last_run timestamp), commit, exit. No Dispatch.
+- Build the list. If empty (week 1 of the study companion, or all already archived), write a "nothing to archive" status to state/distilled.md (or update its last_run timestamp), commit, exit.
 
 Step 3: For each candidate log, distill it.
 
