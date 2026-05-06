@@ -19,7 +19,7 @@
 - `logs/<YYYY-MM-DD>.md` — appends a `## Branch cleanup (<HH:MM> IST)` section listing deleted branch counts and names.
 
 ## Output target
-- Commit + push to `claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)`. The committed log entry is the audit trail; no external Dispatch.
+- Commit + push to `claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)`. The committed log entry is the audit trail; no external notification.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
