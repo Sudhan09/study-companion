@@ -1,6 +1,6 @@
 <!-- Per design §E #2 study-morning-briefing. User pastes into Cowork /schedule UI per build plan Phase 12.2. -->
 <!-- Routine #2 in cross-routine ordering: runs at 09:00 IST, AFTER routine #1 (curriculum-sync) at 08:30 IST. -->
-<!-- Per design §E "Per-routine resilience" subsection: if #1 failed, this routine MUST detect staleness and Dispatch-alert rather than briefing on stale curriculum. -->
+<!-- Per design §E "Per-routine resilience" subsection: if #1 failed, this routine MUST detect staleness and flag the briefing with [STALE-CURRICULUM] rather than briefing on stale curriculum. -->
 
 # Routine 2: study-morning-briefing
 
