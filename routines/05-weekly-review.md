@@ -97,7 +97,7 @@ stale_flags: [<list>]
 ## Suggested focus next week
 [2-3 bullets, deterministic from the data: highest-band weak spot → drill more; failure # with highest count → tightening candidate for /calibrate. NO speculative roadmap.]
 
-Atomic-write: tmpfile + rename.
+Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>`. DO NOT direct-Write to the destination — guards against half-written files if the routine is killed mid-run.
 
 Step 6: Commit + push.
 - git add state/weekly-review-<YYYY-MM-DD>.md

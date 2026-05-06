@@ -15,7 +15,7 @@ const stateDir = path.join(repoRoot, 'state');
 // value. Update this map when you add new state files.
 const ALLOWED_WRITERS = {
   'SOURCE_OF_TRUTH.md':   ['build-init', 'audit-remediation-2026-05-06', 'manual-edit'],
-  'current_day.md':       ['build-init', 'study-morning-briefing', '/day-wrap'],
+  'current_day.md':       ['build-init', '/day-wrap'],
   'active_weak_spots.md': ['build-init', '/post-session', '/lock-weak-spot', 'user'],
   'drift_log.md':         ['build-init', 'stop-hook'],
   'last_session_summary.md': ['build-init', '/post-session', '/day-wrap'],

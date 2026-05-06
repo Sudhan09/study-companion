@@ -73,7 +73,7 @@ stale_flags: [<list>]
 ## Selection rationale
 <1-line: e.g., "Highest band among active (Band 2), lowest reps_so_far (1/3), drill not prompted in last 3 days">
 
-Atomic-write: tmpfile + rename.
+Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>`. DO NOT direct-Write to the destination — guards against half-written files if the routine is killed mid-run.
 
 Step 5: Compose drill prompt body (written into the file's `## Drill prompt` section).
 
