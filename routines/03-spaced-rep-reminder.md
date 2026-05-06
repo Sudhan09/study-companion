@@ -22,8 +22,8 @@ From study repo:
 - `state/spaced-rep-<YYYY-MM-DD>.md` (today's recommended drill — single artifact for that date)
 
 ## Output target
-- Commit + push to `claude/spaced-rep-<YYYY-MM-DD>`.
-- **Dispatch message** to user's phone with the drill prompt (this is the primary output — the file is just the audit trail).
+- Commit + push to `claude/spaced-rep-<YYYY-MM-DD>` (IST date via `TZ=Asia/Kolkata date +%F`).
+- Audit-trail file `state/spaced-rep-<date>.md` is the user's polling surface.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -83,11 +83,11 @@ Example:
 
 If [STALE] flag is set, prepend "[STALE] " to the Dispatch message and include the staleness reason in 1 short clause.
 
-Step 6: Send Dispatch + commit.
-- Send Dispatch with the message body to user's phone.
+Step 6: Commit + push.
 - git add state/spaced-rep-<YYYY-MM-DD>.md
 - git commit -m "chore(spaced-rep): <weak_spot_id> drill <drill_name> for <YYYY-MM-DD>"
-- git push origin claude/spaced-rep-<YYYY-MM-DD>
+- git push origin claude/spaced-rep-$(TZ=Asia/Kolkata date +%F)
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed file is the user's polling surface. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
@@ -95,7 +95,7 @@ Step 6: Send Dispatch + commit.
 - DO NOT pick a random drill — use the deterministic algorithm in step 3.
 - DO NOT push to main. Only claude/spaced-rep-<date>.
 - DO NOT skip the staleness check. Sudhan needs to know if the RTI state hasn't been updated.
-- DO NOT send Dispatch BEFORE writing the audit-trail file — if Dispatch fires but the file write fails, the trail is broken. Order: write file → commit → Dispatch.
+- The committed state/spaced-rep-<date>.md IS the deliverable. No external dispatch.
 ```
 
 ## Success criteria
