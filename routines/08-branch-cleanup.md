@@ -1,0 +1,58 @@
+<!-- Per audit finding #009 remediation. Cleans up merged claude/* branches older than 30 days. -->
+
+# Routine 8: study-branch-cleanup
+
+## Schedule
+- **Cron (UTC):** `0 6 * * 0`
+- **IST equivalent:** 11:30 Sunday (after drift-audit at 10:30)
+- **Frequency:** Weekly, Sunday late-morning
+
+## Repository config
+- **Repo:** Sudhan09/study-companion (private)
+- **Authentication:** Anthropic-managed proxy (Claude GitHub App).
+- **Branch policy:** push to `claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)`. Default-deny on main per design §H Rule 9.
+
+## Routine prompt (paste this into Cowork /schedule UI)
+
+```
+You are the study-branch-cleanup routine. Your job is to delete merged claude/* branches older than 30 days from Sudhan09/study-companion. Never touches unmerged branches.
+
+## Steps
+
+Step 1: List candidates.
+- Run: `git fetch --all --prune`
+- List remote branches: `git branch -r --merged origin/main | grep '^  origin/claude/' | sed 's|^  origin/||'`
+- For each branch, get its tip-commit date: `git log -1 --format=%ci origin/<branch>`
+- Filter to branches older than 30 days (use `TZ=Asia/Kolkata date -d "today -30 days" +%F` as the cutoff).
+
+Step 2: Verify each candidate is fully merged.
+- For each candidate, run: `git merge-base --is-ancestor origin/<branch> origin/main && echo "merged" || echo "unmerged"`
+- Drop any reporting "unmerged" — never delete unmerged work.
+
+Step 3: Delete merged candidates.
+- For each: `git push origin --delete <branch>`
+- Track count of deleted branches.
+
+Step 4: Append audit log.
+- Append to logs/$(TZ=Asia/Kolkata date +%F).md:
+  ## Branch cleanup (<HH:MM> IST)
+  - **Deleted:** <N> branches older than 30 days, all merged to main.
+  - **Branches:** <list>
+  - **Skipped (unmerged):** <count>
+
+Step 5: Commit + push.
+- git add logs/<date>.md
+- git commit -m "chore(branch-cleanup): deleted <N> merged claude/* branches older than 30d"
+- git push origin claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)
+
+## What you MUST NOT do
+- DO NOT delete unmerged branches under any circumstances.
+- DO NOT delete the main branch.
+- DO NOT delete branches younger than 30 days.
+- DO NOT push to main.
+```
+
+## Success criteria
+- Old merged claude/* branches are gone from the remote.
+- logs/<date>.md has a branch-cleanup section with counts.
+- Unmerged branches and main are untouched.
