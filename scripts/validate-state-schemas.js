@@ -80,6 +80,23 @@ for (const entry of fs.readdirSync(stateDir)) {
       errors.push(`current_day.md: missing 'loop_week:' section (per design §J #11 two-dimension schema)`);
     }
   }
+
+  if (entry === 'active_weak_spots.md') {
+    // Per audit finding #019: file is user-editable AND @-imported into every session.
+    // Best-effort regex screening for prompt-injection-shaped content. Not a complete
+    // defense — raises cost for casual injection attempts.
+    const SUSPICIOUS_RE = /^(IMPORTANT:|System:|Ignore (all )?previous|New instruction:|<\|im_start\|>)/im;
+    if (SUSPICIOUS_RE.test(content)) {
+      errors.push(`active_weak_spots.md: contains suspicious instruction-shaped tokens (possible prompt injection)`);
+    }
+    // Header allowlist: every '## X' header must match ^[A-F]\d — .* pattern.
+    const headers = [...content.matchAll(/^## (.+)$/gm)].map(m => m[1]);
+    const validHeader = /^[A-F]\d — /;
+    const badHeaders = headers.filter(h => !validHeader.test(h));
+    if (badHeaders.length) {
+      errors.push(`active_weak_spots.md: non-allowlisted headers ${JSON.stringify(badHeaders)} (expected pattern: '<family-letter><digit> — <description>')`);
+    }
+  }
 }
 
 if (errors.length) {
