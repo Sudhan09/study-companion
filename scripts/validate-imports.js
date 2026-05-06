@@ -22,6 +22,13 @@ if (!imports.length) {
   process.exit(1);
 }
 
+const traversal = imports.filter(p => p.includes('..') || path.isAbsolute(p));
+if (traversal.length) {
+  console.error('PATH TRAVERSAL OR ABSOLUTE PATHS REJECTED:');
+  for (const t of traversal) console.error('  - ' + t);
+  process.exit(1);
+}
+
 const missing = imports.filter(p => !fs.existsSync(path.join(repoRoot, p)));
 
 if (missing.length) {
