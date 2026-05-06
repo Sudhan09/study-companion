@@ -1,0 +1,5 @@
+state/.locks/
+state/.compact-state-pending.json
+*.swp
+.DS_Store
+Thumbs.db
