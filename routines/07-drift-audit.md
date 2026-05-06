@@ -25,7 +25,7 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/drift-audit-<YYYY-MM-DD>`.
-- **Dispatch executive summary** to user's phone (1-2 lines).
+- Executive summary in `state/drift-audit-<date>.md`'s `## Executive summary` section is the deliverable. No external Dispatch.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -33,6 +33,11 @@ From study repo:
 You are the study-drift-audit routine. Your job is to analyze the last 7 days of state/drift_log.md entries and propose teaching-method tightenings — but ONLY when there's enough signal. Empty drift = empty audit, never fabrication.
 
 ## Steps
+
+Step 0: Verify routine #5 (weekly-review) ran today.
+- Read state/weekly-review-$(TZ=Asia/Kolkata date +%F).md. If missing, set FRESHNESS_FLAG=stale.
+- If present, parse `last_updated` from frontmatter. If older than 30 minutes, set FRESHNESS_FLAG=stale.
+- If FRESHNESS_FLAG=stale, prepend [STALE-WEEKLY-REVIEW] to the audit output. Do NOT abort — drift_log analysis can still run on its own data.
 
 Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
@@ -48,7 +53,7 @@ Step 3: Read state/drift_log.md.
 Step 4: Detect the no-data case.
 If filtered entries == 0:
 - Compose state/drift-audit-<YYYY-MM-DD>.md with the no-data schema (below).
-- Dispatch: "Drift audit week ending <date>: no claude.ai/code drift logs in window (Cowork sessions don't log drift per #40495). Cannot infer patterns this week."
+- Write the no-data audit file (per schema below) and exit. The committed `state/drift-audit-<date>.md` is the user's polling surface.
 - Commit + push. Exit.
 
 DO NOT FABRICATE patterns. DO NOT infer drift from indirect signals (wins captured, weak spots active). The drift_log is the ONLY source for this routine's analysis.
@@ -145,18 +150,16 @@ No claude.ai/code drift entries in the 7-day window.
 
 [No top patterns. No tightening proposals. Wait for next week's data.]
 
-Atomic-write: tmpfile + rename.
+Atomic-write: use `bash scripts/atomic-write.sh <tmpfile> <dst>` (added in Task 3.10).
 
 Step 9: Commit + push.
 - git add state/drift-audit-<YYYY-MM-DD>.md
 - git commit -m "chore(drift-audit): week ending <date> — <N> entries, <top-failure-id-or-no-data>"
-- git push origin claude/drift-audit-<YYYY-MM-DD>
+- git push origin claude/drift-audit-$(TZ=Asia/Kolkata date +%F)
 
-Step 10: Dispatch executive summary.
-
-With-data: "Drift audit <date>: <N> entries (<H>h/<S>s). Top: failure #<N> <count>x. Proposed tightening for #<N>. See state/drift-audit-<date>.md."
-
-No-data: "Drift audit <date>: no claude.ai/code drift in window — either all sessions in Cowork (expected) or Stop hook didn't fire (investigate)."
+Step 10: Audit-trail file is the deliverable.
+- The committed `state/drift-audit-<date>.md` contains the executive summary in its dedicated section.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
