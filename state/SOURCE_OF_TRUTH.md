@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-05-06T21:30:00+05:30
+last_updated: 2026-05-06T22:00:00+05:30
 updated_by: audit-remediation-2026-05-06
 ---
 
@@ -19,7 +19,7 @@ Each fact has exactly ONE writer file. SessionStart hook (claude.ai/code) reads 
 
 | Fact                          | File                                       | Writer                                    | Reader                                                       |
 |-------------------------------|--------------------------------------------|-------------------------------------------|--------------------------------------------------------------|
-| Current bootcamp day/phase    | `state/current_day.md`                     | `study-morning-briefing` routine          | SessionStart hook (claude.ai/code) + CLAUDE.md @-import (Cowork) |
+| Current bootcamp day/phase    | `state/current_day.md`                     | `/day-wrap`                               | SessionStart hook (claude.ai/code) + CLAUDE.md @-import (Cowork) |
 | Active weak spots             | `state/active_weak_spots.md`               | `/post-session`, user                     | SessionStart hook + CLAUDE.md @-import                       |
 | Drift events                  | `state/drift_log.md`                       | Stop hook (**claude.ai/code only** — dormant in Cowork per #40495) | SessionStart hook + CLAUDE.md @-import |
 | Last session summary          | `state/last_session_summary.md`            | `/post-session`, `/day-wrap`              | SessionStart hook + CLAUDE.md @-import                       |
