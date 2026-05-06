@@ -1,6 +1,6 @@
 # Windows handoff — Audit 2026-05-06 remediation testing
 
-> **Where to read this:** `docs/2026-05-06-windows-handoff.md` on branch `fix/audit-2026-05-06-remediation` (PR #1) or main once merged.
+> **Where to read this:** `docs/2026-05-06-windows-handoff.md` on `main` (PR #1 merged 2026-05-06 at commit `f1afc3a`).
 >
 > **Audience:** Sudhan, on Windows 11, after switching from the Linux session that produced this branch.
 
@@ -8,11 +8,11 @@
 
 ## 1. What's already done
 
-- 41 commits on branch `fix/audit-2026-05-06-remediation` close 35 of the 38 audit findings (the other 3 are deferred / accepted as no-op per the plan's self-review table).
-- PR open at https://github.com/Sudhan09/study-companion/pull/1.
-- All three validators (`scripts/validate-imports.js`, `scripts/validate-state-schemas.js`, `scripts/validate-wins-schemas.js`) green on the branch.
+- **PR #1 merged to main 2026-05-06** at commit `f1afc3a`. Branch `fix/audit-2026-05-06-remediation` deleted.
+- 41 audit-fix commits + 1 doc commit close 35 of the 38 audit findings (the other 3 are deferred / accepted as no-op per the plan's self-review table).
+- All three validators (`scripts/validate-imports.js`, `scripts/validate-state-schemas.js`, `scripts/validate-wins-schemas.js`) green on `main`.
 - New artifacts: `SECURITY.md`, `scripts/atomic-write.sh`, `scripts/check-routine-skew.sh`, `scripts/validate-wins-schemas.js`, `routines/08-branch-cleanup.md`, `docs/design-plan-snapshot.md` + `docs/build-plan-snapshot.md` stubs.
-- Branch tagged `audit-2026-05-06-remediated`.
+- Tag `audit-2026-05-06-remediated` on the pre-merge HEAD.
 
 ## 2. What this doc covers
 
@@ -27,16 +27,15 @@ The 6 Phase-6 user-action items the harness could not automate, plus how to veri
 
 ## 3. Pre-flight (5 min, before any Phase-6 work)
 
-### 3.1 Pull the branch on Windows
+### 3.1 Pull the merged main on Windows
 
 In Git Bash / WSL / PowerShell:
 ```bash
 cd C:/Users/sudha/study-companion
-git fetch origin
-git checkout fix/audit-2026-05-06-remediation
+git checkout main
 git pull
 ```
-Verify HEAD: `git log -1 --oneline` should show the latest audit-remediation commit.
+Verify HEAD: `git log -1 --oneline` should show `f1afc3a Merge pull request #1 from Sudhan09/fix/audit-2026-05-06-remediation` (or whatever the merge commit ended up as if you did the merge differently). `git log --oneline | head -5` should show the audit work + merge commit at the top.
 
 ### 3.2 Verify tools
 ```bash
@@ -272,14 +271,14 @@ git ls-remote origin 'refs/heads/claude/*' | head
 
 ## 9. The final acceptance check
 
-You're done with Phase 6 when ALL of these hold:
+PR merge already done (✅ pre-merged on Linux side). You're done with Phase 6 when ALL of these hold:
 
-1. ✅ Both repos visible in https://github.com/apps/claude/installations.
-2. ✅ Routine 01's /schedule UI repo list contains both repos.
-3. ✅ All 8 routines paste-verified (skew-check hashes match UI text).
-4. ✅ Routine 01 + routine 02 manual test produces a green run with no STALE flags.
-5. ✅ `docs/design-plan-snapshot.md` and `docs/build-plan-snapshot.md` contain the actual plan content (not just stubs).
-6. ✅ README.md has the "Branch merge cadence" section.
-7. ✅ PR #1 merged to main.
+1. ☐ Both repos visible in https://github.com/apps/claude/installations.
+2. ☐ Routine 01's /schedule UI repo list contains both repos.
+3. ☐ All 8 routines paste-verified (skew-check hashes match UI text).
+4. ☐ Routine 01 + routine 02 manual test produces a green run with no STALE flags.
+5. ☐ `docs/design-plan-snapshot.md` and `docs/build-plan-snapshot.md` contain the actual plan content (not just stubs).
+6. ☐ README.md has the "Branch merge cadence" section.
+7. ✅ PR #1 merged to main (commit `f1afc3a`, 2026-05-06).
 
 After that, the audit-2026-05-06 remediation is OPERATIONALLY complete. The branch tag `audit-2026-05-06-remediated` marks the state. Any further work (plugin audit, follow-up findings, etc.) is a new project.
