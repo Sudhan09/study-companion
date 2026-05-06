@@ -26,7 +26,7 @@ From study repo:
 
 ## Output target
 - Commit + push to `claude/weekly-review-<YYYY-MM-DD>`.
-- **Dispatch summary** to user's phone (3-5 line digest of the week).
+- Audit-trail file `state/weekly-review-<date>.md` is the user's polling surface.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -56,7 +56,7 @@ Step 4: Compute counts (only from data that's there — no estimates).
 - Drift log entries: <count by severity: hard / soft>; <count by failure #>
 - Weak spots: <delta from a week ago — if the previous weekly-review file exists, diff the active_weak_spots count; otherwise just current count>
 
-If the previous weekly-review file (state/weekly-review-<previous-Sunday>.md) doesn't exist, do NOT fabricate a delta. Say "no prior review for delta".
+Compute previous-Sunday-IST = `TZ=Asia/Kolkata date -d "today -7 days" +%F`. The previous weekly-review file is `state/weekly-review-<that-date>.md`. If that file doesn't exist, do NOT fabricate a delta — write "No prior weekly review for delta." and proceed.
 
 Step 5: Compose state/weekly-review-<YYYY-MM-DD>.md.
 
@@ -101,14 +101,11 @@ Atomic-write: tmpfile + rename.
 Step 6: Commit + push.
 - git add state/weekly-review-<YYYY-MM-DD>.md
 - git commit -m "chore(weekly-review): summary for week ending <YYYY-MM-DD>"
-- git push origin claude/weekly-review-<YYYY-MM-DD>
+- git push origin claude/weekly-review-$(TZ=Asia/Kolkata date +%F)
 
-Step 7: Dispatch summary.
-
-Format (3-5 lines, ≤500 chars):
-"Week ending <date>: <N> sessions, <N> wins, <N> drift entries (<H>h/<S>s). Top weak spot: <id> Band <N>. Top drift: failure #<N> <count>x. Full review: state/weekly-review-<date>.md."
-
-If [STALE] flags set, prepend "[STALE]" and include 1 short reason.
+Step 7: Confirm audit-trail file is the deliverable.
+- The committed `state/weekly-review-<date>.md` contains the digest in its "## Activity counts" + "## Wins this week" + "## Drift patterns this week" sections. No external Dispatch.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. Read the committed file. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
