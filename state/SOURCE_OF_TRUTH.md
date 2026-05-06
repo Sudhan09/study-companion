@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-05-06T20:00:00+05:30
-updated_by: build-init
+last_updated: 2026-05-06T21:00:00+05:30
+updated_by: audit-remediation-2026-05-06
 ---
 
 <!-- Per design §A registry table. Audited at SessionStart — hook verifies all listed files exist; if a non-registered state file appears, it's flagged. -->
@@ -11,7 +11,7 @@ Each fact has exactly ONE writer file. SessionStart hook (claude.ai/code) reads 
 
 ## Surface annotation
 
-- **claude.ai/code = SessionStart hook writer/reader** (full hook lifecycle: SessionStart, UserPromptSubmit, Stop, PreCompact, PostCompact)
+- **claude.ai/code = SessionStart hook writer/reader** (active hooks: SessionStart, UserPromptSubmit, Stop, PreCompact). PostCompact handler removed 2026-05-06; SessionStart-on-resume covers post-compaction restoration.
 - **Cowork = CLAUDE.md @-import reader** (hooks dormant per [#40495](https://github.com/anthropics/claude-code/issues/40495))
 - `state/drift_log.md` is **append-only** and only written by the **Stop hook on claude.ai/code**. Cowork sessions do not append to drift_log; they only read it via @-import.
 
@@ -25,6 +25,7 @@ Each fact has exactly ONE writer file. SessionStart hook (claude.ai/code) reads 
 | Last session summary          | `state/last_session_summary.md`            | `/post-session`, `/day-wrap`              | SessionStart hook + CLAUDE.md @-import                       |
 | Today's schedule              | `state/schedule.md`                        | `study-morning-briefing` routine          | SessionStart hook + CLAUDE.md @-import                       |
 | RTI live state                | `room-to-improve/state/current_state.md`   | `/post-session`                           | `/rti-preflight`                                             |
+| Tracked git repos             | `state/repos.md`                           | user (manual edits)                       | `study-github-commit-reminder` routine                       |
 | Wins (gold-standard)          | `wins/<date>-<slug>.md`                    | `/lock-decision`                          | `/teach-from-win`, `/self-review`, manual review             |
 
 ## Freshness rules
