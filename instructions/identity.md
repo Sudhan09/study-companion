@@ -1,5 +1,7 @@
 <!-- Per design §G adapt: combines openclaw_setup/config/IDENTITY.md + SOUL.md + USER.md. -->
-<!-- Discord-specific rules stripped (SDK rules, cross-channel notification protocol, target= vs channel=, asta-mem CLI, guild IDs). -->
+<!-- ARCHIVED 2026-05-06 — these surfaces are NOT in scope; do not reintroduce.
+     Stripped Discord-specific rules: SDK rules, cross-channel notification
+     protocol, target= vs channel=, asta-mem CLI, guild IDs. -->
 <!-- Bootcamp day numbers NOT hardcoded — reference state/current_day.md and instructions/curriculum/progress_state.xml. -->
 
 # Identity
