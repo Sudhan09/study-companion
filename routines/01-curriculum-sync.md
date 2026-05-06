@@ -9,13 +9,13 @@
 - **Frequency:** Daily, before morning briefing (#2)
 
 ## Repository config
-- **Repo:** Sudhan09/study-companion (private)
-- **Authentication:** Anthropic-managed proxy (Claude GitHub App installed on this repo per build Phase 1.7). No PAT in env vars.
-- **Branch policy:** push to `claude/curriculum-sync-<YYYY-MM-DD>`. Default-deny on main per design §H Rule 9 (`claude/`-prefix is the safety net).
-- **Pipeline repo access:** routine must be configured to ALSO be able to read the bootcamp pipeline repo at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\` (or the cloud-side equivalent if mirrored). The pipeline repo is **READ-ONLY** for this routine.
+- **Push target (write):** `Sudhan09/study-companion` (private). Configured as the primary repo in the Cowork /schedule UI.
+- **Pipeline source (read-only clone):** `Sudhan09/python_bootcamp_claude_code` (private). Cloned by the routine prompt itself via `git clone` inside the sandbox — does NOT need to be configured as a second repo in the UI.
+- **Authentication:** Anthropic-managed proxy (Claude GitHub App installed on **BOTH** repos). User-action prerequisite: ensure App is installed on `python_bootcamp_claude_code` in addition to `study-companion` (visit github.com/apps/claude/installations and verify both repos appear in the access list).
+- **Branch policy:** push to `claude/curriculum-sync-<YYYY-MM-DD>` on study-companion. Default-deny on main per design §H Rule 9. Pipeline repo is never written to.
 
 ## Reads
-From the bootcamp pipeline repo at `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\config\` (read-only):
+The routine sandbox clones the pipeline repo into `./pipeline/` at start of run, then reads from `pipeline/config/`:
 - `progress_state.xml` (authoritative day/phase/block, drives `<active_files>` selection)
 - `deviation_log.xml` (scope additions/removals — required for scope-purity rule)
 - `rules.xml` (engineering rules)
@@ -50,11 +50,11 @@ To `instructions/curriculum/` in the study repo:
 ## Routine prompt (paste this into Cowork /schedule UI)
 
 ```
-You are the study-curriculum-sync routine. Your one job is to mirror authoritative curriculum files from the bootcamp pipeline repo into the study-companion repo's instructions/curriculum/ directory.
+You are the study-curriculum-sync routine. Your one job is to mirror authoritative curriculum files from the bootcamp pipeline repo (Sudhan09/python_bootcamp_claude_code) into the study-companion repo's instructions/curriculum/ directory.
 
 ## Critical rules (read first, do not skip)
 
-1. The pipeline repo at C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\ is READ-ONLY. You MUST NOT write, modify, delete, or commit anything there. Any attempt to do so is a routine failure — abort and Dispatch alert.
+1. The pipeline repo `Sudhan09/python_bootcamp_claude_code` is READ-ONLY. You will clone it locally into `./pipeline/`, read files from there, and at end of run NEVER push, commit, or modify anything in the pipeline repo. Any attempt to do so is a routine failure — abort and Dispatch alert.
 
 2. DO NOT FABRICATE curriculum scope. If a required pipeline file is missing or unreadable, write a STALE marker and alert. Never invent `<completed_through_day>`, `<active_files>`, or any scope content.
 
@@ -62,16 +62,19 @@ You are the study-curriculum-sync routine. Your one job is to mirror authoritati
 
 ## Steps
 
-Step 1: Verify environment.
-- Read state/SOURCE_OF_TRUTH.md. Confirm the registry table includes instructions/curriculum/ as a synced target.
-- Confirm pipeline repo path is accessible. If not, jump to STALE-handling (step 7).
+Step 1: Clone the pipeline repo into ./pipeline/.
+- Run: `git clone https://github.com/Sudhan09/python_bootcamp_claude_code.git pipeline`
+- The clone goes through Anthropic's GitHub proxy; auth is via the Claude GitHub App installed on the pipeline repo. No PAT needed.
+- If clone fails (404, auth error, network), jump to STALE-handling (step 7) with error: "pipeline clone failed: <stderr>".
+- Verify `pipeline/config/` directory exists. If missing, jump to step 7.
 
-Step 2: Read pipeline progress_state.xml.
-- Parse the `<active_files>` element to determine the active curriculum chunk filename (e.g., curriculum_weeks04-06.xml). Do NOT hardcode this name — use whatever `<active_files>` resolves to.
+Step 2: Read pipeline/config/progress_state.xml.
+- Read state/SOURCE_OF_TRUTH.md to confirm the registry table includes instructions/curriculum/ as a synced target.
+- Parse the `<active_files>` element in pipeline/config/progress_state.xml to determine the active curriculum chunk filename (e.g., curriculum_weeks04-06.xml). Do NOT hardcode this name — use whatever `<active_files>` resolves to.
 - If `<active_files>` is empty/malformed/missing, that is a STALE condition. Go to step 7.
 
 Step 3: Build the file list.
-Required files from pipeline `config/`:
+Required files from pipeline/config/:
   - progress_state.xml
   - deviation_log.xml
   - rules.xml
@@ -85,47 +88,53 @@ Explicitly SKIP (do not copy):
   - quality_gates.xml
 
 Step 4: Verify all required files exist + are readable.
-- For each file, check existence and read access. Track missing files in a list.
+- For each file, check existence at pipeline/config/<filename>. Track missing files in a list.
 - If ANY required file is missing, do not partially sync — go to step 7 with the missing list.
 
 Step 5: Copy files (only if step 4 passed cleanly).
-- For each required file: read pipeline content, write to instructions/curriculum/<filename> in the study repo. Overwrite without prompting.
+- For each required file: read content from pipeline/config/<filename>, write to instructions/curriculum/<filename> in the study repo. Overwrite without prompting.
 - Atomic-write pattern: write to tmpfile (e.g., progress_state.xml.tmp) then rename. This guards against half-written files if the routine is killed mid-copy.
 
 Step 6: Write success status.
 - Write instructions/curriculum/.last-sync-status with JSON:
-  {"status": "OK", "timestamp": "<ISO-8601 with timezone>", "active_chunk": "<resolved filename from step 2>", "files_synced": [<list>], "missing": []}
-- Stage all changes, commit with message "chore(curriculum-sync): mirror pipeline as of <date> (active=<chunk>)", push to claude/curriculum-sync-<YYYY-MM-DD>.
+  {"status": "OK", "timestamp": "<ISO-8601 with timezone>", "active_chunk": "<resolved filename from step 2>", "pipeline_commit": "<git rev-parse HEAD inside pipeline/>", "files_synced": [<list>], "missing": []}
+- Stage all changes in study repo (NOT in pipeline/, which we leave untouched), commit with message "chore(curriculum-sync): mirror pipeline as of <date> (active=<chunk>, pipeline=<short-sha>)", push to claude/curriculum-sync-<YYYY-MM-DD>.
 - Done. No Dispatch alert on success.
 
 Step 7: STALE / error handling.
 - Write instructions/curriculum/.last-sync-status with:
   {"status": "STALE", "timestamp": "<ISO-8601>", "active_chunk": "<best-guess or null>", "missing": [<list of unreadable/missing files>], "error": "<short description>"}
-- Commit + push the .last-sync-status file (so the next morning-briefing routine sees the STALE flag).
-- Dispatch alert: "study-curriculum-sync STALE: <reason>. Morning briefing will warn. Investigate pipeline repo."
+- Commit + push the .last-sync-status file to claude/curriculum-sync-<YYYY-MM-DD> (so the next morning-briefing routine sees the STALE flag).
+- Dispatch alert: "study-curriculum-sync STALE: <reason>. Morning briefing will warn. Investigate pipeline repo accessibility."
 - Exit with non-zero status code.
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
-- DO NOT modify any file in C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\. Read-only access ONLY.
+- DO NOT push, commit, or modify anything inside the cloned pipeline/ directory. Treat it as read-only.
 - DO NOT invent `<completed_through_day>`, day numbers, phase numbers, scope rules, or curriculum content. If pipeline data is unavailable, write STALE and alert. Never guess.
-- DO NOT push to main. Push only to claude/curriculum-sync-<date>.
+- DO NOT push to main on study-companion. Push only to claude/curriculum-sync-<date>.
 - DO NOT skip the .last-sync-status write. Downstream routines (especially #2) depend on it.
 - DO NOT diff-merge or "reconcile" pipeline vs study content. Pipeline always wins.
 - DO NOT copy verifier-only files (transition_map.xml, transition_briefs/, quality_gates.xml).
+- DO NOT commit the pipeline/ clone directory into the study repo. It's a build-time artifact in the routine sandbox; the study repo only gets the synced files in instructions/curriculum/.
 ```
 
 ## Success criteria
-- `instructions/curriculum/progress_state.xml` content matches pipeline byte-for-byte (modulo line endings).
-- `.last-sync-status` exists with `"status": "OK"` and a fresh timestamp.
-- A new commit appears on `claude/curriculum-sync-<YYYY-MM-DD>` branch.
-- Pipeline repo state is unchanged (verifiable via `git status` in pipeline dir if it's a git repo, or mtime check on its files).
+- Pipeline repo cloned into `./pipeline/` successfully.
+- `instructions/curriculum/progress_state.xml` content matches `pipeline/config/progress_state.xml` byte-for-byte (modulo line endings).
+- `.last-sync-status` exists with `"status": "OK"`, a fresh timestamp, and `pipeline_commit` pinning the upstream SHA.
+- A new commit appears on `claude/curriculum-sync-<YYYY-MM-DD>` branch of study-companion.
+- Pipeline repo on GitHub is unchanged (no push, no PR opened against it).
 - No Dispatch alert was emitted (success path is silent).
 
+## Setup prerequisite (one-time, user-action)
+- Install Claude GitHub App on `Sudhan09/python_bootcamp_claude_code` (in addition to study-companion). Visit github.com/apps/claude/installations/new → select the pipeline repo. Without this, Step 1 clone will fail with auth error and routine will go STALE every run.
+
 ## What this routine MUST NOT do
-- MUST NOT modify, write, delete, or commit anything in `C:\Users\sudha\claude_bootcamp\python_bootcamp_claude_code-main\`. The pipeline repo is read-only from this routine's perspective. Any write attempt = routine failure.
+- MUST NOT push, commit, or modify the cloned `pipeline/` directory or its upstream repo.
 - MUST NOT fabricate scope, day numbers, or curriculum content. If pipeline files are missing/unreadable, write STALE marker — never guess values.
-- MUST NOT push to `main` or any branch other than `claude/curriculum-sync-<date>`.
+- MUST NOT push to `main` or any branch other than `claude/curriculum-sync-<date>` on study-companion.
 - MUST NOT diff-merge. Pipeline is authoritative; overwrite directly.
 - MUST NOT copy verifier-only files (`transition_map.xml`, `transition_briefs/`, `quality_gates.xml`).
 - MUST NOT skip writing `.last-sync-status` — downstream routine #2 depends on it.
+- MUST NOT commit `pipeline/` into the study repo (use `.gitignore` if needed; routine sandbox is ephemeral so this should not happen, but defensive against staging mistakes).
