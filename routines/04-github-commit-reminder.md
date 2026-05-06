@@ -22,8 +22,8 @@ From study repo (already cloned by routine sandbox):
 - `logs/<YYYY-MM-DD>.md` — append a `## Commit reminder` section regardless of outcome (audit trail).
 
 ## Output target
-- Commit + push to `claude/commit-reminder-<YYYY-MM-DD>`.
-- **Dispatch only when zero commits today** (otherwise silent — no spam on productive days).
+- Commit + push to `claude/commit-reminder-<YYYY-MM-DD>` (IST date via `TZ=Asia/Kolkata date +%F`).
+- On zero-commit days, commit message includes a `[ZERO-COMMIT]` tag so the user can grep for nudge days. No external Dispatch.
 
 ## Routine prompt (paste this into Cowork /schedule UI)
 
@@ -41,12 +41,18 @@ Step 2: Determine "today" in IST.
 
 Step 3: Build the repo list.
 - Always include: the study-companion repo itself (already cloned in your sandbox).
-- If state/repos.md exists: parse it. Schema is one repo URL or path per line, lines starting with "#" are comments. Add each to the list.
+- If state/repos.md exists, parse it tolerantly:
+  1. Strip YAML frontmatter (everything between the first two `---` lines) — `state/repos.md` is markdown with frontmatter, not bare lines.
+  2. Strip HTML comments (`<!-- ... -->`).
+  3. Strip markdown headers (`# ...`), prose paragraphs (lines that don't match `^- ?<owner>/<repo>$` or `^<owner>/<repo>$`), and blank lines.
+  4. For each remaining line, strip leading `- ` if present. The result is a list of `<owner>/<repo>` tokens.
+  5. Validate each token matches `^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$`. Skip tokens that don't.
+- If parsing fails or yields zero repos, fall through to study-companion only.
 - If state/repos.md is missing or empty, just check study-companion.
 
 Step 4: Count commits per repo, today.
 For each repo:
-- Run: git log --since="<YYYY-MM-DD>T00:00:00+05:30" --until="<YYYY-MM-DD>T20:30:00+05:30" --pretty=format:"%h %s"
+- Run: git log --since="<YYYY-MM-DD>T00:00:00+05:30" --pretty=format:"%h %s" (no --until — count to "now"). Filter out the routine's own about-to-be-made commit by author email: add --invert-grep --grep="commit-reminder". If the configured author matches the routine's bot identity, also add --author=! <bot-email>.
 - Count lines.
 - For repos other than study-companion: if the routine sandbox cannot clone/access them (auth, network), record as "unreachable" — do NOT assume zero (that would be a false negative leading to a wrong Dispatch).
 
@@ -72,17 +78,10 @@ Step 6: Commit + push.
 - git commit -m "chore(commit-reminder): <total> commits today across <N> repos"
 - git push origin claude/commit-reminder-<YYYY-MM-DD>
 
-Step 7: Dispatch (CONDITIONAL).
-
-Send Dispatch ONLY IF:
-- Total commits today across reachable repos == 0, OR
-- All non-study-companion repos were unreachable AND study-companion has 0 commits.
-
-Dispatch message format:
-- Zero commits + all reachable: "No commits today across <N> repos. Quick win before sleep? logs/<date>.md updated."
-- Zero commits + some unreachable: "No commits in reachable repos (<list>); <N> unreachable. Verify auth or commit somewhere."
-
-If commits > 0, send NO Dispatch. The audit trail in logs/ is sufficient.
+Step 7: Tag commit message based on outcome.
+- If total commits today across reachable repos == 0, OR all non-study-companion repos were unreachable AND study-companion has 0 commits, append `[ZERO-COMMIT]` to the commit message subject.
+- Otherwise, the commit message tag is omitted — productive days are silent.
+<!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed logs/<date>.md "## Commit reminder" section + commit-message tag together provide the audit trail. -->
 
 ## What you MUST NOT do (anti-fabrication, anti-drift)
 
