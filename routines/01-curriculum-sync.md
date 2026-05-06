@@ -1,5 +1,5 @@
 <!-- Per design §E #1 study-curriculum-sync. User pastes into Cowork /schedule UI per build plan Phase 12.2. -->
-<!-- Routine #1 in cross-routine ordering: runs at 08:30 IST, BEFORE routine #2 (morning-briefing) at 08:45 IST. -->
+<!-- Routine #1 in cross-routine ordering: runs at 08:30 IST, BEFORE routine #2 (morning-briefing) at 09:00 IST. -->
 
 # Routine 1: study-curriculum-sync
 
