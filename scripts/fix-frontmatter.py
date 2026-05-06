@@ -12,7 +12,9 @@ This script moves the comment to after the closing --- (or removes if user prefe
 import re
 from pathlib import Path
 
-PLUGIN_DIR = Path(r"C:\Users\sudha\.claude\plugins\study-companion")
+import os
+default_dir = Path.home() / ".claude" / "plugins" / "study-companion"
+PLUGIN_DIR = Path(os.environ.get("PLUGIN_SRC_DIR", str(default_dir)))
 PATTERN = re.compile(
     r"^(<!--[^\n]*-->)\n+(---\n.*?\n---\n)(.*)$",
     re.DOTALL,
