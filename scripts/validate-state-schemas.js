@@ -26,7 +26,9 @@ for (const entry of fs.readdirSync(stateDir)) {
   filesChecked.push(entry);
 
   const content = fs.readFileSync(full, 'utf8');
-  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---/);
+  // Require frontmatter as the first block: ^---\n ... \n---\n
+  // The trailing \n after the closing --- prevents matching mid-body horizontal rules.
+  const fmMatch = content.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n/);
   if (!fmMatch) {
     errors.push(`${entry}: missing YAML frontmatter`);
     continue;
