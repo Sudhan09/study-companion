@@ -10,6 +10,19 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..');
 const stateDir = path.join(repoRoot, 'state');
 
+// Per state/SOURCE_OF_TRUTH.md registry. Each state file has a fixed set of
+// allowed `updated_by` values. `build-init` is tolerated as a transient seed
+// value. Update this map when you add new state files.
+const ALLOWED_WRITERS = {
+  'SOURCE_OF_TRUTH.md':   ['build-init', 'audit-remediation-2026-05-06', 'manual-edit'],
+  'current_day.md':       ['build-init', 'study-morning-briefing', '/day-wrap'],
+  'active_weak_spots.md': ['build-init', '/post-session', '/lock-weak-spot', 'user'],
+  'drift_log.md':         ['build-init', 'stop-hook'],
+  'last_session_summary.md': ['build-init', '/post-session', '/day-wrap'],
+  'schedule.md':          ['build-init', 'study-morning-briefing'],
+  'repos.md':             ['build-init', 'user'],
+};
+
 const errors = [];
 const filesChecked = [];
 
@@ -48,6 +61,15 @@ for (const entry of fs.readdirSync(stateDir)) {
 
   if (!/^updated_by:\s*\S+/m.test(fmRaw)) {
     errors.push(`${entry}: missing 'updated_by' frontmatter field`);
+  }
+
+  const ubMatch = fmRaw.match(/^updated_by:\s*(\S.*?)\s*$/m);
+  if (ubMatch) {
+    const writer = ubMatch[1];
+    const allowed = ALLOWED_WRITERS[entry];
+    if (allowed && !allowed.includes(writer)) {
+      errors.push(`${entry}: 'updated_by: ${writer}' is not in allowed writers ${JSON.stringify(allowed)} (per SOURCE_OF_TRUTH.md registry)`);
+    }
   }
 
   if (entry === 'current_day.md') {
