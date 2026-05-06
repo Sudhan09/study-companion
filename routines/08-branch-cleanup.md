@@ -12,6 +12,15 @@
 - **Authentication:** Anthropic-managed proxy (Claude GitHub App).
 - **Branch policy:** push to `claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)`. Default-deny on main per design §H Rule 9.
 
+## Reads
+- The local clone of `Sudhan09/study-companion` (already cloned by routine sandbox at run start; specifically `git branch -r --merged origin/main` to enumerate merged branches).
+
+## Writes
+- `logs/<YYYY-MM-DD>.md` — appends a `## Branch cleanup (<HH:MM> IST)` section listing deleted branch counts and names.
+
+## Output target
+- Commit + push to `claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)`. The committed log entry is the audit trail; no external Dispatch.
+
 ## Routine prompt (paste this into Cowork /schedule UI)
 
 ```
@@ -70,3 +79,10 @@ Step 5: Commit + push.
 - Old merged claude/* branches are gone from the remote.
 - logs/<date>.md has a branch-cleanup section with counts.
 - Unmerged branches and main are untouched.
+
+## What this routine MUST NOT do
+- MUST NOT delete unmerged branches under any circumstances.
+- MUST NOT delete the `main` branch (or any branch outside the `claude/*` prefix).
+- MUST NOT delete branches younger than 30 days.
+- MUST NOT push to `main`. Only `claude/branch-cleanup-<date>`.
+- MUST NOT skip the audit log on no-op runs (e.g., when N=0). The log entry confirms the routine ran even on quiet weeks.
