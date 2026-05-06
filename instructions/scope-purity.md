@@ -55,6 +55,14 @@ If no → remove that part of the drill. Do not ask. **Fail closed.**
 - **Synced daily** by the `study-curriculum-sync` routine at 08:30 IST (cron `0 3 * * *` UTC).
 - **Pipeline repo** (`Sudhan09/python_bootcamp_claude_code`, `config/` directory) is the authoritative source. Study companion does NOT fork these files — it subscribes.
 
+## Bootstrap / STALE handling
+
+Until `study-curriculum-sync` has run at least once, `instructions/curriculum/progress_state.xml` does not exist and the live registry is unavailable. In this state:
+
+- **Allowed:** concepts from completed bootcamp days as listed in `state/current_day.md`'s `bootcamp.completed_through_day` field. This is a fallback registry, less precise than progress_state.xml's `<scope_additions>`, but always present.
+- **Forbidden:** ANY out-of-scope concept usage in exercises, asserts, or solution hints — fail-closed posture is unchanged.
+- **Required action:** flag the missing-XML state in the response so user knows the routine hasn't run yet. Format: `[BOOTSTRAP — instructions/curriculum/progress_state.xml not yet synced; using state/current_day.md as fallback registry]`.
+
 ## On scope violation
 
 Stop. Tell user:
