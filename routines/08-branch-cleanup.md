@@ -33,12 +33,24 @@ Step 3: Delete merged candidates.
 - For each: `git push origin --delete <branch>`
 - Track count of deleted branches.
 
-Step 4: Append audit log.
-- Append to logs/$(TZ=Asia/Kolkata date +%F).md:
-  ## Branch cleanup (<HH:MM> IST)
-  - **Deleted:** <N> branches older than 30 days, all merged to main.
-  - **Branches:** <list>
-  - **Skipped (unmerged):** <count>
+Step 4: Append audit log atomically.
+- Compute target log: logs/$(TZ=Asia/Kolkata date +%F).md
+- Read existing content (if file exists) into a tmpfile, then append the new section to the tmpfile, then rename via the helper:
+
+        date_iso=$(TZ=Asia/Kolkata date +%F)
+        log="logs/${date_iso}.md"
+        tmp="${log}.tmp"
+        cp -f "$log" "$tmp" 2>/dev/null || true   # tolerate first-time create
+        cat >> "$tmp" <<EOF
+
+        ## Branch cleanup ($(TZ=Asia/Kolkata date +%H:%M) IST)
+        - **Deleted:** <N> branches older than 30 days, all merged to main.
+        - **Branches:** <list>
+        - **Skipped (unmerged):** <count>
+        EOF
+        bash scripts/atomic-write.sh "$tmp" "$log"
+
+- This preserves the partial-write guarantee from `scripts/atomic-write.sh`.
 
 Step 5: Commit + push.
 - git add logs/<date>.md
