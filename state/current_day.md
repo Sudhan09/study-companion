@@ -1,25 +1,23 @@
 ---
 last_updated: 2026-05-06T20:00:00+05:30
 updated_by: build-init
+bootcamp:
+  phase: 2
+  completed_through_day: 21
+  current_day: 35
+  active_chunk: curriculum_weeks04-06.xml
+  active_structure: structure_phase2.xml
+  status: in_progress
+loop_week:
+  current_day: 3
+  active: true
+  next_topic: "Strings & Variable-Width Shapes"
 ---
 
 <!-- Per design §J #11 two-dimension schema: bootcamp + loop_week are independent dimensions, must not be conflated. -->
 <!-- bootcamp.completed_through_day=21 from pipeline progress_state.xml (Phase 1 complete, Phase 2 active, Days 22-42). -->
 <!-- bootcamp.current_day=35 estimated; refined at next Sunday Review checkpoint. -->
 <!-- loop_week.current_day=3 per loop-strategy progress tracker. -->
-
-bootcamp:
-  phase: 2
-  completed_through_day: 21       # per pipeline progress_state.xml as of 2026-04-16
-  current_day: 35                  # estimated; will refine at next Sunday Review checkpoint (Day 28 / Week 4 review)
-  active_chunk: curriculum_weeks04-06.xml
-  active_structure: structure_phase2.xml
-  status: in_progress
-
-loop_week:
-  current_day: 3
-  active: true
-  next_topic: "Strings & Variable-Width Shapes"
 
 ## Today
 
