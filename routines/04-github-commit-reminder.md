@@ -77,7 +77,7 @@ Append:
 Step 6: Commit + push.
 - git add logs/<YYYY-MM-DD>.md
 - git commit -m "chore(commit-reminder): <total> commits today across <N> repos"
-- git push origin claude/commit-reminder-<YYYY-MM-DD>
+- git push origin claude/commit-reminder-$(TZ=Asia/Kolkata date +%F)
 
 Step 7: Tag commit message based on outcome.
 - If total commits today across reachable repos == 0, OR all non-study-companion repos were unreachable AND study-companion has 0 commits, append `[ZERO-COMMIT]` to the commit message subject.
