@@ -1,0 +1,387 @@
+# Auto-merge claude/* routine branches into main + Slack notify.
+#
+# Setup expectations (manual, one-time, by Sudhan):
+#   - Repo:           github.com/Sudhan09/study-companion (default branch: main)
+#   - Secret:         SLACK_WEBHOOK_URL  (Settings → Secrets and variables → Actions)
+#   - Slack channel:  #study-routines  (workspace bootcamp-notification)
+#
+# Architecture:
+#   Job A (per-push)    Validates branch tree → merges --no-ff into main → re-validates →
+#                       pushes main → posts per-routine Slack ping with verbatim canonical
+#                       body wrapped in standard envelope. Slack post runs `if: always()`
+#                       so validation/merge failures still produce an alert.
+#   Job B (cron + dispatch)  Posts daily wrap at 21:00 IST (15:30 UTC). Aggregates
+#                       routines fired today, drift entries, alert markers.
+#                       Heartbeat-by-design: always posts, even on quiet days.
+#
+# Mitigations (per failure-mode simulation):
+#   1. Heartbeat — daily wrap always posts (validates workflow alive, avoids GitHub's
+#      60-day-inactive auto-disable).
+#   2. Allowlist — `on: push: branches:` lists 8 explicit prefixes, NOT `claude/**`.
+#   3. Validators run pre-merge (against branch tree) AND post-merge (against merged main).
+#   4. Notify decoupled — `if: always()` on Slack post step; not gated by `needs:`.
+#   5. Concurrency — top-level lock prevents two pushes racing on main.
+#   6. Timeout — 10 min Job A, 5 min Job B (caps free-tier minute burn on hangs).
+#   7. Branch filter — push events name the branch directly; no batch-merge filter needed.
+#   8. HTTP code check — Slack POST asserts 200; non-200 fails the step.
+#   9. Scoped permissions — `contents: write` only.
+#  10. SHA-pinned actions — actions/checkout pinned to commit SHA, version tag in comment.
+#
+# Hardening: every value sourced from `${{ ... }}` is bound to an `env:` variable
+# before use in `run:` so user-controllable refs (github.ref_name, etc.) cannot
+# be interpolated as shell tokens. See:
+# https://github.blog/security/vulnerability-research/how-to-catch-github-actions-workflow-injections-before-attackers-do/
+#
+# Branch deletion: NOT performed by this workflow. Routine 08 (study-branch-cleanup,
+# Sun 11:30 IST) deletes merged claude/* branches >30 days old.
+
+name: auto-merge-and-notify
+
+on:
+  push:
+    branches:
+      - 'claude/curriculum-sync-*'
+      - 'claude/morning-briefing-*'
+      - 'claude/spaced-rep-*'
+      - 'claude/commit-reminder-*'
+      - 'claude/weekly-review-*'
+      - 'claude/monday-distillation-*'
+      - 'claude/drift-audit-*'
+      - 'claude/branch-cleanup-*'
+  schedule:
+    - cron: '30 15 * * *'  # 21:00 IST (15:30 UTC) daily wrap
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Mode: leave empty for default; "wrap" forces a daily-wrap dispatch'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-merge-and-notify
+  cancel-in-progress: false
+
+jobs:
+  per-push-merge-and-notify:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      REPO_FULL: ${{ github.repository }}
+      REF_NAME: ${{ github.ref_name }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Repo guard
+        run: |
+          if [ "${REPO_FULL}" != "Sudhan09/study-companion" ]; then
+            echo "Wrong repo (${REPO_FULL}), exiting cleanly."
+            exit 0
+          fi
+
+      - name: Secret presence check
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "::error::SLACK_WEBHOOK_URL secret not set. Configure in Settings → Secrets → Actions."
+            exit 1
+          fi
+          echo "Secret present."
+
+      - name: Checkout main
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Configure git identity
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Parse branch name
+        id: parse
+        run: |
+          set -euo pipefail
+          # REF_NAME format: claude/<routine>-YYYY-MM-DD
+          # REF_NAME comes from env (already bound from github.ref_name) — never
+          # interpolate the raw expression into shell.
+          NAME_DATE="${REF_NAME#claude/}"
+          DATE="${NAME_DATE: -10}"
+          ROUTINE="${NAME_DATE%-${DATE}}"
+
+          if ! [[ "${DATE}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "::error::Could not parse YYYY-MM-DD from branch '${REF_NAME}'"
+            exit 1
+          fi
+          # Allowlist (defense-in-depth — push trigger already filters, but parsing
+          # is run on user-controllable input so re-validate).
+          case "${ROUTINE}" in
+            curriculum-sync|morning-briefing|spaced-rep|commit-reminder|weekly-review|monday-distillation|drift-audit|branch-cleanup) ;;
+            *)
+              echo "::error::Routine '${ROUTINE}' not in allowlist"
+              exit 1
+              ;;
+          esac
+
+          echo "routine=${ROUTINE}" >> "${GITHUB_OUTPUT}"
+          echo "date=${DATE}" >> "${GITHUB_OUTPUT}"
+          echo "branch=${REF_NAME}" >> "${GITHUB_OUTPUT}"
+          echo "Parsed: routine=${ROUTINE} date=${DATE} branch=${REF_NAME}"
+
+      - name: Fetch branch
+        env:
+          BRANCH: ${{ steps.parse.outputs.branch }}
+        run: |
+          set -euo pipefail
+          git fetch origin "${BRANCH}":refs/auto-merge-target
+
+      - name: Pre-merge validation (against branch tree)
+        id: pre_merge
+        run: |
+          # Switch to detached HEAD on the branch tip, run validators, capture
+          # exit code, switch back to main. set +e so failure doesn't kill step.
+          set +e
+          git checkout --detach refs/auto-merge-target
+          bash "${GITHUB_WORKSPACE}/.github/scripts/run-validators.sh" \
+            > /tmp/pre-merge-validators.log 2>&1
+          rc=$?
+          git checkout main
+          echo "----- pre-merge validator output -----"
+          cat /tmp/pre-merge-validators.log
+          echo "--------------------------------------"
+          if [ "${rc}" -ne 0 ]; then
+            echo "status=failed" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Pre-merge validation failed (rc=${rc}); merge will be skipped"
+          else
+            echo "status=passed" >> "${GITHUB_OUTPUT}"
+          fi
+          exit 0
+
+      - name: Merge branch into main
+        if: steps.pre_merge.outputs.status == 'passed'
+        id: merge
+        env:
+          ROUTINE: ${{ steps.parse.outputs.routine }}
+          DATE: ${{ steps.parse.outputs.date }}
+        run: |
+          set -e
+          # Avoid merging an empty (already-up-to-date) branch.
+          if git merge-base --is-ancestor refs/auto-merge-target HEAD; then
+            echo "Branch is already merged — nothing to do."
+            echo "status=already-merged" >> "${GITHUB_OUTPUT}"
+            echo "sha=$(git rev-parse --short HEAD)" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+          # Build commit message via printf-quoted vars (never interpolated).
+          MSG=$(printf 'merge: claude/%s-%s' "${ROUTINE}" "${DATE}")
+          git merge --no-ff -m "${MSG}" refs/auto-merge-target
+          MERGE_SHA=$(git rev-parse --short HEAD)
+          echo "sha=${MERGE_SHA}" >> "${GITHUB_OUTPUT}"
+          echo "status=merged" >> "${GITHUB_OUTPUT}"
+          echo "Merged into main at ${MERGE_SHA}"
+
+      - name: Post-merge validation
+        if: steps.pre_merge.outputs.status == 'passed' && steps.merge.outputs.status == 'merged'
+        id: post_merge
+        run: |
+          set +e
+          bash "${GITHUB_WORKSPACE}/.github/scripts/run-validators.sh" \
+            > /tmp/post-merge-validators.log 2>&1
+          rc=$?
+          echo "----- post-merge validator output -----"
+          cat /tmp/post-merge-validators.log
+          echo "---------------------------------------"
+          if [ "${rc}" -ne 0 ]; then
+            echo "status=failed" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Post-merge validation failed; reverting merge"
+            # Revert merge commit locally — no push happens since the next
+            # step's `if:` requires post_merge.outputs.status == 'passed'.
+            git reset --hard HEAD~1
+          else
+            echo "status=passed" >> "${GITHUB_OUTPUT}"
+          fi
+          exit 0
+
+      - name: Push main
+        if: steps.pre_merge.outputs.status == 'passed' && steps.merge.outputs.status == 'merged' && steps.post_merge.outputs.status == 'passed'
+        run: |
+          set -e
+          git push origin main
+
+      - name: Build Slack body
+        if: always()
+        id: build_body
+        env:
+          ROUTINE: ${{ steps.parse.outputs.routine }}
+          DATE: ${{ steps.parse.outputs.date }}
+          BRANCH: ${{ steps.parse.outputs.branch }}
+          PRE_STATUS: ${{ steps.pre_merge.outputs.status }}
+          MERGE_STATUS: ${{ steps.merge.outputs.status }}
+          POST_STATUS: ${{ steps.post_merge.outputs.status }}
+          MERGE_SHA: ${{ steps.merge.outputs.sha }}
+        run: |
+          set +u
+          HHMM=$(TZ=Asia/Kolkata date +%H:%M)
+          BODY_FILE=$(mktemp)
+          echo "body_file=${BODY_FILE}" >> "${GITHUB_OUTPUT}"
+
+          if [ -z "${ROUTINE}" ] || [ -z "${DATE}" ]; then
+            # Parse step itself failed — minimal alert.
+            cat > "${BODY_FILE}" <<EOT
+          🗡️  auto-merge-and-notify · ⚠️
+          📅 ${HHMM} IST
+
+          Branch parsing failed before merge logic could run.
+          Inspect the workflow run for details.
+
+          🔗 Run: ${RUN_URL}
+          EOT
+            exit 0
+          fi
+
+          if [ "${PRE_STATUS}" = "failed" ]; then
+            FAILED_TAIL=$(tail -25 /tmp/pre-merge-validators.log 2>/dev/null || echo '(log unavailable)')
+            cat > "${BODY_FILE}" <<EOT
+          🗡️  Routine: ${ROUTINE} · ❌
+          📅 ${DATE} ${HHMM} IST
+
+          Validation failed BEFORE merge — branch NOT merged.
+
+          Failed validators (last 25 log lines):
+          \`\`\`
+          ${FAILED_TAIL}
+          \`\`\`
+
+          🔗 Branch (unmerged): ${BRANCH}
+          🛠 Action: inspect branch, fix routine prompt or state, re-run
+          🔗 Run: ${RUN_URL}
+          EOT
+            exit 0
+          fi
+
+          if [ "${POST_STATUS}" = "failed" ]; then
+            FAILED_TAIL=$(tail -25 /tmp/post-merge-validators.log 2>/dev/null || echo '(log unavailable)')
+            cat > "${BODY_FILE}" <<EOT
+          🗡️  Routine: ${ROUTINE} · ⚠️
+          📅 ${DATE} ${HHMM} IST
+
+          Merge succeeded but post-merge validation failed.
+          Merge has been REVERTED. main is unchanged.
+
+          Failed validators (last 25 log lines):
+          \`\`\`
+          ${FAILED_TAIL}
+          \`\`\`
+
+          🔗 Branch: ${BRANCH}
+          🛠 Action: routine output is structurally invalid; fix routine prompt
+          🔗 Run: ${RUN_URL}
+          EOT
+            exit 0
+          fi
+
+          # Success path — merge happened (or branch already merged) and
+          # validators passed.
+          if [ "${MERGE_STATUS}" = "already-merged" ]; then
+            MERGE_LINE="🔀 Already on main: ${MERGE_SHA} (no new merge commit)"
+          else
+            MERGE_LINE="🔀 Merged to main: ${MERGE_SHA}"
+          fi
+
+          # Extract canonical body. The script handles missing-file cases internally.
+          # ROUTINE + DATE were validated in the parse step (allowlist + regex), so
+          # passing them as positional args is safe.
+          CANONICAL_FILE=$(mktemp)
+          if ! bash "${GITHUB_WORKSPACE}/.github/scripts/extract-canonical-body.sh" \
+                "${ROUTINE}" "${DATE}" > "${CANONICAL_FILE}" 2>&1; then
+            echo "::warning::extract-canonical-body.sh exited non-zero; using its stderr/stdout as body"
+          fi
+          CANONICAL=$(cat "${CANONICAL_FILE}")
+          rm -f "${CANONICAL_FILE}"
+
+          cat > "${BODY_FILE}" <<EOT
+          🗡️  Routine: ${ROUTINE} · ✅
+          📅 ${DATE} ${HHMM} IST
+          ─────────────────
+          ${CANONICAL}
+          ─────────────────
+          🔗 Branch: ${BRANCH}
+          ${MERGE_LINE}
+          EOT
+
+          echo "Body file size: $(wc -c < ${BODY_FILE}) bytes"
+
+      - name: Post to Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          BODY_FILE: ${{ steps.build_body.outputs.body_file }}
+        run: |
+          if [ -z "${BODY_FILE:-}" ] || [ ! -f "${BODY_FILE}" ]; then
+            # Fallback: workflow ran far enough off-script that body builder didn't
+            # produce a file. Send a minimal failure ping so the silent-failure
+            # path is still observable.
+            BODY_FILE=$(mktemp)
+            cat > "${BODY_FILE}" <<EOT
+          🗡️  auto-merge-and-notify · ⚠️
+
+          Workflow failed before message body could be assembled.
+          🔗 Run: ${RUN_URL}
+          EOT
+          fi
+          bash "${GITHUB_WORKSPACE}/.github/scripts/post-to-slack.sh" "${BODY_FILE}"
+
+  daily-wrap:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'wrap')
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    env:
+      REPO_FULL: ${{ github.repository }}
+    steps:
+      - name: Repo guard
+        run: |
+          if [ "${REPO_FULL}" != "Sudhan09/study-companion" ]; then
+            echo "Wrong repo (${REPO_FULL}), exiting cleanly."
+            exit 0
+          fi
+
+      - name: Secret presence check
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "::error::SLACK_WEBHOOK_URL secret not set."
+            exit 1
+          fi
+
+      - name: Checkout main
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Build daily wrap body
+        id: build
+        run: |
+          set -e
+          BODY_FILE=$(mktemp)
+          bash "${GITHUB_WORKSPACE}/.github/scripts/build-daily-wrap.sh" > "${BODY_FILE}"
+          echo "body_file=${BODY_FILE}" >> "${GITHUB_OUTPUT}"
+          echo "Daily-wrap body: $(wc -c < ${BODY_FILE}) bytes"
+          echo "----- preview -----"
+          head -50 "${BODY_FILE}"
+          echo "-------------------"
+
+      - name: Post to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          BODY_FILE: ${{ steps.build.outputs.body_file }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/post-to-slack.sh" "${BODY_FILE}"
