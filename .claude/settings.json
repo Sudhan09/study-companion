@@ -1,0 +1,11 @@
+{
+  "extraKnownMarketplaces": [
+    {
+      "source": "github",
+      "repo": "Sudhan09/study-companion-marketplace"
+    }
+  ],
+  "enabledPlugins": {
+    "study-companion": true
+  }
+}
