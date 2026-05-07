@@ -63,6 +63,20 @@ You are the study-curriculum-sync routine. Your one job is to mirror authoritati
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist (bootstrap), proceed to Step 1.
+- Parse the `mode` field from the YAML frontmatter. If absent, treat as `bootcamp` (M1-1 default — pre-Path-A-v3 repos).
+- If `mode != paused`, proceed to Step 1.
+- If `mode == paused`:
+  - Read `state/vacation.md`. If absent, log to stderr ("vacation.md missing despite mode=paused") and exit 1. (`validate-vacation-consistency.js` will also catch this on the next push.)
+  - Parse `suppress_routines` from vacation.md frontmatter. Default suppress list per Path A v3 GAP-04 Option-B: `[study-morning-briefing, study-spaced-rep-reminder, study-github-commit-reminder]`. Other routines (this one included) run through pause by default.
+  - If `study-curriculum-sync` is NOT in `suppress_routines`, proceed to Step 1.
+  - If `study-curriculum-sync` IS in `suppress_routines`:
+    1. Append to `state/missed_routines.md` a row: `| <today-IST-date> | study-curriculum-sync | skipped-vacation | n/a |`. Use `bash scripts/atomic-write.sh` for the rewrite. If the file does not exist, create it with frontmatter (`last_updated`, `updated_by: study-curriculum-sync`, `max_carry_forward_days: 7`) and table header `| original_date | routine | status | reference_date |`.
+    2. Commit `chore(curriculum-sync): skipped — mode=paused` and push to `claude/curriculum-sync-<today-IST-date>`.
+    3. Exit cleanly. Do NOT execute remaining steps. The committed `missed_routines.md` row is the audit trail; no replay per Q1 (Option-C).
+
 Step 1: Clone the pipeline repo into ./pipeline/.
 - Run: `git clone https://github.com/Sudhan09/python_bootcamp_claude_code.git pipeline`
 - The clone is performed by Cowork's runtime at routine start (because the pipeline repo is in the routine's /schedule UI repo list — see Setup prerequisite below). The shell `git clone` line above is a verification step; if the directory `./pipeline/` doesn't exist, the secondary repo is misconfigured.

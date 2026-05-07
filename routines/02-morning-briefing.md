@@ -52,6 +52,20 @@ Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curric
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist (bootstrap), proceed to Step 1.
+- Parse the `mode` field from the YAML frontmatter. If absent, treat as `bootcamp` (M1-1 default — pre-Path-A-v3 repos).
+- If `mode != paused`, proceed to Step 1.
+- If `mode == paused`:
+  - Read `state/vacation.md`. If absent, log to stderr ("vacation.md missing despite mode=paused") and exit 1.
+  - Parse `suppress_routines` from vacation.md frontmatter. Default suppress list per Path A v3 GAP-04 Option-B: `[study-morning-briefing, study-spaced-rep-reminder, study-github-commit-reminder]`.
+  - If `study-morning-briefing` is NOT in `suppress_routines`, proceed to Step 1.
+  - If `study-morning-briefing` IS in `suppress_routines`:
+    1. Append to `state/missed_routines.md` a row: `| <today-IST-date> | study-morning-briefing | skipped-vacation | n/a |`. Use `bash scripts/atomic-write.sh`. If the file does not exist, create with frontmatter + table header.
+    2. Commit `chore(morning-briefing): skipped — mode=paused` and push to `claude/morning-briefing-<today-IST-date>`.
+    3. Exit cleanly. Do NOT execute remaining steps. No replay per Q1.
+
 Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
 Step 2: Verify curriculum freshness (per cross-routine prerequisite above). Set a STALE_FLAG variable accordingly.

@@ -28,6 +28,13 @@ You are the study-branch-cleanup routine. Your job is to delete merged claude/* 
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist, proceed to Step 1.
+- Parse `mode`. If absent, treat as `bootcamp`. If `mode != paused`, proceed to Step 1.
+- If `mode == paused`: read `state/vacation.md`. If absent, exit 1. Parse `suppress_routines`. By default, `study-branch-cleanup` is NOT suppressed (maintenance routine; runs through pause). Per GAP-06, branch-cleanup is also explicitly EXCLUDED from `missed_routines.md` carry-forward — even if user adds it to `suppress_routines`, the carry-forward replay path does not re-run it. Proceed to Step 1.
+- If user has explicitly added `study-branch-cleanup` to `suppress_routines`: append `| <today-IST-date> | study-branch-cleanup | skipped-vacation | n/a |` to `state/missed_routines.md` for audit, commit `chore(branch-cleanup): skipped — mode=paused`, push, exit cleanly.
+
 Step 1: List candidates.
 - Run: `git fetch --all --prune`
 - List remote branches: `git branch -r --merged origin/main | grep '^  origin/claude/' | sed 's|^  origin/||'`

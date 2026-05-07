@@ -130,6 +130,99 @@ emit_monday_distillation() {
 
 # --- dispatch ---
 
+emit_pause_routines() {
+  # Path A v3 CRIT-11: pause-routines body summarizes the new vacation record.
+  # On success, vacation.md is committed in the merged tree. On failure, the
+  # workflow short-circuits to the "PAUSE NOT APPLIED" arm (in workflow YAML)
+  # and never calls this function.
+  local f="state/vacation.md"
+  if [ ! -f "${f}" ]; then
+    cat <<EOT
+🛫 Pause merged but vacation.md was not present in the merged tree.
+This is a state-consistency error — investigate via the run link.
+EOT
+    return 0
+  fi
+  # awk sub() preserves colons in RFC 3339 timestamps (a -F': *' split would
+  # truncate at the first colon in HH:MM:SS).
+  local start_date end_date suppress reason
+  start_date=$(awk '/^start_date:/ { sub(/^start_date:[[:space:]]*/, ""); print; exit }' "${f}" | tr -d '"' | tr -d "'")
+  end_date=$(awk '/^end_date:/ { sub(/^end_date:[[:space:]]*/, ""); print; exit }' "${f}" | tr -d '"' | tr -d "'")
+  suppress=$(awk '/^suppress_routines:/ { sub(/^suppress_routines:[[:space:]]*/, ""); print; exit }' "${f}" | tr -d '"')
+  reason=$(awk '/^reason:/ { sub(/^reason:[[:space:]]*/, ""); print; exit }' "${f}" | tr -d '"' | tr -d "'")
+  cat <<EOT
+🛫 Vacation started
+
+📅 Start: ${start_date}
+🏁 End: ${end_date:-open-ended}
+🔇 Suppressed routines: ${suppress:-(default 3)}
+📝 Reason: ${reason:-(none given)}
+
+ℹ️  Daily-wrap will post Day 1 + last day, then go silent for the duration.
+ℹ️  Routines NOT in suppress_routines (curriculum-sync, weekly-review,
+    monday-distillation, drift-audit, branch-cleanup) keep running through pause.
+EOT
+}
+
+# Helper: extract a key from a nested YAML block. Walks the file line-by-line,
+# tracks whether we're inside the named outer block, returns the value of the
+# named inner key. Robust to RFC 3339 timestamps with embedded colons.
+yaml_nested_get() {
+  local file="$1" outer="$2" inner="$3"
+  awk -v outer="${outer}" -v inner="${inner}" '
+    BEGIN { in_block = 0 }
+    # Top-level key match (no leading whitespace) ends any prior block.
+    /^[A-Za-z_][A-Za-z0-9_]*:/ {
+      if ($0 ~ "^" outer ":") { in_block = 1; next }
+      else { in_block = 0 }
+    }
+    in_block && $0 ~ "^[[:space:]]+" inner ":[[:space:]]*" {
+      sub("^[[:space:]]+" inner ":[[:space:]]*", "")
+      gsub(/^["'\'']|["'\'']$/, "")
+      print
+      exit
+    }
+  ' "${file}"
+}
+
+emit_resume_routines() {
+  # Path A v3 Q8: verbose resume format.
+  local cd="state/current_day.md"
+  local arch_log="archive/vacations.md"
+  local bootcamp_day lw_day lw_active lw_completed loop_state vac_days
+
+  if [ -f "${cd}" ]; then
+    bootcamp_day=$(yaml_nested_get "${cd}" bootcamp current_day)
+    lw_day=$(yaml_nested_get "${cd}" loop_week current_day)
+    lw_active=$(yaml_nested_get "${cd}" loop_week active)
+    lw_completed=$(yaml_nested_get "${cd}" loop_week completed)
+  fi
+
+  if [ "${lw_completed}" = "true" ]; then
+    loop_state="completed"
+  elif [ "${lw_active}" = "true" ]; then
+    loop_state="active Day ${lw_day:-?}"
+  else
+    loop_state="paused"
+  fi
+
+  if [ -f "${arch_log}" ]; then
+    # Most recent vacation entry: pull last duration_days value.
+    vac_days=$(awk '/duration_days:/ { last=$NF } END { print last }' "${arch_log}")
+  fi
+
+  local hhmm
+  hhmm=$(TZ=Asia/Kolkata date +%H:%M)
+  cat <<EOT
+✅ Resumed at ${hhmm} IST
+─────────────────
+📍 bootcamp Day ${bootcamp_day:-?}
+🎯 loop_week: ${loop_state}
+📅 First task: today's morning briefing fires at 09:00 IST
+🛬 Vacation duration: ${vac_days:-?} days
+EOT
+}
+
 case "${routine}" in
   curriculum-sync)
     emit_curriculum_sync
@@ -160,6 +253,12 @@ case "${routine}" in
   branch-cleanup)
     f="logs/${date}.md"
     if [ ! -f "${f}" ]; then missing_body_message "${f}"; else extract_section "${f}" "Branch cleanup"; fi
+    ;;
+  pause-routines)
+    emit_pause_routines
+    ;;
+  resume-routines)
+    emit_resume_routines
     ;;
   *)
     echo "::error::Unknown routine: ${routine}" >&2

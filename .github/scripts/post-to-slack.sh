@@ -39,12 +39,14 @@ fi
 
 # Build payload via jq. --rawfile reads the entire file as a single string
 # (newlines preserved), which jq encodes correctly into the JSON.
+#
+# Path A v3 (Q6): username/icon_emoji/channel removed. Per
+# https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks
+# modern app-attached webhooks silently ignore these overrides — the channel,
+# username, and icon are fixed at the time of the app's installation.
 payload=$(jq -n \
   --rawfile text "${text_file}" \
-  --arg username "Asta" \
-  --arg icon ":dagger_knife:" \
-  --arg channel "#study-routines" \
-  '{text: $text, username: $username, icon_emoji: $icon, channel: $channel}')
+  '{text: $text}')
 
 # POST with -w to capture HTTP code, -o /dev/null to discard body, -s for silent.
 http_code=$(curl -X POST \

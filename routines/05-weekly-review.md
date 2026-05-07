@@ -36,6 +36,13 @@ You are the study-weekly-review routine. Your job is to summarize the last 7 day
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist, proceed to Step 1.
+- Parse `mode`. If absent, treat as `bootcamp`. If `mode != paused`, proceed to Step 1.
+- If `mode == paused`: read `state/vacation.md`. If absent, exit 1. Parse `suppress_routines`. By default, `study-weekly-review` is NOT suppressed (retrospective routines run through pause per EC-01 "Last-run-before-pause" semantic). Proceed to Step 1; downstream steps must annotate vacation-window logs as gaps (see Step 3 freshness check + `vacation_gap` count in window summary).
+- If user has explicitly added `study-weekly-review` to `suppress_routines`: append `| <today-IST-date> | study-weekly-review | skipped-vacation | n/a |` to `state/missed_routines.md`, commit `chore(weekly-review): skipped — mode=paused`, push, exit cleanly.
+
 Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
 Step 2: Define the window.

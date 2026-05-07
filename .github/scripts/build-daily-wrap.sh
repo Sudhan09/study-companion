@@ -24,6 +24,135 @@ DOW=$(TZ=Asia/Kolkata date +%A)
 DOW_SHORT=$(TZ=Asia/Kolkata date +%a)
 HHMM=$(TZ=Asia/Kolkata date +%H:%M)
 
+# --- 0. Pause-mode check (Path A v3 CRIT-09 + Q9) ---
+# When mode==paused, daily-wrap diverges into a vacation-aware path:
+#   Day 1     → "🛫 Vacation started" full banner
+#   Day 2..30 → minimal heartbeat (one-line so workflow-alive signal stays)
+#   Day 31+   → 🚨 persistent 30-day cap alert (Q9)
+#   Last day  → "🛬 Last day of vacation" full banner (when end_date set)
+# The normal flow below is bypassed entirely when paused.
+
+MODE="bootcamp"
+if [ -f state/current_day.md ]; then
+  mode_match=$(awk -F': *' '/^mode:/ { print $2; exit }' state/current_day.md 2>/dev/null | tr -d '"' | tr -d "'")
+  if [ -n "${mode_match}" ]; then MODE="${mode_match}"; fi
+fi
+
+if [ "${MODE}" = "paused" ]; then
+  if [ ! -f state/vacation.md ]; then
+    # State inconsistency — validate-vacation-consistency.js should have caught
+    # this on the last push; report loudly here as well.
+    cat <<EOT
+🗡️  Asta — Daily Wrap
+📅 ${DATE} (${DOW}) • ${HHMM} IST
+
+🚨 STATE INCONSISTENCY
+mode=paused in state/current_day.md but state/vacation.md is missing.
+
+🛠 Action: run \`/resume-routines\` to clear the pause, OR manually edit
+   state/current_day.md to set mode back to bootcamp/loop_week.
+EOT
+    exit 0
+  fi
+
+  # awk sub() strips the prefix and preserves any colons in the value (RFC 3339
+  # timestamps contain colons in HH:MM and the offset, so a -F': *' split would
+  # truncate them).
+  start_raw=$(awk '/^start_date:/ { sub(/^start_date:[[:space:]]*/, ""); print; exit }' state/vacation.md | tr -d '"' | tr -d "'")
+  end_raw=$(awk '/^end_date:/ { sub(/^end_date:[[:space:]]*/, ""); print; exit }' state/vacation.md | tr -d '"' | tr -d "'")
+
+  # Use just the date portion (everything before T) so day arithmetic is in IST
+  # midnight-to-midnight terms regardless of the original timestamp's clock time.
+  start_date_only="${start_raw%%T*}"
+  start_secs=$(TZ=Asia/Kolkata date -d "${start_date_only}" +%s 2>/dev/null || echo 0)
+  today_secs=$(TZ=Asia/Kolkata date -d "${DATE}" +%s)
+
+  if [ "${start_secs}" = "0" ]; then
+    days_paused=0
+  else
+    days_paused=$(( (today_secs - start_secs) / 86400 ))
+  fi
+
+  end_date_only=""
+  days_until_end=99999
+  if [ -n "${end_raw}" ] && [ "${end_raw}" != "null" ]; then
+    end_date_only="${end_raw%%T*}"
+    end_secs=$(TZ=Asia/Kolkata date -d "${end_date_only}" +%s 2>/dev/null || echo 0)
+    if [ "${end_secs}" != "0" ]; then
+      days_until_end=$(( (end_secs - today_secs) / 86400 ))
+    fi
+  fi
+
+  # Q9: 30-day cap alert — fires every day past day 30 until cleared.
+  if [ "${days_paused}" -gt 30 ]; then
+    over_limit=$(( days_paused - 30 ))
+    cat <<EOT
+🗡️  Asta — Daily Wrap
+📅 ${DATE} (${DOW}) • ${HHMM} IST
+
+🚨 ALERTS (1) — pause exceeds 30-day cap
+
+⚠️  Pause is on day ${days_paused} (${over_limit} day(s) over the 30-day cap).
+
+📊 System paused since ${start_date_only}. Routines that respect suppress_routines
+   are skipping; non-suppressed (curriculum-sync, weekly-review, monday-distillation,
+   drift-audit, branch-cleanup) keep running through pause.
+
+🛠 Action needed:
+- Run \`/resume-routines\` from Cowork or the Code app, OR
+- Update \`state/vacation.md.end_date\` to extend the planned vacation window.
+EOT
+    exit 0
+  fi
+
+  # A10 + CRIT-09: Day 1 banner.
+  if [ "${days_paused}" -eq 0 ]; then
+    cat <<EOT
+🗡️  Asta — Daily Wrap
+📅 ${DATE} (${DOW}) • ${HHMM} IST
+
+🛫 Vacation started
+
+📅 Start: ${start_raw}
+🏁 End: ${end_raw:-open-ended}
+
+ℹ️  Daily-wrap goes silent (one-line heartbeat only) until the last day of
+   vacation, OR forever if no end_date set. 30-day cap will trigger a
+   persistent ALERT.
+
+ℹ️  Routines NOT in \`vacation.md.suppress_routines\` keep running through pause.
+   Default suppress: study-morning-briefing, study-spaced-rep-reminder,
+   study-github-commit-reminder.
+EOT
+    exit 0
+  fi
+
+  # A10 + CRIT-09: Last day banner (only when end_date is set and reached).
+  if [ "${days_until_end}" -eq 0 ]; then
+    cat <<EOT
+🗡️  Asta — Daily Wrap
+📅 ${DATE} (${DOW}) • ${HHMM} IST
+
+🛬 Last day of vacation
+
+📅 Vacation duration: ${days_paused} days
+📅 Resume tomorrow (before 09:00 IST Monday if Monday distillation matters this week)
+
+ℹ️  Run \`/resume-routines\` to clear the pause, archive vacation.md, and rewrite
+   state/last_session_summary.md with a gap notice.
+EOT
+    exit 0
+  fi
+
+  # Mid-vacation: minimal heartbeat (preserves workflow-alive signal). Slight
+  # deviation from A10 ("post only Day 1 + last day") in favor of Mitigation #1
+  # (heartbeat-by-design); revisit if noise is unwanted.
+  cat <<EOT
+🛌 paused · day ${days_paused} · ${DATE}
+EOT
+  exit 0
+fi
+
 # --- 1. Merge commits today ---
 # Each per-push merge writes "merge: claude/<routine>-<date>" subject.
 MERGE_SUBJECTS=$(git log main --since="${DATE}T00:00:00+05:30" \

@@ -48,6 +48,12 @@ on:
       - 'claude/monday-distillation-*'
       - 'claude/drift-audit-*'
       - 'claude/branch-cleanup-*'
+      # Path A v3 (2026-05-07) — pause/resume skill self-pushes (CRIT-05 fix).
+      # Per Q3 audit: branch protection on `main` is OFF, so default GITHUB_TOKEN
+      # is sufficient to push the merge. If protection is ever enabled, replace
+      # GITHUB_TOKEN with `actions/create-github-app-token` per R-01.
+      - 'claude/pause-routines-*'
+      - 'claude/resume-routines-*'
   schedule:
     - cron: '30 15 * * *'  # 21:00 IST (15:30 UTC) daily wrap
   workflow_dispatch:
@@ -122,8 +128,10 @@ jobs:
           fi
           # Allowlist (defense-in-depth — push trigger already filters, but parsing
           # is run on user-controllable input so re-validate).
+          # Path A v3: pause-routines + resume-routines added.
           case "${ROUTINE}" in
             curriculum-sync|morning-briefing|spaced-rep|commit-reminder|weekly-review|monday-distillation|drift-audit|branch-cleanup) ;;
+            pause-routines|resume-routines) ;;
             *)
               echo "::error::Routine '${ROUTINE}' not in allowlist"
               exit 1
@@ -246,9 +254,38 @@ jobs:
             exit 0
           fi
 
+          # Path A v3 CRIT-11: pause/resume failure must read as state-critical,
+          # not as generic-validator-hiccup. Use 🚨 prefix and explicit "PAUSE/RESUME
+          # NOT APPLIED" copy so the user understands the failure reverted the
+          # state change, not just an unrelated routine.
+          IS_PAUSE_OR_RESUME=0
+          case "${ROUTINE}" in
+            pause-routines|resume-routines) IS_PAUSE_OR_RESUME=1 ;;
+          esac
+
           if [ "${PRE_STATUS}" = "failed" ]; then
             FAILED_TAIL=$(tail -25 /tmp/pre-merge-validators.log 2>/dev/null || echo '(log unavailable)')
-            cat > "${BODY_FILE}" <<EOT
+            if [ "${IS_PAUSE_OR_RESUME}" = "1" ]; then
+              ACTION_LABEL=$(echo "${ROUTINE}" | sed 's/-routines//' | tr '[:lower:]' '[:upper:]')
+              cat > "${BODY_FILE}" <<EOT
+          🚨 ${ACTION_LABEL} NOT APPLIED · ${ROUTINE} · ❌
+          📅 ${DATE} ${HHMM} IST
+
+          Pre-merge validation failed. \`main\` is UNCHANGED.
+          Your local skill state may say "${ROUTINE} succeeded" but the system
+          has not received the change. Re-run \`/${ROUTINE}\` after fixing the
+          validator failure below, OR investigate via the run link.
+
+          Failed validators (last 25 log lines):
+          \`\`\`
+          ${FAILED_TAIL}
+          \`\`\`
+
+          🔗 Branch (unmerged): ${BRANCH}
+          🔗 Run: ${RUN_URL}
+          EOT
+            else
+              cat > "${BODY_FILE}" <<EOT
           🗡️  Routine: ${ROUTINE} · ❌
           📅 ${DATE} ${HHMM} IST
 
@@ -263,12 +300,35 @@ jobs:
           🛠 Action: inspect branch, fix routine prompt or state, re-run
           🔗 Run: ${RUN_URL}
           EOT
+            fi
             exit 0
           fi
 
           if [ "${POST_STATUS}" = "failed" ]; then
             FAILED_TAIL=$(tail -25 /tmp/post-merge-validators.log 2>/dev/null || echo '(log unavailable)')
-            cat > "${BODY_FILE}" <<EOT
+            if [ "${IS_PAUSE_OR_RESUME}" = "1" ]; then
+              ACTION_LABEL=$(echo "${ROUTINE}" | sed 's/-routines//' | tr '[:lower:]' '[:upper:]')
+              cat > "${BODY_FILE}" <<EOT
+          🚨 ${ACTION_LABEL} REVERTED · ${ROUTINE} · ⚠️
+          📅 ${DATE} ${HHMM} IST
+
+          Merge succeeded but post-merge validation failed and the merge
+          has been REVERTED. \`main\` is UNCHANGED.
+
+          Your local skill output may have said "${ROUTINE} succeeded" but
+          the structural change was rejected. Re-run \`/${ROUTINE}\` after
+          investigating the validator failure below.
+
+          Failed validators (last 25 log lines):
+          \`\`\`
+          ${FAILED_TAIL}
+          \`\`\`
+
+          🔗 Branch: ${BRANCH}
+          🔗 Run: ${RUN_URL}
+          EOT
+            else
+              cat > "${BODY_FILE}" <<EOT
           🗡️  Routine: ${ROUTINE} · ⚠️
           📅 ${DATE} ${HHMM} IST
 
@@ -284,6 +344,7 @@ jobs:
           🛠 Action: routine output is structurally invalid; fix routine prompt
           🔗 Run: ${RUN_URL}
           EOT
+            fi
             exit 0
           fi
 
