@@ -1,6 +1,7 @@
 ---
-last_updated: 2026-05-06T20:00:00+05:30
-updated_by: build-init
+last_updated: 2026-05-08T01:05:44+05:30
+updated_by: /pause-routines
+mode: paused
 bootcamp:
   phase: 2
   completed_through_day: 21
