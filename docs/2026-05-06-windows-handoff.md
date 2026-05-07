@@ -232,7 +232,7 @@ You may also want to verify access to `Sudhan09/study-companion-plugin` if you p
 
 **Depends on U4** — App must be installed first.
 
-1. Open https://claude.ai/schedule
+1. Open https://claude.ai/code/routines
 2. Find `study-curriculum-sync` (routine 01)
 3. Click into its settings — look for "Connect repository" or "Repositories"
 4. Add `Sudhan09/python_bootcamp_claude_code` as a secondary repo (in addition to the existing `study-companion` primary)
@@ -240,7 +240,7 @@ You may also want to verify access to `Sudhan09/study-companion-plugin` if you p
 
 ### 5.3 (U1) Re-paste each updated routine prompt into Cowork /schedule UI (~30-45 min)
 
-The routine prompts in `routines/0X-*.md` have been heavily revised but the LIVE COPIES in claude.ai/schedule are the OLD ones. Anthropic doesn't auto-sync; you have to re-paste.
+The routine prompts in `routines/0X-*.md` have been heavily revised but the LIVE COPIES in claude.ai/code/routines are the OLD ones. Anthropic doesn't auto-sync; you have to re-paste.
 
 **8 routines to update.** Do them in this order — independent ones first, then the dependents:
 
@@ -260,14 +260,14 @@ The routine prompts in `routines/0X-*.md` have been heavily revised but the LIVE
 1. Open the granted-folder file in your editor: `routines/0X-*.md`
 2. Find the section that begins `## Routine prompt (paste this into Cowork /schedule UI)`
 3. The prompt body is between the FIRST opening triple-backtick after that header and the closing triple-backtick. Copy ONLY the content between the backticks (not the backticks themselves).
-4. In claude.ai/schedule, edit the routine, paste into the prompt field, save.
+4. In claude.ai/code/routines, edit the routine, paste into the prompt field, save.
 5. Verify the paste with the skew check:
    ```bash
    cd C:/Users/sudha/study-companion
    bash scripts/check-routine-skew.sh
    ```
    Note the hash for the routine you just pasted (e.g., `02-morning-briefing: b471a13870693d76`).
-6. In claude.ai/schedule, copy the prompt body BACK out of the UI and into a clipboard / temp file:
+6. In claude.ai/code/routines, copy the prompt body BACK out of the UI and into a clipboard / temp file:
    ```bash
    echo -n '<paste the prompt body here>' | sha256sum | cut -c1-16
    ```
@@ -275,7 +275,7 @@ The routine prompts in `routines/0X-*.md` have been heavily revised but the LIVE
 
 **For routine 08 (the new branch-cleanup):**
 - It's brand new. There's no existing /schedule UI entry to overwrite.
-- Click "+ Create routine" (or whatever the new-routine flow is in claude.ai/schedule).
+- Click "+ Create routine" (or whatever the new-routine flow is in claude.ai/code/routines).
 - Name: `study-branch-cleanup`
 - Cron: `0 6 * * 0`
 - Repo: `Sudhan09/study-companion`
@@ -338,7 +338,7 @@ Run AFTER Tracks 1 and 2 complete.
 
 ### 6.1 Manual triggers (~15 min — gives you immediate feedback)
 
-In claude.ai/schedule, find each routine that has a "Run now" / "Trigger" button.
+In claude.ai/code/routines, find each routine that has a "Run now" / "Trigger" button.
 
 **Trigger routine 01 first:**
 - Wait 5-10 min for completion.
@@ -470,7 +470,7 @@ Or for web auto-install, in your project's `.claude/settings.json`:
 - **Granted folder repo:** https://github.com/Sudhan09/study-companion
 - **Plugin repo:** https://github.com/Sudhan09/study-companion-plugin
 - **Pipeline (bootcamp):** https://github.com/Sudhan09/python_bootcamp_claude_code
-- **Cowork /schedule UI:** https://claude.ai/schedule
+- **Cowork /schedule UI:** https://claude.ai/code/routines
 - **Claude GitHub App installation:** https://github.com/apps/claude/installations
 - **Plugin audit report:** local file `2026-05-06-plugin-audit-report.md` (Linux only — ask me to push if you want it in a repo)
 - **Plugin remediation plan:** local file `2026-05-06-plugin-remediation-plan.md` (same)

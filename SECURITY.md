@@ -23,6 +23,6 @@ Each routine prompt exists in two places: (1) the committed `.md` files in this 
 
 - Run `bash scripts/check-routine-skew.sh` (added in Task 5.3).
 - The script extracts each routine's prompt block from `routines/0X-*.md`, hashes it, and prints the expected hash for comparison against the live /schedule UI text.
-- Manually visit https://claude.ai/schedule, open each routine, copy the prompt body, and run `sha256sum` on it. If the hash doesn't match, re-paste from the repo.
+- Manually visit https://claude.ai/code/routines, open each routine, copy the prompt body, and run `sha256sum` on it. If the hash doesn't match, re-paste from the repo.
 
 **Cadence:** monthly, or after any routine prompt edit.

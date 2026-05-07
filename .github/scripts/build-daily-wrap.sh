@@ -188,7 +188,7 @@ EOT
   echo ""
   echo "🛠 Action needed:"
   if [ "${#MISSING[@]}" -gt 0 ]; then
-    echo "- Investigate missing routines on https://claude.ai/schedule: ${MISSING[*]}"
+    echo "- Investigate missing routines on https://claude.ai/code/routines: ${MISSING[*]}"
   fi
   if [ -f "${SCHED_FILE}" ] && grep -q '\[STALE-CURRICULUM\]' "${SCHED_FILE}" 2>/dev/null; then
     echo "- Re-check Claude GitHub App on Sudhan09/python_bootcamp_claude_code"
