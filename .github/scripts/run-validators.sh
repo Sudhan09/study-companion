@@ -19,6 +19,7 @@ VALIDATORS=(
   "validate-imports.js"
   "validate-state-schemas.js"
   "validate-wins-schemas.js"
+  "validate-vacation-consistency.js"
 )
 
 failed=()

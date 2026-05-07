@@ -35,6 +35,13 @@ You are the study-monday-distillation routine. Your job is to compact logs/ file
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist, proceed to Step 1.
+- Parse `mode`. If absent, treat as `bootcamp`. If `mode != paused`, proceed to Step 1.
+- If `mode == paused`: read `state/vacation.md`. If absent, exit 1. Parse `suppress_routines`. By default, `study-monday-distillation` is NOT suppressed (it must run to annotate `vacation_gap` logs per CRIT-07). Proceed to Step 1; the downstream distillation logic checks `vacation.md.start_date`/`end_date` and labels each archived log accordingly.
+- If user has explicitly added `study-monday-distillation` to `suppress_routines`: append entry, commit `chore(monday-distillation): skipped — mode=paused`, push, exit cleanly.
+
 Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
 Step 2: Identify candidate logs.
@@ -59,7 +66,14 @@ updated_by: study-monday-distillation
 date: <YYYY-MM-DD>          # original log date
 archived_on: <YYYY-MM-DD>    # today
 source_log: logs/<YYYY-MM-DD>.md
+type: <study_session | vacation_gap>   # Path A v3 CRIT-07 — see vacation-window logic below
 ---
+
+Vacation-window check (Path A v3 CRIT-07):
+- If `state/vacation.md` exists at distillation time, parse `start_date` and `end_date` (both ISO-8601 with offset). Convert to IST-date strings.
+- For each candidate log file dated `<D>`: if `start_date_IST <= D <= end_date_IST` (inclusive both ends; treat null end_date as still-active), set `type: vacation_gap`. Otherwise `type: study_session`.
+- If `state/vacation.md` does NOT exist (the common case), check `archive/vacations.md` append-log for any historical vacation that covered `<D>`. If found, set `type: vacation_gap`. Otherwise `type: study_session`.
+- `vacation_gap`-typed archives MUST be excluded from the session-count column in `state/distilled.md`. The row is still appended (as audit trail), but with `Sessions: 0 (vacation_gap)` instead of any positive number, and `Wins/Drills/Drift` columns all zero.
 
 # <YYYY-MM-DD> — distilled
 

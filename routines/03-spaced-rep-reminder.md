@@ -33,6 +33,19 @@ You are the study-spaced-rep-reminder routine. Your job is to pick ONE drill tar
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist (bootstrap), proceed to Step 1.
+- Parse the `mode` field from the YAML frontmatter. If absent, treat as `bootcamp`.
+- If `mode != paused`, proceed to Step 1.
+- If `mode == paused`:
+  - Read `state/vacation.md`. If absent, log to stderr and exit 1.
+  - Parse `suppress_routines`. Default per GAP-04 Option-B: `[study-morning-briefing, study-spaced-rep-reminder, study-github-commit-reminder]`.
+  - If `study-spaced-rep-reminder` is NOT in `suppress_routines`, proceed to Step 1.
+  - If `study-spaced-rep-reminder` IS in `suppress_routines`:
+    1. Append to `state/missed_routines.md`: `| <today-IST-date> | study-spaced-rep-reminder | skipped-vacation | n/a |`. Use atomic-write helper. Create file if absent.
+    2. Commit `chore(spaced-rep): skipped — mode=paused` and push to `claude/spaced-rep-<today-IST-date>`. Exit cleanly. No replay.
+
 Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
 Step 2: Read inputs:

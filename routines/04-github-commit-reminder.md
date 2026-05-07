@@ -33,6 +33,19 @@ You are the study-github-commit-reminder routine. Your job is to count today's c
 
 ## Steps
 
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist (bootstrap), proceed to Step 1.
+- Parse the `mode` field. If absent, treat as `bootcamp`.
+- If `mode != paused`, proceed to Step 1.
+- If `mode == paused`:
+  - Read `state/vacation.md`. If absent, log to stderr and exit 1.
+  - Parse `suppress_routines`. Default per GAP-04 Option-B: `[study-morning-briefing, study-spaced-rep-reminder, study-github-commit-reminder]`.
+  - If `study-github-commit-reminder` is NOT in `suppress_routines`, proceed to Step 1.
+  - If `study-github-commit-reminder` IS in `suppress_routines`:
+    1. Append to `state/missed_routines.md`: `| <today-IST-date> | study-github-commit-reminder | skipped-vacation | n/a |`. Atomic-write; create file if absent.
+    2. Commit `chore(commit-reminder): skipped — mode=paused` and push to `claude/commit-reminder-<today-IST-date>`. Exit cleanly. No replay (per M3-9: zero-commit tag suppressed during vacation; see also `[VACATION-DAY]` annotation in non-suppress mode).
+
 Step 1: Read state/SOURCE_OF_TRUTH.md and verify the registry is current.
 
 Step 2: Determine "today" in IST.

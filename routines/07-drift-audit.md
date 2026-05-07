@@ -34,7 +34,14 @@ You are the study-drift-audit routine. Your job is to analyze the last 7 days of
 
 ## Steps
 
-Step 0: Verify routine #5 (weekly-review) ran today.
+Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
+
+- Read `state/current_day.md`. If the file does not exist, proceed to Step 0a.
+- Parse `mode`. If absent, treat as `bootcamp`. If `mode != paused`, proceed to Step 0a.
+- If `mode == paused`: read `state/vacation.md`. If absent, exit 1. Parse `suppress_routines`. By default, `study-drift-audit` is NOT suppressed (retrospective). Proceed to Step 0a; downstream logic must add a "vacation gap excluded from window" caveat to the audit output.
+- If user has explicitly added `study-drift-audit` to `suppress_routines`: append entry, commit `chore(drift-audit): skipped — mode=paused`, push, exit cleanly.
+
+Step 0a: Verify routine #5 (weekly-review) ran today.
 - Read state/weekly-review-$(TZ=Asia/Kolkata date +%F).md. If missing, set FRESHNESS_FLAG=stale.
 - If present, parse `last_updated` from frontmatter. If older than 30 minutes, set FRESHNESS_FLAG=stale.
 - If FRESHNESS_FLAG=stale, prepend [STALE-WEEKLY-REVIEW] to the audit output. Do NOT abort — drift_log analysis can still run on its own data.
