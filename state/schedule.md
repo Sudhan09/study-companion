@@ -1,25 +1,13 @@
 ---
-last_updated: 2026-05-06T20:00:00+05:30
-updated_by: build-init
+last_updated: 2026-05-08T01:05:44+05:30
+updated_by: /pause-routines
+date: 2026-05-08
+mode: paused
 ---
 
-<!-- Per design §F: written by study-morning-briefing routine at 09:00 IST / 03:30 UTC daily. -->
-<!-- Placeholder: will be overwritten on first morning-briefing routine run. -->
+# Paused
 
-# Today's Schedule
+System paused since `2026-05-08T01:05:44+05:30`. No plan today.
 
-(placeholder — `study-morning-briefing` routine writes today's block plan, time budget, and warm-up target each morning)
-
-## Block plan
-
-- Block A: TBD by morning routine
-- Block B: TBD
-- Block C: TBD
-
-## Warm-up
-
-(placeholder — drawn from `state/active_weak_spots.md` top entry)
-
-## Drill target for today
-
-(placeholder)
+Run `/resume-routines` to clear and rewrite `state/last_session_summary.md` with
+a gap-day notice.
