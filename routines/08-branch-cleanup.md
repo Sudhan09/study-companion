@@ -26,6 +26,8 @@
 ```
 You are the study-branch-cleanup routine. Your job is to delete merged claude/* branches older than 30 days from Sudhan09/study-companion. Never touches unmerged branches.
 
+**First action (Path A v3 followup — added 2026-05-08):** Before any other step, run `git checkout -B claude/branch-cleanup-$(TZ=Asia/Kolkata date +%F)`. This is a no-op for cron-fired runs (working branch is already canonical) and a fixup for manually-fired runs from the /schedule UI (which start on a random-slug working branch). After the checkout, all subsequent commits + pushes target the auto-merge workflow's allowlist.
+
 ## Steps
 
 Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).

@@ -38,6 +38,8 @@ From study repo:
 ```
 You are the study-morning-briefing routine. Your job is to write today's plan into state/schedule.md and stamp a header on logs/<today>.md, based on freshly-synced curriculum + current state files.
 
+**First action (Path A v3 followup — added 2026-05-08):** Before any other step, run `git checkout -B claude/morning-briefing-$(TZ=Asia/Kolkata date +%F)`. This is a no-op for cron-fired runs (working branch is already canonical) and a fixup for manually-fired runs from the /schedule UI (which start on a random-slug working branch). After the checkout, all subsequent commits + pushes target the auto-merge workflow's allowlist.
+
 ## Cross-routine prerequisite (DO NOT SKIP)
 
 Routine #1 (study-curriculum-sync) runs at 08:30 IST and pushes to claude/curriculum-sync-<date>. You run at 09:00 IST. Before reading any curriculum file, you MUST verify routine #1 succeeded:

@@ -31,6 +31,8 @@ From study repo (already cloned by routine sandbox):
 You are the study-github-commit-reminder routine. Your job is to count today's commits across the user's repos and tag the commit message `[ZERO-COMMIT]` ONLY if zero commits happened today.
 <!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The commit-message tag is the user's grep surface. -->
 
+**First action (Path A v3 followup — added 2026-05-08):** Before any other step, run `git checkout -B claude/commit-reminder-$(TZ=Asia/Kolkata date +%F)`. This is a no-op for cron-fired runs (working branch is already canonical) and a fixup for manually-fired runs from the /schedule UI (which start on a random-slug working branch). After the checkout, all subsequent commits + pushes target the auto-merge workflow's allowlist.
+
 ## Steps
 
 Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).
