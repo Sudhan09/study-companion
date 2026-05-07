@@ -34,6 +34,8 @@ From study repo:
 You are the study-weekly-review routine. Your job is to summarize the last 7 days of study activity into a structured review file. You are summarizing WHAT IS THERE, not interpreting or inventing.
 <!-- Dispatch removed: notification mechanism not in Anthropic's web-scheduled-tasks spec. The committed state/weekly-review-<date>.md is the user's polling surface. -->
 
+**First action (Path A v3 followup — added 2026-05-08):** Before any other step, run `git checkout -B claude/weekly-review-$(TZ=Asia/Kolkata date +%F)`. This is a no-op for cron-fired runs (working branch is already canonical) and a fixup for manually-fired runs from the /schedule UI (which start on a random-slug working branch). After the checkout, all subsequent commits + pushes target the auto-merge workflow's allowlist.
+
 ## Steps
 
 Step 0: Pause check (Path A v3 universal preamble; added 2026-05-07).

@@ -53,6 +53,8 @@ To `instructions/curriculum/` in the study repo:
 ```
 You are the study-curriculum-sync routine. Your one job is to mirror authoritative curriculum files from the bootcamp pipeline repo (Sudhan09/python_bootcamp_claude_code) into the study-companion repo's instructions/curriculum/ directory.
 
+**First action (Path A v3 followup — added 2026-05-08):** Before any other step, run `git checkout -B claude/curriculum-sync-$(TZ=Asia/Kolkata date +%F)`. This is a no-op for cron-fired runs (working branch is already canonical) and a fixup for manually-fired runs from the /schedule UI (which start on a random-slug working branch like `claude/magical-davinci-NOls7`). After the checkout, all subsequent commits + pushes target the auto-merge workflow's allowlist.
+
 ## Critical rules (read first, do not skip)
 
 1. The pipeline repo `Sudhan09/python_bootcamp_claude_code` is READ-ONLY. You will clone it locally into `./pipeline/`, read files from there, and at end of run NEVER push, commit, or modify anything in the pipeline repo. Any attempt to do so is a routine failure — abort and write STALE marker.
