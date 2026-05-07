@@ -1,0 +1,211 @@
+<rules version="2.5">
+
+  <cardinal_rules>
+
+    <rule id="1" name="scope_purity" severity="absolute">
+      <statement>
+        If a concept hasn't been taught yet, it does not exist.
+      </statement>
+      <prohibited_in>
+        exercises, problems, projects, assert tests, solution hints
+      </prohibited_in>
+      <allowed_in>
+        Study notes READ-ONLY references to future concepts only.
+        Example: "On Day 6 you'll learn functions, which formalize
+        this pattern." Learner must never WRITE out-of-scope code.
+      </allowed_in>
+      <exception>
+        ONE approved out-of-scope tool per mini-project if specified
+        in trigger prompt or curriculum spec. Should include scope note
+        (verifier warns if absent):
+
+        > SCOPE NOTE: `import random` is formally taught on Day X.
+        > Here we use ONLY `random.randint(a, b)` as a black-box
+        > tool. Treat it as a built-in that gives a random number.
+
+        Automated verifier enforcement (graduated):
+          - Approved exception + scope note present → INFO (acknowledged)
+          - Approved exception + scope note missing → WARNING (disclosure gap)
+          - No approved exception → ERROR (hard fail, blocks delivery)
+      </exception>
+      <scope_derivation>
+        Scope is derived from two sources:
+
+        FOR CURRENT PHASE (days in the loaded curriculum chunk):
+          1. Read curriculum spec for Days in current chunk
+          2. Apply deltas from deviation_log.xml &lt;deviations&gt;
+          3. Result = current phase scope
+
+        FOR PRIOR PHASES (days before the loaded chunk):
+          1. Read &lt;scope_additions&gt; entries in deviation_log.xml
+          2. Each entry lists all concepts taught in that phase
+          3. Result = cumulative prior scope
+
+        FULL SCOPE = prior phase scope + current phase scope.
+
+        &lt;scope_additions&gt; is appended to deviation_log.xml at each
+        transition checkpoint. This is the ONLY way to verify scope
+        for phases whose curriculum chunks have been removed.
+      </scope_derivation>
+      <verifier_note>
+        The automated verifier (verify_package.py) uses manually
+        maintained hardcoded registries as its scope truth:
+        SCOPE_BY_DAY, APPROVED_IMPORTS_BY_DAY,
+        ALLOWED_BARE_NAMES_BY_DAY, ALLOWED_QUALIFIED_NAMES_BY_DAY,
+        ALLOWED_DECORATORS_BY_DAY, ALLOWED_EXCEPTIONS_BY_DAY,
+        ALWAYS_ALLOWED_BARE_NAMES (Day 1 primitives — never gated),
+        APPROVED_SCOPE_EXCEPTIONS (Rule 1 exception policy),
+        AST_FEATURE_MAP (structural node types checked by Gate 1).
+
+        These registries are derived from the curriculum XML but are
+        NOT computed at runtime from XML. The XML-derivation process
+        is a generation-time concern for the LLM package author,
+        not a runtime verifier concern.
+
+        When curriculum scope changes, update BOTH the XML spec AND
+        the verifier registries. They must stay in sync manually.
+      </verifier_note>
+      <scope_test>
+        For every code block in output: "Could Sudhan write this
+        using ONLY completed days + today's concepts?"
+        If no → remove it. Do not ask. Fail closed.
+      </scope_test>
+    </rule>
+
+    <rule id="2" name="empowerment" severity="absolute">
+      <statement>
+        The package builds confidence, not anxiety.
+      </statement>
+      <requirements>
+        - Progressive difficulty: Tier 1 genuinely easy, Tier 3
+          genuinely challenging, smooth ramp between
+        - No "figure it out" moments — every problem is solvable
+          with taught concepts
+        - Celebrate small wins within the package structure
+        - "Mistakes I Made Today" normalizes errors as learning
+      </requirements>
+    </rule>
+
+    <rule id="3" name="timing" severity="high">
+      <total_budget>10-12 hours total (including breaks)</total_budget>
+      <working_target>9-11 hours ± 30 minutes</working_target>
+      <break_rules>
+        Breaks are sacred. Never absorb break time into content.
+        Minimum: 10 min per 90-min block, 30-60 min lunch.
+      </break_rules>
+      <distribution_principle>
+        Deep focused work (novel problem-solving in Block 3 +
+        project building in Block 4) should not exceed 4 hours
+        per day (Ericsson 1993). Remaining working hours should
+        be lower-intensity: reading, code tracing, worked examples,
+        spaced review, resource consumption.
+        Block 3 + Block 4 = "deep work" budget.
+        Block 1 setup, Block 2 study notes, Block 5 review =
+        "moderate work."
+      </distribution_principle>
+      <review_day_timing>
+        Review Days have reduced structured time: ~6.5–7.5h
+        working (down from ~10h). Remaining time is unstructured.
+        Working target for Review Days: 6–8 hours.
+      </review_day_timing>
+    </rule>
+
+    <rule id="4" name="mathematical_precision" severity="high">
+      <statement>
+        Every assert test must be verifiable by running actual Python.
+      </statement>
+      <requirements>
+        - Trace every assert value through actual computation
+        - Use round() for float comparisons (IEEE 754)
+        - Account for edge cases: empty string, whitespace, special chars
+        - All Gate-2-relevant asserts must be collected in the canonical
+          solutions artifact (solutions/dayNN_solutions.py) and exhaustively
+          verified by executing that artifact via actual Python
+        - A missing, malformed, or failing solutions artifact constitutes
+          a Gate 2 failure — not a warning or advisory
+      </requirements>
+    </rule>
+
+    <rule id="5" name="file_delivery" severity="high">
+      <statement>
+        Daily packages are delivered as downloadable Markdown files.
+        Never as inline chat responses.
+      </statement>
+    </rule>
+
+    <rule id="6" name="missing_file" severity="high">
+      <statement>
+        If any file referenced in progress_state.xml active_files,
+        or any file needed for scope derivation, is not found in the
+        project: STOP. Alert Sudhan immediately. Do not proceed with
+        generation, do not guess contents, do not improvise.
+      </statement>
+      <output_on_fail>MISSING FILE: [filename]. Cannot proceed.</output_on_fail>
+    </rule>
+
+  </cardinal_rules>
+
+  <principles>
+    <principle name="consolidation_over_volume" added="2026-03-11"
+               ref="deviation_log SD-001">
+      When choosing between more problems and more rest/review,
+      choose rest/review. The bottleneck for skill acquisition is
+      consolidation (sleep, micro-rests, spaced retrieval), not
+      encoding volume. Ambiguous problem count decisions default
+      to the lower end of the allowed range.
+    </principle>
+  </principles>
+
+  <scope_keywords>
+    <group name="control_flow">if, elif, else:, for, while</group>
+    <group name="functions">def, lambda, return</group>
+    <group name="imports">import, from</group>
+    <group name="error_handling">try:, except, raise, assert</group>
+    <group name="oop">
+      class, @property, @classmethod, @staticmethod,
+      @dataclass, @abstractmethod
+    </group>
+    <group name="generators">yield</group>
+    <group name="context_managers">with</group>
+    <group name="comprehensions">
+      [... for ... in ...], {... for ... in ...}
+    </group>
+  </scope_keywords>
+
+  <!-- CONCEPT STATUS TAXONOMY
+       Used for scope derivation. A concept's status determines
+       whether it counts as "in scope" for exercises/problems.
+
+       taught           = formally covered, in scope for all blocks
+       previewed_readonly = mentioned/shown, NOT in scope for exercises.
+                           Learner reads but does not write.
+       previewed_hands_on = learner built a basic version as guided
+                           exercise, but concept is not formally taught.
+                           In scope ONLY within the specific exercise
+                           where it was introduced. NOT in scope for
+                           Block 3 problems or Block 4 projects unless
+                           explicitly listed in that day's scope. -->
+
+  <concept_status_definitions>
+    <status name="taught">
+      Formally covered in study notes with full explanation.
+      In scope for all exercises, problems, and projects from
+      this day forward.
+    </status>
+    <status name="previewed_readonly">
+      Mentioned in study notes or shown in example code.
+      Learner reads but does NOT write code using this concept.
+      NOT in scope for exercises, problems, or projects.
+      Example: "Decorators exist — you'll learn them on Day X."
+    </status>
+    <status name="previewed_hands_on">
+      Learner builds a basic version as a guided exercise,
+      but the concept is not formally taught with full depth.
+      In scope ONLY within the specific exercise where introduced.
+      NOT in scope for Block 3 or Block 4 unless the day's
+      scope guarantee explicitly includes it.
+      Example: Stack class on Day 12 (DSA preview).
+    </status>
+  </concept_status_definitions>
+
+</rules>

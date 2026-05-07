@@ -1,0 +1,633 @@
+<structure_phase2 version="1.0" phase="2" days="22-42" weeks="4-6"
+                  block_count="5" working_hours="11" total_hours="12">
+
+  <!-- PHASE 2 OUTPUT TEMPLATE — BASIC DSA + STATS TIER 1A
+       Activated at T1 (Day 21) replacing structure_phase1.xml (v1.2).
+       Two variants: standard (Days 22-27, 29-34, 36-41),
+       review (Days 28, 35, 42). Review defined as OVERRIDES on
+       standard — shared structure not duplicated.
+
+       v1.0 DESIGN DECISIONS (T1 co-design, 2026-04-17):
+       - Decision 1 (1A): 5-block template with DSA Morning → Blocks 1+2
+         split (mirrors Phase 1 Morning→1+2 pattern).
+       - Decision 2 (2A): Block 2 tiered 6-10 + Block 4 untiered 2-5
+         (combined 8-15). See deviation_log SD-003.
+       - Decision 3 (3A): Block 4 type menu (A-E) reserved for review-day
+         R3 integration project. Standard days have no type selection.
+       - Decision 4 (4B): Review days apply SD-001 reductions to Phase 2
+         curriculum's 11h spec → 3 blocks ~6.5-7.5h. See SD-004.
+       - Decision 5 (5A): Emoji map unchanged from Phase 1
+         (📅🎯📚📖⏰📝✅🔗🔮).
+       - Decision 6 (6B): Mid-DSA break at ~08:30 (after 2.5h of
+         DSA) per Bönstrup et al. 2019 rest-gain finding.
+       - Decision 7 (7C): Objective coverage across Blocks 2/3/4 carries
+         forward; Stats-concentration-in-Block-3 Gate 5 warn expected.
+         See SD-005.
+
+       CARRY-FORWARD FROM PHASE 1 STRUCTURE_PHASE1.XML (v1.2):
+       1. Interleaving within Block 2 tiers (SD-001 Rohrer &amp; Taylor).
+       2. Micro-rest convention at Block 2 top.
+       3. Self-explanation prompts on Tier 2/3 problems.
+       4. Block 5 spaced retrieval (Day N-2/N-3 problems).
+       5. Objective coverage distributed across Blocks 2/3/4.
+       6. All 9 section emojis identical and in same order.
+       7. Block heading format: #### Block N: [Name] ([X]h) — [HH:MM]–[HH:MM]
+       8. Tier markers 🟢 T1 / 🟡 T2 / 🔴 T3.
+       9. QRC heading ## 🔗 Quick Reference Card.
+      10. Spaced Retrieval heading ## 🔁 Spaced Retrieval.
+      11. Tomorrow Preview heading ## 🔮 Tomorrow Preview.
+      12. Formatting rules (code blocks, tables, text) unchanged.
+
+       DEEP WORK CEILING REFRAME:
+       Phase 1 enforced ≤4h deep work (Block 3 + Block 4). Phase 2 has
+       three tracks (DSA, Stats, Platform). Ericsson's 4h applies
+       per-skill. Phase 2 deep work: DSA track (Blocks 1+2) ≤5h,
+       Stats track (Block 3) ≤3h, Platform track (Block 4) ≤2h.
+       Each track within 4h individually; aggregate 10h deep work
+       across tracks is the cost of hybrid scheduling. Monitor per
+       SD-003. -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOCK MAPPING: CURRICULUM → TEMPLATE
+       ═══════════════════════════════════════════════════════
+
+       Phase 2 curriculum chunk uses a 4-block schema per day:
+         DSA Morning (5h), Stats Midday (3h), Problem Practice (2h),
+         Evening Review (1h). Total 11h.
+
+       The output template uses a 5-block schema (same as Phase 1):
+         Block 1 (DSA Theory + Warm-up),
+         Block 2 (DSA Implementation + Problems),
+         Block 3 (Stats Midday),
+         Block 4 (Platform Problem Practice),
+         Block 5 (Evening Review + Spaced Retrieval).
+
+       This mapping is DETERMINISTIC. Do not improvise. -->
+
+  <block_mapping>
+    <map curriculum_block="DSA Morning" hours="5"
+         template_blocks="1,2"
+         split_rule="Block 1 (DSA Theory + Warm-up, 1.5h) + Block 2
+                     (DSA Implementation + Problems, 3.5h). Block 1
+                     covers setup, resource consumption, warm-up, and
+                     concept introduction. Block 2 contains the tiered
+                     DSA problems (6-10) with interleaving.
+                     Exact split time determined at generation time
+                     based on day content — heavier theory days
+                     (e.g., Day 29 three-sorts intro) get more Block 1." />
+    <map curriculum_block="Stats Midday" hours="3"
+         template_blocks="3"
+         split_rule="Direct 1:1. Stats concepts + Python implementation
+                     from-scratch + library verification. Tier structure
+                     NOT applied to Block 3 — Stats exercises follow
+                     curriculum content order." />
+    <map curriculum_block="Problem Practice" hours="2"
+         template_blocks="4"
+         split_rule="Direct 1:1. Platform problems from LeetCode /
+                     StrataScratch / DataLemur. Untiered. Block 4 type
+                     menu (A-E) NOT consulted on standard days; Block 4
+                     is uniformly 'Platform Practice'." />
+    <map curriculum_block="Evening Review" hours="1"
+         template_blocks="5"
+         split_rule="Direct 1:1. Review, notes, git, spaced retrieval,
+                     tomorrow preview. Block 5 spaced retrieval
+                     carries forward from Phase 1 SD-001." />
+
+    <breaks_mapping>
+      <!-- Breaks inserted between template blocks.
+           Decision 6B adds mid-DSA break in Block 1→2 transition. -->
+      <break after="Block 1" type="mid_dsa_short" duration="10min"
+             placement="at 2.5h DSA mark (~08:30 if day starts 06:00)"
+             rationale="Bönstrup et al. 2019 — skill gains occur during rest in deliberate practice" />
+      <break after="Block 2" type="lunch" duration="30-60min" />
+      <break after="Block 3" type="short" duration="10-15min" />
+      <break after="Block 4" type="short" duration="10-15min" />
+    </breaks_mapping>
+
+    <review_day_exception>
+      Review days (28, 35, 42) use a DIFFERENT block mapping,
+      applying SD-001 intensity-reduction to Phase 2 curriculum's
+      4-block 11h spec. See deviation_log SD-004 for full rationale.
+
+      Curriculum review day: Morning Review (3h) + Midday Timed (3h)
+      + Afternoon Integration (4h) + Evening Reflection (1h) = 11h.
+
+      Structure review day: R1 (hybrid quiz + gaps, ~2.5h) +
+      R2 (spaced retrieval practice, untimed, 1.5-2h) +
+      R3 (integrative project, ~3h) = ~6.5-7.5h structured.
+      Evening Reflection = unstructured remainder.
+
+      Mapping:
+        Morning Review → R1 (quiz scaled 35q→24q per SD-004)
+        Midday Timed + partial Afternoon → R2 (10 timed → 6-10 untimed)
+        Afternoon Integration (first 3h) → R3
+        Evening Reflection + remainder → UNSTRUCTURED
+    </review_day_exception>
+  </block_mapping>
+
+  <sections variant="standard">
+
+    <section id="1" name="header" emoji="📅">
+      <title># 📅 Day [N] — [Day Title]</title>
+      <subtitle>### Python Foundations Bootcamp | Phase 2, Week [W] | [HH:MM]–[HH:MM] IST</subtitle>
+      <week_derivation>Days 22-28=W4, 29-35=W5, 36-42=W6</week_derivation>
+    </section>
+
+    <section id="2" name="objectives" emoji="🎯" count="10">
+      <title>## 🎯 Learning Objectives</title>
+      <format>numbered list, 10 items</format>
+      <each_objective>
+        <req>Concrete action verb (write, explain, predict, demonstrate, build, solve, analyze)</req>
+        <req>Names exact concept, function, algorithm, or statistical test</req>
+        <req>Achievable with ONLY prior knowledge + today's concepts</req>
+        <req>Verifiable by completion checklist</req>
+        <req>Single dense sentence with deliverables embedded</req>
+      </each_objective>
+      <objective_coverage_rule>
+        Each of the 10 objectives must be referenced ≥2 times outside
+        the objectives section (Gate 5 requirement). Phase 2 hybrid
+        track distribution guidance:
+        - Block 2 (DSA Impl): covers 5-7 DSA objectives, 1-2x each
+        - Block 3 (Stats Midday): covers 3-5 Stats objectives, 1-2x each
+        - Block 4 (Platform Practice): covers 3-5 DSA objectives, 1x each
+        - Block 5 (Spaced Retrieval): touches 2-3 objectives from prior days
+        The COMBINATION must ensure every Phase 2 objective hits ≥2
+        references. Stats-objective concentration in Block 3 is
+        structural (Gate 5 WARN expected; see SD-005).
+      </objective_coverage_rule>
+    </section>
+
+    <section id="3" name="resource_library" emoji="📚">
+      <title>## 📚 Resource Library</title>
+      <organization>grouped by block</organization>
+      <columns>Resource Name | Type | Time Budget | Link | Objective | How to Use</columns>
+      <link_domains>official/stable only (docs.python.org, peps.python.org, numpy.org, pandas.pydata.org, scipy.github.io, www.statsmodels.org)</link_domains>
+      <video_pattern>[Search: "exact title YouTube"] when URL may change</video_pattern>
+      <req>Every resource needs a "How to Use" instruction — never just "read this"</req>
+      <req>Link Verification Note at end of section</req>
+      <req>For platform problem references (LeetCode, StrataScratch, DataLemur),
+           use search-pattern format: [Search: "problem topic site:platform.com"]
+           unless the exact URL has been verified. Never fabricate platform
+           problem titles or URLs. Prefer [verify on platform] tag for
+           LeetCode problem IDs.</req>
+    </section>
+
+    <section id="4" name="study_notes" emoji="📖">
+      <title>## 📖 Study Notes: [Descriptive Title] (Day [N] Concepts)</title>
+      <tone>conversational, clear — not textbook, not blog</tone>
+      <order>concepts build on each other — sequence matters. DSA
+             track first, then Stats track. Within each track,
+             follow curriculum concept order.</order>
+      <per_concept>
+        <req>Real-world analogy or mental model</req>
+        <req>Type-along code example (not copy-paste)</req>
+        <req>"Edge case that will bite you" callout</req>
+      </per_concept>
+      <hybrid_track_handling>
+        DSA concepts and Stats concepts appear in the same Study Notes
+        section, visually separated by a subsection heading. DSA
+        subsection first (feeds Block 2). Stats subsection second
+        (feeds Block 3). Verification references map each subsection
+        to its downstream block.
+      </hybrid_track_handling>
+      <messy_data count="3" placement="end of section" interaction="read-only">
+        <format>broken code → why it breaks → the fix</format>
+        <scope>MAY use out-of-scope syntax — label clearly.
+               These illustrate real-world bugs, not practice.
+               Phase 2: may include scipy.stats / statsmodels / heapq
+               usages from later Phase 2 days marked previewed_readonly.</scope>
+      </messy_data>
+    </section>
+
+    <section id="5" name="schedule" emoji="⏰">
+      <title>## ⏰ Hour-by-Hour Schedule</title>
+      <time_rules>
+        <rule>Block start/end times contiguous — no gaps, no overlaps</rule>
+        <rule>Every sub-block, tier, drill has explicit time windows</rule>
+        <rule>Item times within tier MUST sum to ≤ tier allocation;
+              if overflow: reduce items OR extend tier + cascade downstream</rule>
+        <rule>Breaks sacred — never absorbed into content</rule>
+        <rule>Mid-DSA rest (Decision 6B) scheduled explicitly at ~2.5h DSA mark</rule>
+        <rule>Use block_mapping to derive template blocks from curriculum.
+              Do not invent block content that isn't in the curriculum spec.</rule>
+      </time_rules>
+      <breaks>
+        <break type="mid_dsa_short" min="10min" when="after 2.5h of DSA (Block 1→2 transition area)" />
+        <break type="lunch" range="30-60min" when="between Block 2 and Block 3" />
+        <break type="short" min="10min" when="between Block 3 and Block 4" />
+        <break type="short" min="10min" when="between Block 4 and Block 5" />
+      </breaks>
+    </section>
+
+    <section id="6" name="exercises_list" emoji="📝">
+      <title>## 📝 Exercises &amp; Problems: Day [N] Complete List</title>
+      <content>summary tables referencing full specs in schedule</content>
+      <table name="block2">tier groupings (DSA) with time allocations — columns: Tier, #, Name, Type, Difficulty, Objective, Time</table>
+      <table name="block3">Stats exercises summary — columns: #, Name, Type, Objective, What to Verify, Done When</table>
+      <table name="block4">Platform problems summary — columns: #, Platform, Name, LC#/id, Difficulty, Objective, Time</table>
+    </section>
+
+    <section id="7" name="completion_checklist" emoji="✅">
+      <title>## ✅ Day [N] Completion Checklist</title>
+      <format>- [ ] checkbox list</format>
+      <items>
+        <item>All deliverable files created</item>
+        <item>Block 2 DSA problem counts met (6-10 tiered)</item>
+        <item>Block 3 Stats exercises completed</item>
+        <item>Block 4 Platform problems attempted (2-5) with verification log</item>
+        <item>Notes file has reference card + mistakes log</item>
+        <item>Git commits (minimum 3)</item>
+        <item>2–3 "can explain without looking" knowledge checks (1 DSA + 1-2 Stats)</item>
+        <item>Spaced retrieval completed (Block 5)</item>
+      </items>
+      <critical>Every number MUST match actual content above</critical>
+    </section>
+
+    <section id="8" name="quick_reference" emoji="🔗">
+      <title>## 🔗 Quick Reference Card</title>
+      <req>One-line summaries of today's core concepts (DSA + Stats)</req>
+      <req>Tables for syntax patterns, algorithm templates, statistical formulas</req>
+      <req>Quick-scan format — learner's cheat sheet</req>
+      <req>Self-contained — no dependency on study notes</req>
+      <req>Hybrid day card: clearly partition DSA section from Stats section</req>
+    </section>
+
+    <section id="9" name="tomorrow_preview" emoji="🔮" max_sentences="4">
+      <title>## 🔮 Tomorrow Preview</title>
+      <req>Names tomorrow's DSA topic + Stats topic, connects to today's work</req>
+      <req>Anticipation, not anxiety</req>
+    </section>
+
+  </sections>
+
+  <!-- STANDARD DAY — 5 BLOCKS -->
+
+  <blocks variant="standard">
+
+    <block id="1" name="dsa_theory_warmup" git_commit="true">
+      <heading>#### Block 1: DSA Theory + Warm-up ([X]h) — [HH:MM]–[HH:MM]</heading>
+      <content>setup, warm-up, resource consumption, concept intro
+               for the day's DSA topic</content>
+      <typical_duration>1.5h</typical_duration>
+      <rule>Resources consumed just-in-time: read → immediately practice</rule>
+      <rule>Concept intro ends here; implementation + problems go in Block 2</rule>
+      <curriculum_source>First portion of curriculum "DSA Morning" block
+        (see block_mapping for split rule — typical 1.5h of 5h)</curriculum_source>
+    </block>
+
+    <block id="2" name="dsa_implementation_problems" git_commit="true">
+      <heading>#### Block 2: DSA Implementation + Problems ([X]h) — [HH:MM]–[HH:MM]</heading>
+      <content>DSA implementation + tiered practice problems (interleaved)</content>
+      <typical_duration>3.5h</typical_duration>
+      <scope_guarantee placement="top of block">
+        "Every problem below uses ONLY: [allowed]. No [banned]."
+      </scope_guarantee>
+      <micro_rest_note placement="after scope guarantee">
+        "Take a 10–30 second breather between problems — eyes off
+        screen, let your brain process what you just solved."
+      </micro_rest_note>
+      <problem_count min="6" max="10"
+          note="Phase 2 DSA block tiered problem count. Combined with
+          Block 4 untiered (2-5), standard-day total is 8-15.
+          See deviation_log SD-003 for rationale and retention-
+          monitoring action." />
+      <tiers>
+        <tier id="1" name="Warm-up" difficulty="genuinely easy, under 5min each"
+              count="1-2" />
+        <tier id="2" name="Core Applied" difficulty="moderate, combining concepts"
+              count="3-5" />
+        <tier id="3" name="Applied Multi-Step" difficulty="challenging, multi-step"
+              count="2-3" />
+      </tiers>
+      <tier_markers>
+        <marker tier="1" emoji="🟢" heading_format="##### 🟢 Tier 1: {Name} ({time})" />
+        <marker tier="2" emoji="🟡" heading_format="##### 🟡 Tier 2: {Name} ({time})" />
+        <marker tier="3" emoji="🔴" heading_format="##### 🔴 Tier 3: {Name} ({time})" />
+      </tier_markers>
+      <interleaving_rule>
+        Problems MUST interleave concept sub-topics within each tier.
+        Do NOT group all problems of one sub-topic together. Mix so
+        the learner must discriminate which approach to use.
+        Carries forward from SD-001 (Rohrer &amp; Taylor 2007: interleaving
+        tripled delayed scores).
+        Exception: Tier 1 warm-ups may be grouped if they serve as
+        syntax recall for distinct sub-topics.
+      </interleaving_rule>
+      <per_problem>
+        <el order="1">Problem number + name (bold)</el>
+        <el order="2">Problem statement (2–4 sentences)</el>
+        <el order="3">Sample input → expected output (concrete values)</el>
+        <el order="4">Assert verification block</el>
+        <el order="5">Time allocation (minutes)</el>
+        <el order="6">Objective tag</el>
+        <el order="7">Self-explanation prompt (Tier 2/3 only):
+                       "Before moving on: why does this approach work?"</el>
+      </per_problem>
+      <rules>
+        <rule>Asserts verify RESULT, not approach</rule>
+        <rule>Problem times MUST sum ≤ tier allocation</rule>
+        <rule>Mark priority problems for "running behind" scenarios</rule>
+        <rule>SELF-EXPLANATION on Tier 2/3 per per_problem element 7</rule>
+      </rules>
+      <curriculum_source>Majority of curriculum "DSA Morning" block
+        (3.5h of 5h). Tiered structure derived from curriculum's
+        problem list — interleave across sub-topics.</curriculum_source>
+    </block>
+
+    <!-- ☕ LUNCH BREAK (30-60 min) -->
+
+    <block id="3" name="stats_midday" git_commit="true">
+      <heading>#### Block 3: Stats Midday ([X]h) — [HH:MM]–[HH:MM]</heading>
+      <content>Stats concepts + Python implementation (from-scratch + library verification)</content>
+      <typical_duration>3h</typical_duration>
+      <structure>
+        <step order="1">Concept intro (15-30 min): theory + intuition + real-world framing</step>
+        <step order="2">From-scratch implementation (30-45 min): manual computation before library use</step>
+        <step order="3">Library verification (30-45 min): scipy.stats / numpy / matplotlib</step>
+        <step order="4">Guided exercises (60-90 min): 3-5 exercises applying today's Stats concept</step>
+        <step order="5">Interview-framing prompt: "how would you explain this in plain English?"</step>
+      </structure>
+      <exercise_format>
+        <element>Concept statement + formula (if applicable)</element>
+        <element>Code block with task + expected output</element>
+        <element>Verification: ✅ [what to check]</element>
+      </exercise_format>
+      <rule>No tier structure — follow curriculum Stats content order</rule>
+      <rule>Visualization mandatory when the concept has visual intuition
+            (distributions, CLT demonstration, box plots, hypothesis test
+            decision regions)</rule>
+      <curriculum_source>Curriculum "Stats Midday" block (1:1 mapping, 3h)</curriculum_source>
+    </block>
+
+    <!-- ☕ SHORT BREAK (10-15 min) -->
+
+    <block id="4" name="platform_practice" git_commit="true">
+      <heading>#### Block 4: Platform Problem Practice ([X]h) — [HH:MM]–[HH:MM]</heading>
+      <content>LeetCode / StrataScratch / DataLemur problems</content>
+      <typical_duration>2h</typical_duration>
+      <problem_count min="2" max="5"
+          note="Untiered. Platform problems drawn from curriculum spec
+          for the day. Combined with Block 2 tiered (6-10), standard-day
+          total is 8-15. See deviation_log SD-003." />
+      <per_problem>
+        <el order="1">Platform + problem name + difficulty (e.g., LC #1 Easy, StrataScratch Python Easy)</el>
+        <el order="2">Link reference (search pattern OR [verify on platform])</el>
+        <el order="3">Time allocation (minutes)</el>
+        <el order="4">Objective tag (typically a DSA objective from Block 2)</el>
+        <el order="5">Solution approach hint (1 line, no spoilers)</el>
+      </per_problem>
+      <rules>
+        <rule>NO type menu selection on standard days — uniform role</rule>
+        <rule>Interleaving optional (platform order follows curriculum)</rule>
+        <rule>Self-explanation prompt mandatory AFTER solving
+              (not before): "In one sentence, what pattern did I use?"</rule>
+        <rule>Mark priority problems for "running behind" scenarios</rule>
+      </rules>
+      <curriculum_source>Curriculum "Problem Practice" block (1:1 mapping, 2h)</curriculum_source>
+    </block>
+
+    <!-- ☕ SHORT BREAK (10-15 min) -->
+
+    <block id="5" name="evening_review_spaced_retrieval" duration="1h" git_commit="true">
+      <heading>#### Block 5: Evening Review + Spaced Retrieval (1h) — [HH:MM]–[HH:MM]</heading>
+      <tasks>
+        <task order="1">SPACED RETRIEVAL (20-30 min): Re-solve 2-3
+              problems from Day N-2 or N-3 without looking at previous
+              solutions. Compare with original. Track which problems
+              needed hints vs. solved clean. Use intervals: Day+1,
+              Day+3, Day+7, Day+14. Phase 2 adds explicit balance:
+              ≥1 DSA problem + ≥1 Stats problem per retrieval.</task>
+        <task order="2">Copy Quick Reference Card into day[N]_notes.md</task>
+        <task order="3">"Mistakes I Made Today" log (min 5 entries, DSA + Stats mix)</task>
+        <task order="4">Self-quiz from memory (5 items, closed-book, cross-track)</task>
+        <task order="5">Optional Anki flashcard creation (list minimum card set)</task>
+      </tasks>
+      <final>
+        <step>Final git commit</step>
+        <step>git log --oneline verification</step>
+        <step>Tomorrow Preview (15 min max — read, don't study)</step>
+      </final>
+      <spaced_retrieval_heading>## 🔁 Spaced Retrieval</spaced_retrieval_heading>
+      <curriculum_source>Curriculum "Evening Review" block (1h direct 1:1).
+        Phase 2 Block 5 is ONE HOUR (was 1.5-2h in Phase 1); Phase 2
+        redistributes the extra 30-45 min into Block 2's expanded
+        DSA Implementation time.</curriculum_source>
+    </block>
+
+  </blocks>
+
+  <!-- BLOCK 4 TYPE MENU
+       DECISION 3A: Reserved for REVIEW-DAY Block R3 integration
+       project. Standard days have no type selection — Block 4 is
+       uniformly "Platform Problem Practice" (see Block 4 spec above).
+
+       The A-E menu below applies only to Days 28/35/42 R3 integration.
+       Phase 2 integration projects are typically Type A (Scaffolded
+       Mini-Project): DataExplorer (Day 28), DistributionExplorer
+       (Day 35), ABTestAnalyzer v1 (Day 42). -->
+
+  <block4_type_menu applies_to="review_day_R3">
+
+    <type id="A" name="Scaffolded Mini-Project">
+      <reqs>
+        <req>Scope guarantee at top</req>
+        <req>3–4 stages, each building on previous</req>
+        <req>Per stage: spec → starter guidance → gate test (asserts) → git commit</req>
+        <req>Scope note box if approved out-of-scope concept used</req>
+      </reqs>
+      <scope_note_template>> ⚠️ SCOPE NOTE: `[concept]` is formally taught on Day [X].
+Here we use ONLY `[specific usage]` as a black-box tool —
+you don't need to understand [underlying system] yet.</scope_note_template>
+      <deliverable>completed multi-stage project, gate tests passing</deliverable>
+      <phase2_default>true</phase2_default>
+    </type>
+
+    <type id="B" name="Deep Practice Set">
+      <reqs>
+        <req>Extended exercises with increasing complexity</req>
+        <req>Each exercise: clear spec + verification</req>
+        <req>Independent exercises (no project structure), deeper than Block 2</req>
+      </reqs>
+      <deliverable>completed exercise set, all verifications passing</deliverable>
+    </type>
+
+    <type id="C" name="Implementation Challenge">
+      <reqs>
+        <req>Build from scratch + compare approaches</req>
+        <req>Performance comparison (timing, complexity analysis)</req>
+        <req>Clear deliverable at end</req>
+      </reqs>
+      <deliverable>working implementation + performance comparison</deliverable>
+    </type>
+
+    <type id="D" name="Applied Analysis">
+      <reqs>
+        <req>Work with real dataset(s)</req>
+        <req>Answer specific questions using today's tools</req>
+      </reqs>
+      <deliverable>analysis output or notebook section</deliverable>
+    </type>
+
+    <type id="E" name="Refactor Sprint">
+      <reqs>
+        <req>Revisit existing projects using today's new concepts</req>
+        <req>Specific improvement checklist per project</req>
+        <req>Before/after comparison for at least one project</req>
+      </reqs>
+      <deliverable>updated repos with verified improvements</deliverable>
+    </type>
+
+  </block4_type_menu>
+
+  <!-- REVIEW DAY VARIANT — OVERRIDES ONLY
+       Applies to Days 28, 35, 42 (Phase 2 review days).
+       No new concepts, no study notes (replaced by quiz), no tiered practice.
+       Day is consolidation + gap-fixing + integrative project.
+       Only differences from standard day defined here.
+
+       SD-004: Curriculum specifies 4-block 11h review days. Structure
+       applies SD-001 reduced-intensity pattern → 3 structured blocks
+       (R1 + R2 + R3) ~6.5-7.5h. Remaining time UNSTRUCTURED.
+       See deviation_log SD-004 for full rationale. -->
+
+  <review_day_variant applies_to="28,35,42">
+
+    <section_overrides>
+
+      <override section="1">
+        <subtitle>### Python Foundations Bootcamp | Phase 2, Week [W] Review | [HH:MM]–[HH:MM] IST</subtitle>
+      </override>
+
+      <override section="2">
+        <focus>integration and verification across DSA + Stats tracks — NOT new learning</focus>
+      </override>
+
+      <override section="3">
+        <scope>minimal — gap-fixing links only, not full block-by-block set</scope>
+      </override>
+
+      <override section="4" replaces_with="review_quiz">
+        <title>## 📖 Review Quiz: Week [W] Assessment (Hybrid DSA + Stats)</title>
+        <question_count>24</question_count>
+        <hybrid_split>14 DSA questions + 10 Stats questions</hybrid_split>
+        <coverage>all concepts from the week (both tracks), with
+                  3-5 questions recycled from the prior week's quiz
+                  for spacing</coverage>
+        <answer_key placement="end of quiz" format="scroll-past-the-line divider" />
+        <deviation_ref>SD-004 (scaled from curriculum 35q per SD-001 research)</deviation_ref>
+      </override>
+
+      <override section="6">
+        <tables>quiz questions (hybrid), spaced retrieval problems (mixed), integration project stages</tables>
+      </override>
+
+      <override section="7">
+        <items>
+          <item>Quiz taken and scored (24 questions, hybrid 14 DSA + 10 Stats)</item>
+          <item>Weak areas identified and gap-fixed (both tracks)</item>
+          <item>Spaced retrieval practice completed (6-10 problems, untimed, mixed DSA/Stats)</item>
+          <item>Integrative project pushed to GitHub with README</item>
+          <item>Week retrospective written (DSA + Stats sections)</item>
+        </items>
+      </override>
+
+      <override section="8">
+        <scope>cumulative card for ENTIRE WEEK, not single day. Partition DSA section from Stats section.</scope>
+      </override>
+
+      <override section="9" replaces_with="next_week_preview">
+        <title>## 🔮 Next Week Preview</title>
+        <req>Names next week's DSA theme + Stats theme + connection to this week</req>
+        <phase_transition_note applies_to="42">
+          Day 42 is the Phase 2 → Phase 3 transition checkpoint. Next
+          week preview spans ALL of Phase 3 Week 7 (linked lists +
+          non-parametric tests) plus the Phase 2 retrospective.
+        </phase_transition_note>
+      </override>
+
+    </section_overrides>
+
+    <block_overrides note="Review days use 3 structured blocks (~6.5-7.5h working).
+        Remaining time is UNSTRUCTURED — no expectations, no guilt.
+        Reduced from curriculum's 4-block 11h spec per SD-004.">
+
+      <block id="R1" name="quiz_and_gaps">
+        <heading>#### Block 1: Hybrid Quiz + Gap-Fixing (~2.5h) — [HH:MM]–[HH:MM]</heading>
+        <content>24-question hybrid assessment (14 DSA + 10 Stats),
+                 score results, immediately revisit weak topics.
+                 Merged quiz + gap-fixing into single block.</content>
+        <note>3-5 quiz questions should be recycled from the prior
+              week (both tracks) for spacing. Remaining 19-21 cover
+              current week.</note>
+        <deviation_ref>SD-004</deviation_ref>
+      </block>
+
+      <!-- ☕ LUNCH (30-60 min) -->
+
+      <block id="R2" name="spaced_retrieval_practice">
+        <heading>#### Block 2: Spaced Retrieval Practice (~1.5-2h) — [HH:MM]–[HH:MM]</heading>
+        <problem_count min="6" max="10" />
+        <rules>
+          <rule>NOT timed — emphasis on quality and self-explanation</rule>
+          <rule>Problems drawn from the FULL WEEK, interleaved across BOTH tracks (DSA + Stats)</rule>
+          <rule>Include 2-3 problems from the PRIOR week for spacing</rule>
+          <rule>Self-explanation after each problem</rule>
+          <rule>Minimum 3 DSA problems + 2 Stats problems in the set</rule>
+        </rules>
+        <note>Curriculum specified 10 TIMED problems; structure
+              overrides to 6-10 UNTIMED per SD-004. Removes time
+              pressure, adds cross-week + cross-track spacing.</note>
+        <deviation_ref>SD-004</deviation_ref>
+      </block>
+
+      <!-- ☕ SHORT BREAK (10-15 min) -->
+
+      <block id="R3" name="integrative_project" typical_duration="3h">
+        <heading>#### Block 3: Integrative Project (~3h) — [HH:MM]–[HH:MM]</heading>
+        <rules>
+          <rule>Combines week's DSA + Stats concepts into single deliverable</rule>
+          <rule>Push to GitHub with README</rule>
+          <rule>Staged with gate tests between stages</rule>
+          <rule>Use Block 4 type menu (default: Type A Scaffolded Mini-Project)</rule>
+        </rules>
+        <phase2_projects>
+          <project day="28" name="Statistical Data Explorer (DataExplorer class)" type="A" />
+          <project day="35" name="Distribution Explorer" type="A" />
+          <project day="42" name="A/B Test Analyzer (v1)" type="A" />
+        </phase2_projects>
+        <includes_retrospective>
+          <item>Week reflection: strongest + weakest areas (DSA + Stats)</item>
+          <item>Next week preview (read, don't study)</item>
+          <item>Final git commit + git log --oneline</item>
+          <item_if_day_42>Phase 2 retrospective + Phase 3 transition preview (T2 boundary)</item_if_day_42>
+        </includes_retrospective>
+        <note>Curriculum specified 4h; structure reduces to 3h per
+              SD-004 (same reduction as Phase 1 SD-001).
+              Remaining day time unstructured.</note>
+        <deviation_ref>SD-004</deviation_ref>
+      </block>
+
+    </block_overrides>
+
+  </review_day_variant>
+
+  <!-- FORMATTING RULES -->
+
+  <formatting>
+    <emoji_map>📅=s1, 🎯=s2, 📚=s3, 📖=s4, ⏰=s5, 📝=s6, ✅=s7, 🔗=s8, 🔮=s9</emoji_map>
+    <code_blocks>triple backticks with language tag (python, bash, markdown) — never bare</code_blocks>
+    <tables>Markdown pipe syntax with header separator row</tables>
+    <text>bold for key terms on first intro; inline backticks for functions, operators, variables, statistical symbols (σ, μ, λ, p, α, β)</text>
+    <structure>--- between major sections only; no HTML; no collapsibles</structure>
+    <length min="900" max="1800" unit="lines"
+            note="Phase 2 hybrid days are longer than Phase 1 (DSA + Stats + platform sections); range raised from Phase 1's 800-1500" />
+    <section_separators>
+      <rule>QRC heading: ## 🔗 Quick Reference Card</rule>
+      <rule>Spaced Retrieval heading: ## 🔁 Spaced Retrieval</rule>
+      <rule>Tomorrow Preview heading: ## 🔮 Tomorrow Preview</rule>
+      <rule>Block heading: #### Block N: [Name] ([X]h) — [HH:MM]–[HH:MM]</rule>
+      <rule>Tier heading: ##### 🟢 Tier 1: {Name} ({time}) / 🟡 Tier 2 / 🔴 Tier 3</rule>
+    </section_separators>
+  </formatting>
+
+</structure_phase2>
