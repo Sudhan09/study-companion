@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-05-06T22:30:00+05:30
-updated_by: audit-remediation-2026-05-06
+last_updated: 2026-05-07T15:10:00+05:30
+updated_by: manual-edit
 ---
 
 <!-- Per design §A registry table. Audited at SessionStart — hook verifies all listed files exist; if a non-registered state file appears, it's flagged. -->
@@ -51,3 +51,11 @@ Other state files have only the two required fields.
 
 - `instructions/curriculum/*.xml` is synced daily by `study-curriculum-sync` from the pipeline repo (`Sudhan09/python_bootcamp_claude_code`, `config/` directory).
 - That pipeline repo is authoritative; this registry is read-only with respect to scope.
+
+## Loop Boot Camp curriculum (separate registry, user-authored)
+
+- `instructions/loop_curriculum/*.md` holds the day-by-day Loop Foundations Boot Camp curriculum (Days 1-7, parallel to but not part of the bootcamp pipeline).
+- **Writer:** user (manual PRs only). NOT auto-synced.
+- **Readers:** `/teach`, `/drill`, `study-morning-briefing` routine when `state/current_day.md`'s `loop_week.current_day` is set.
+- High-level strategy (4-phase plan, root causes, non-negotiable rules) lives in `instructions/loop-strategy.md`. Day-by-day operational curriculum (blocks, drills, mini-bosses) lives in `instructions/loop_curriculum/loop_week_day_XX.md`.
+- See `instructions/loop_curriculum/README.md` for day-to-topic map and authoring discipline.
