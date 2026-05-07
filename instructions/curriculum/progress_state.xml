@@ -1,0 +1,49 @@
+<progress_state version="2.4"
+                last_updated="2026-04-16"
+                last_review_checkpoint="2026-04-16">
+
+  <!-- CHECKPOINT TRUTH — MINIMAL BY DESIGN.
+
+       Stores ONLY:
+       1. completed_through_day (everything else derives from this)
+       2. active_files (actual loaded state — may differ from ideal
+          if user hasn't completed a swap yet)
+
+       Does NOT store (all derivable from completed_through_day):
+       - current_week
+       - active_phase
+       - next_checkpoint
+
+       TWO DATE FIELDS (to avoid ambiguity):
+       - last_updated: when this file was last modified (any reason)
+       - last_review_checkpoint: date of last Sunday Review Day
+         completion. Set to "none" until Day 7 is completed.
+
+       Updated at checkpoints (Sunday Review Days) AND at
+       initial project setup. The last_review_checkpoint field
+       is updated ONLY on Sunday Review Day completions.
+
+       Memory handles live day-to-day position between checkpoints.
+       Memory sanity check: if memory is >7 days ahead of this
+       file, flag as potential drift. -->
+
+  <position>
+    <completed_through_day>21</completed_through_day>
+  </position>
+
+  <!-- Currently in Phase 2 (Basic DSA + Stats Tier 1A).
+       Phase transition T1 completed 2026-04-17.
+       Phase 2 curriculum: Days 22-42, Weeks 4-6.
+       Next transition: T2 at Day 42 Review (end Weeks 4-6). -->
+  <active_files>
+    <!-- loaded_from = which source template was loaded as
+         structure_current.xml. This tracks provenance, not a
+         swap operation. Distinct from transition_map's slot/with
+         schema which describes swap mechanics. -->
+    <structure file="structure_current.xml"
+               loaded_from="structure_phase2.xml" />
+    <curriculum file="curriculum_weeks04-06.xml" />
+    <sql active="false" />
+  </active_files>
+
+</progress_state>

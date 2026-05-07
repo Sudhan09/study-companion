@@ -1,0 +1,591 @@
+<deviation_log version="2.4">
+
+  <!-- APPEND-ONLY CURRICULUM DRIFT LOG.
+
+       Three sections, one theme — how the curriculum drifted:
+
+       1. <deviations>        What changed from spec (audit trail)
+       2. <displaced_content> What moved to a different day (action queue)
+       3. <scope_additions>   What was taught per phase (scope reference)
+
+       PRINCIPLE 2 EXCEPTION: Three responsibilities in one file.
+       Accepted because all track curriculum drift, all are append-only,
+       and the overhead of 3 separate files outweighs the purity gain.
+
+       Updated at checkpoints only. Memory holds interim deviations.
+       At checkpoint, they flush here directly.
+       Scope additions are generated at transition checkpoints
+       BEFORE the old curriculum chunk is removed. -->
+
+  <deviations>
+    <day number="1" package_version="v4" date="2026-02-24">
+      <added>
+        integer interning (-5 to 256), identity operators (is, is not),
+        membership operators (in, not in)
+      </added>
+      <removed>none</removed>
+    </day>
+
+    <day number="2" package_version="v3" date="2026-02-25">
+      <added>
+        .isalpha(), .isalnum(), from-scratch string method coding
+      </added>
+      <removed>none</removed>
+    </day>
+
+    <!-- Days taught exactly as curriculum spec: NO ENTRY.
+         Absence of entry = curriculum is accurate for that day. -->
+
+    <system_deviation id="SD-001" date="2026-03-11"
+                      scope="all days, all phases">
+      <summary>Practice volume restructuring based on cognitive science
+               research. Reduces Block 3 problem count, adds interleaving,
+               micro-rests, self-explanation, spaced retrieval, and
+               reduces Review Day intensity.</summary>
+      <changes>
+        <change>Block 3 problem count: min=10/max=25 → min=8/max=12
+                (standard days), min=6/max=10 (Review Days).
+                Structure template is binding; curriculum spec is
+                advisory when it exceeds the cap.</change>
+        <change>Interleaving requirement added to Block 3 tier
+                structure. Problems must mix sub-topics within tiers.</change>
+        <change>Micro-rest convention: single note at Block 3 top
+                ("10–30 second breather between problems").</change>
+        <change>Self-explanation prompts added to Tier 2/3 problem
+                template (element 7 in per_problem spec).</change>
+        <change>Block 5 expanded from 1h to 1.5–2h. New task #1:
+                spaced retrieval of 2–3 problems from Day N-2/N-3.</change>
+        <change>Block 3 time allocation reduced from 3h to 2–2.5h.
+                Freed time reallocated to Block 5.</change>
+        <change>Review Day quiz: 30 → 20 questions, with 3–5
+                recycled from prior week for spacing.</change>
+        <change>Review Day problems: 12–15 → 6–10, untimed,
+                with cross-week spacing.</change>
+        <change>Review Day structured time: ~10h → ~6.5–7.5h.
+                Remaining time unstructured.</change>
+        <change>Objective coverage distribution guidance added:
+                coverage must be distributed across Block 2
+                micro-exercises, Block 3 problems, and Block 4
+                project stages.</change>
+        <change>Deep work ceiling principle added to rules.xml:
+                Block 3 + Block 4 ≤ 4h/day (Ericsson 1993).</change>
+        <change>Consolidation-over-volume principle added to
+                rules.xml.</change>
+      </changes>
+      <rationale>
+        Ericsson (1993): deliberate practice ceiling ~4h/day.
+        Rohrer &amp; Taylor (2006): 9 problems = identical retention to 27.
+        Rohrer &amp; Taylor (2007): interleaving tripled delayed scores.
+        Taylor &amp; Rohrer (2010): interleaving doubled next-day scores.
+        Bönstrup et al. (2019): skill gains occur during rest periods.
+        Feld, Weis &amp; Born (2016): sleep consolidation has limited capacity.
+        Sweller: cognitive load theory — working memory constraints.
+        Wilson et al. (2019): optimal error rate ~15.87% (85% rule).
+        Full research report: 2026-03-11.
+      </rationale>
+      <affected_files>
+        structure_current.xml, quality_gates.xml, rules.xml,
+        curriculum_weeks01-03.xml, verify_package.py
+      </affected_files>
+    </system_deviation>
+
+    <system_deviation id="SD-002" date="2026-03-14"
+                      scope="review-day packages (confirmed on Day 07; expected to generalize)">
+      <description>
+        Two extended gates produce expected false-positive warnings
+        on review-day packages. These are structural mismatches
+        between standard-day gate logic and review-day format —
+        not content problems.
+      </description>
+      <gate id="10" name="Code Block Testing" severity="WARN">
+        pytest-codeblocks executes # YOUR CODE HERE stubs and
+        fails on AssertionError or NoneType. Stubs are the correct
+        deliverable on review days. Warn is expected and
+        non-blocking on review-day packages.
+      </gate>
+      <gate id="5" name="Completeness" severity="WARN">
+        Objective distribution check fires for all objectives
+        "concentrated in block2". Review days route objective
+        references through Block 2 (Spaced Retrieval) by design —
+        there is no Block 4 to distribute to. Warn is expected and
+        non-blocking on review-day packages.
+      </gate>
+      <action>Treat these warns as expected during currently
+      verified review-day verification runs unless future
+      review-day evidence contradicts this. Do not investigate
+      as content defects.</action>
+    </system_deviation>
+
+    <system_deviation id="SD-003" date="2026-04-17"
+                      scope="Phase 2 standard days (22-27, 29-34, 36-41)">
+      <summary>Block 2 + Block 4 combined problem count range (8-15)
+               exceeds Phase 1's single-block 8-12 cap (SD-001). Phase 2
+               has two problem-producing blocks (DSA Implementation +
+               Platform Practice) vs Phase 1's single Block 3.
+               Retention must be monitored.</summary>
+      <changes>
+        <change>Block 2 (DSA Implementation): tiered, 6-10 problems
+                (T1 warm-up 1-2, T2 core 3-5, T3 advanced 2-3).
+                Interleaving rule carries forward from SD-001.</change>
+        <change>Block 4 (Platform Practice): untiered, 2-5 problems
+                from LeetCode / StrataScratch / DataLemur.</change>
+        <change>Combined standard-day range: 8-15 problems.
+                Day 27 (16 per curriculum — timed-mixed outlier) caps
+                at 15 in the generated package with explicit note.</change>
+      </changes>
+      <rationale>
+        Phase 2 is the first phase with two distinct problem tracks
+        (algorithmic DSA + applied data science via platforms).
+        Rohrer &amp; Taylor (2006) single-domain 9-vs-27 retention
+        finding was within-skill; cross-track parallelization isn't
+        addressed. Ericsson (1993) 4h deliberate-practice ceiling
+        applies per-skill — Phase 2 has 3 skills (DSA, Stats, Platform),
+        each within 4h individually.
+
+        Monitor: Week 5 review-day (Day 35) timed-practice performance
+        vs Day 21 baseline. If retention degrades significantly, revise
+        to Block 2 cap 6-8 / Block 4 cap 2-3 / combined 8-11.
+      </rationale>
+      <affected_files>
+        structure_phase2.xml (Block 2 problem_count spec,
+        Block 4 problem_count spec)
+      </affected_files>
+    </system_deviation>
+
+    <system_deviation id="SD-004" date="2026-04-17"
+                      scope="Phase 2 review days (28, 35, 42)">
+      <summary>Phase 2 curriculum specifies 4-block 11h review days
+               (per python_bootcamp_curriculum.md Weeks 4-6). Structure
+               template applies SD-001 reduced-intensity principles to
+               compress to 3-block ~6.5-7.5h structured + unstructured
+               remainder, matching Phase 1 review-day pattern.</summary>
+      <changes>
+        <change>Hybrid quiz: curriculum 35 questions (20 DSA + 15 Stats)
+                → structure 24 questions (14 DSA + 10 Stats).
+                Scaled from SD-001's 30→20 reduction.</change>
+        <change>Mixed practice: curriculum 10 TIMED problems → structure
+                6-10 UNTIMED problems. Removes time pressure, adds
+                cross-week spacing (matches SD-001 Phase 1 review).</change>
+        <change>Integration project: curriculum 4h → structure 3h.
+                Same reduction as SD-001 Phase 1 review.</change>
+        <change>Evening Reflection: curriculum 1h formal block →
+                structure UNSTRUCTURED remainder. No formal R4 block.</change>
+        <change>Total structured: curriculum 11h → structure ~6.5-7.5h.
+                Block structure R1 (hybrid quiz + gaps ~2.5h) +
+                R2 (spaced retrieval practice, 1.5-2h, untimed) +
+                R3 (integrative project, ~3h).</change>
+      </changes>
+      <rationale>
+        SD-001's research basis (Rohrer &amp; Taylor 2006, Ericsson 1993,
+        Bönstrup et al. 2019, Feld et al. 2016) is phase-independent.
+        Applying the curriculum's 11h review day would waste the
+        deliberate-practice consolidation gains without evidence of
+        benefit, and taxes a solo learner's sustained energy budget.
+
+        T1 co-design decision 4B (2026-04-17): prioritize SD-001
+        research discipline over brief literalism. Phase 2's hybrid
+        DSA+Stats content is accommodated by the 35q→24q scaling and
+        the 10-timed→6-10-untimed reduction, both preserving cross-
+        domain integration with reduced intensity.
+
+        If Phase 2 timed-interview-discipline training is desired in
+        the future (e.g., pre-interview prep sprints), that's an
+        additive practice mode, not a review-day replacement.
+      </rationale>
+      <affected_files>
+        structure_phase2.xml (review_day_variant block structure,
+        review_day_variant section_overrides quiz count)
+      </affected_files>
+    </system_deviation>
+
+    <system_deviation id="SD-005" date="2026-04-17"
+                      scope="Phase 2 standard-day packages (22-27, 29-34, 36-41)">
+      <description>
+        Phase 2 standard days have Stats objectives (typically 4-5 of
+        10) structurally concentrated in Block 3 (Stats Midday), because
+        Block 2 is DSA-only and Block 4 is Platform-only (primarily DSA).
+        Gate 5 (Completeness / objective distribution) will warn
+        "Stats objectives concentrated in block3" on standard-day
+        packages. Pattern parallels SD-002's review-day warning.
+      </description>
+      <gate id="5" name="Completeness" severity="WARN">
+        Objective distribution check fires for Stats-category
+        objectives concentrated in Block 3. This is structural, not a
+        content defect — Block 2 is the DSA track (DSA objectives),
+        Block 4 is the platform track (primarily DSA reinforcement).
+        Stats objectives have no cross-block distribution path on
+        standard days. Warn is expected and non-blocking on Phase 2
+        standard-day packages.
+      </gate>
+      <action>Treat as expected during Phase 2 standard-day
+      verification runs unless future evidence contradicts. Do not
+      investigate as content defect. A future Gate 5 enhancement could
+      accept per-track concentration; that enhancement is out of T1
+      transition scope.</action>
+    </system_deviation>
+
+    <system_deviation id="SD-006" date="2026-04-17"
+                      scope="Phase 2 standard-day packages (Day 23 onwards) that embed hardcoded LeetCode problem URLs in the Resource Library or Block 4 platform-practice section">
+      <description>
+        Day 23 operator authorization permits hardcoded markdown links to
+        LeetCode problem pages (https://leetcode.com/problems/&lt;slug&gt;/)
+        in place of the Gate-8-sanctioned [Search: "title site:leetcode.com"]
+        pattern. Rationale: LeetCode problem pages are publicly viewable in
+        a browser; the HTTP 403 returned to automated WebFetch calls is a
+        bot-gating response, not a signal that the page is missing or
+        login-walled. Problem slugs are stable across LC's history (verified
+        by operator), so hardcoded links survive page revisions and
+        continue to resolve for the learner. Hardcoding provides a direct
+        click-through instead of forcing the learner through a search step.
+
+        Gate 8 (Platform Attribution) will FAIL with "Bare URL to LeetCode
+        without [Search: ...] format" on every line containing a LC
+        markdown link. This is a structural mismatch between Gate 8's
+        strict anti-fabrication rule and the operator's authorized
+        hardcoding policy — not a content defect. Gate 8's original intent
+        was to prevent fabricated platform titles and unverified URLs;
+        operator-verified stable slugs are categorically different.
+      </description>
+      <gate id="8" name="Platform Attribution" severity="FAIL">
+        Gate 8 fires "Bare URL to LeetCode without [Search: ...] format"
+        once per line containing a LC URL. On Day 23 this produces 12 FAIL
+        entries (6 Block 2 Resource Library rows + 3 Block 4 Resource
+        Library rows + 3 Block 4 problem detail lines). All 12 FAILs are
+        authorized. They are NOT blocking delivery under operator override.
+      </gate>
+      <rationale>
+        Gate 8's rule was written against the Phase 1 threat model
+        (fabricated LC titles, unverified URLs). It predates the
+        Phase 2 operator protocol that treats operator-verified stable
+        slugs as a trusted embedding pathway. Reconciling Gate 8 logic
+        with the authorized hardcoding policy is a pending verifier
+        enhancement; until that lands, SD-006 classifies the 12 FAILs
+        as structural/authorized, not as content defects.
+
+        Gate 9 (lychee HTTP validation) continues to validate that each
+        hardcoded URL resolves at verification time — a 404 from lychee
+        would surface as a real content defect and trigger operator
+        review. As of Day 23, all 9 LC URLs pass lychee.
+
+        Acceptance checklists citing SD-006 on Gate 8 FAIL preserve
+        GREEN/YELLOW trust classification; without SD-006, the default
+        protocol reads a required-gate FAIL as RED.
+      </rationale>
+      <action>When evaluating a Phase 2 package's delivery readiness:
+        (a) count Gate 8 FAILs whose message matches "Bare URL to
+        LeetCode without [Search: ...] format" and verify each FAIL
+        line contains a legitimate leetcode.com/problems/&lt;slug&gt;/
+        hardcoded URL; (b) subtract those from the required-gate FAIL
+        count; (c) require Gate 9 lychee to PASS (every hardcoded URL
+        must resolve); (d) proceed with acceptance if the residual
+        required-gate FAIL count is zero. Do NOT treat the Gate 8
+        FAILs themselves as blocking.</action>
+      <affected_files>
+        packages/day23_two_pointers_variance.md (and subsequent Phase 2
+        packages that follow the same hardcoding pattern),
+        scripts/verify_package.py (Gate 8 logic unchanged pending
+        verifier enhancement)
+      </affected_files>
+    </system_deviation>
+  </deviations>
+
+  <displaced_content>
+    <item id="DC-001" status="placed" placed_on="6" date="2026-03-12">
+      <content>10 from-scratch string implementations</content>
+      <original_home>Day 2 Block 2</original_home>
+      <reason>Requires for/if/def not taught on Day 2</reason>
+      <placement_note>Block 4 Type C — string functions built as
+        documented, type-hinted functions with builtin comparison</placement_note>
+    </item>
+
+    <item id="DC-002" status="placed" placed_on="6" date="2026-03-12">
+      <content>Text Analyzer mini-project</content>
+      <original_home>Day 2 Block 4</original_home>
+      <reason>Requires def/for/while/if not taught on Day 2</reason>
+      <placement_note>Block 4 Stage 3 — built from scratch using
+        functions, integrated with DC-001 string functions</placement_note>
+    </item>
+
+    <item id="DC-003" status="placed" placed_on="3" date="2026-03-12">
+      <content>Number Guessing Game</content>
+      <original_home>Day 3 Block 4</original_home>
+      <reason>Pending Day 3 design decisions</reason>
+      <placement_note>Simplified on Day 3 (no def, loop-based only)</placement_note>
+    </item>
+
+    <!-- When placed:
+         status="placed" placed_on="Day N" date="YYYY-MM-DD" -->
+  </displaced_content>
+
+  <scope_additions>
+    <!-- Appended at each transition checkpoint, BEFORE the old
+         curriculum chunk is removed from the project.
+
+         Each entry captures ALL concepts taught during that phase,
+         including any deviation deltas. This is the ONLY record
+         of prior phase scope once the curriculum chunk is gone.
+
+         Combined with the current curriculum chunk, these entries
+         provide full scope derivation without needing old chunks.
+
+         Format: concept groups organized by category.
+         Granularity: specific enough that Claude can verify whether
+         a particular function, method, or syntax construct is in scope. -->
+
+    <!-- Phase 1 scope_addition will be appended at Day 21 checkpoint.
+         Example of what it will look like:
+
+    <phase_scope phase="1" days="1-21" appended_at="Day 21"
+                 date="YYYY-MM-DD">
+      <category name="data_types">
+        int, float, str, bool, NoneType, type(), type conversion
+        (int(), float(), str(), bool())
+      </category>
+      <category name="operators">
+        arithmetic (+, -, *, /, //, %, **),
+        comparison (==, !=, <, >, <=, >=),
+        logical (and, or, not),
+        identity (is, is not),
+        membership (in, not in),
+        assignment (=, +=, -=, *=, /=)
+      </category>
+      <category name="string_methods">
+        .upper(), .lower(), .strip(), .lstrip(), .rstrip(),
+        .replace(), .find(), .count(), .startswith(), .endswith(),
+        .split(), .join(), .title(), .capitalize(), .swapcase(),
+        .center(), .ljust(), .rjust(), .zfill(), .isdigit(),
+        .isalpha(), .isalnum(), .isspace(), .isupper(), .islower(),
+        f-strings, string indexing, string slicing, len(),
+        string concatenation (+), string repetition (*)
+      </category>
+      ... (lists, tuples, dicts, sets, functions, control flow,
+           OOP basics, file I/O, etc. — full Phase 1 inventory)
+    </phase_scope>
+    -->
+
+    <phase_scope phase="1" days="1-21" appended_at="Day 21"
+                 date="2026-04-16">
+      <category name="data_types">
+        int, float, str, bool, None, NoneType, type(), type conversion
+        (int(), float(), str(), bool()), integer interning (-5 to 256)
+      </category>
+      <category name="operators">
+        arithmetic (+, -, *, /, //, %, **),
+        comparison (==, !=, &lt;, &gt;, &lt;=, &gt;=),
+        logical (and, or, not),
+        identity (is, is not),
+        membership (in, not in),
+        assignment (=, +=, -=, *=, /=),
+        ternary (x if cond else y),
+        matrix multiplication (@), unpacking (*args, **kwargs, a, *b, c)
+      </category>
+      <category name="string_methods">
+        .upper(), .lower(), .strip(), .lstrip(), .rstrip(),
+        .replace(), .find(), .count(), .startswith(), .endswith(),
+        .split(), .join(), .title(), .capitalize(), .swapcase(),
+        .center(), .ljust(), .rjust(), .zfill(),
+        .isdigit(), .isalpha(), .isalnum(), .isspace(),
+        .isupper(), .islower(),
+        f-strings, .format(), %-formatting, raw strings (r""),
+        escape characters (\n, \t, \\),
+        string indexing (s[i]), slicing (s[start:stop:step], negative),
+        len(), concatenation (+), repetition (*), immutability
+      </category>
+      <category name="control_flow">
+        if / elif / else (nested), for loops, while loops,
+        break, continue, pass,
+        range(stop), range(start, stop), range(start, stop, step),
+        enumerate(), zip(),
+        nested loops, matrix traversal, multiplication table,
+        loop patterns (accumulator, counter, search, filter)
+      </category>
+      <category name="lists">
+        creation, indexing, slicing, mutability, aliasing, shallow vs deep copy,
+        nested lists (2D matrices),
+        .append(), .extend(), .insert(), .remove(), .pop(), .index(),
+        .count(), .sort(), sorted(), .reverse(), reversed(), .copy(),
+        list performance (.append() O(1) amortized, .insert(0, x) O(n)),
+        list internals (dynamic arrays)
+      </category>
+      <category name="tuples">
+        creation, immutability, packing/unpacking, tuple as dict keys,
+        namedtuple (preview)
+      </category>
+      <category name="dicts">
+        creation (literal, dict(), comprehension),
+        accessing ([], .get()), adding/updating, deleting (del, .pop()),
+        .keys(), .values(), .items(), .update(), .setdefault(),
+        dict patterns (frequency counting, grouping, lookup tables, inversion)
+      </category>
+      <category name="sets">
+        creation, set operations (union |, intersection &amp;,
+        difference -, symmetric difference ^),
+        .add(), .remove(), .discard(),
+        frozenset, hash()
+      </category>
+      <category name="collections_module">
+        Counter, defaultdict, OrderedDict, deque,
+        (imports: from collections import X, import collections)
+      </category>
+      <category name="functions">
+        def, return, parameters (positional, keyword, default),
+        *args, **kwargs, LEGB scope rule, global keyword (discouraged),
+        closures, currying, lambda,
+        higher-order: map(), filter(), functools.reduce(),
+        docstrings (Google / NumPy style), basic type hints,
+        decorators (timing decorator, retry decorator — preview),
+        memoization (manual dict, @lru_cache),
+        self-written my_map() / my_filter() / my_reduce()
+      </category>
+      <category name="comprehensions_and_generators">
+        list comprehensions (basic, conditional, nested),
+        dict comprehensions, set comprehensions,
+        generator expressions (lazy evaluation),
+        yield, custom generators, infinite generators,
+        iterator protocol (__iter__, __next__, iter(), next(), StopIteration),
+        sys.getsizeof, tracemalloc (preview)
+      </category>
+      <category name="file_io_and_context_managers">
+        open(), modes (r, w, a, r+, b, t), .read(), .readline(), .readlines(),
+        .write(), .writelines(),
+        with statement (context manager),
+        custom context managers (__enter__, __exit__),
+        csv.reader, csv.writer, csv.DictReader, csv.DictWriter,
+        json.load, json.dump, json.loads, json.dumps,
+        pathlib.Path (preferred over os.path), Path.rglob(),
+        sys.argv for basic CLI
+      </category>
+      <category name="error_handling">
+        try / except / else / finally, catching specific exceptions,
+        raise, re-raise,
+        custom exception classes (inheriting from Exception),
+        EAFP vs LBYL (Python philosophy), assert,
+        logging module: logging.debug/info/warning/error/critical,
+        logging.basicConfig,
+        exception hierarchy (BaseException -&gt; Exception -&gt; specific)
+      </category>
+      <category name="modules_and_packages">
+        import X, from X import Y, import X as Y,
+        if __name__ == "__main__", creating .py modules,
+        packages (directory + __init__.py), nested packages,
+        relative imports, venv, pip install, pip freeze, requirements.txt
+      </category>
+      <category name="stdlib_modules_taught">
+        os, sys, datetime (date, datetime, timedelta),
+        collections, itertools (combinations, permutations),
+        functools (reduce, lru_cache), re (regex basics),
+        math (+ from math import sqrt), random,
+        copy (+ from copy import deepcopy), typing (Any, Dict, List,
+        Optional, Tuple, Union),
+        abc (ABC, abstractmethod),
+        dataclasses (dataclass, field)
+      </category>
+      <category name="oop_basics">
+        class keyword, __init__, self,
+        instance vs class attributes,
+        instance methods, @classmethod, @staticmethod,
+        @property (getters/setters, computed attributes),
+        @dataclass, @dataclass(field),
+        __str__, __repr__
+      </category>
+      <category name="oop_inheritance">
+        base/derived class, super(), method overriding,
+        multiple inheritance, MRO (__mro__), diamond problem,
+        polymorphism via duck typing,
+        ABC, @abstractmethod,
+        composition vs inheritance ("has-a" vs "is-a"),
+        SOLID principles overview (Single Responsibility, Open-Closed),
+        LinkedListNode class design (preview only),
+        TreeNode class design (preview only)
+      </category>
+      <category name="dunder_methods">
+        comparison: __eq__, __lt__, __le__, __gt__, __ge__,
+        arithmetic: __add__, __sub__, __mul__, __truediv__,
+        container: __len__, __getitem__, __setitem__, __contains__, __iter__,
+        context: __enter__, __exit__
+      </category>
+      <category name="recursion">
+        base case + recursive case, call stack visualization,
+        3 laws of recursion,
+        simple recursion (factorial, power, fibonacci, sum of list,
+        string reversal, count digits, palindrome check, GCD Euclidean),
+        Tower of Hanoi, recursive binary search,
+        recursion vs iteration trade-offs,
+        stack overflow, sys.setrecursionlimit (tail recursion is NOT
+        optimized in Python),
+        divide and conquer (merge sort from scratch),
+        backtracking (subsets, permutations, simplified N-Queens,
+        letter combinations of a phone number),
+        memoization (manual dict, @lru_cache formal usage),
+        recursive data structure traversal (nested lists, nested dicts,
+        filesystem via pathlib)
+      </category>
+      <category name="numpy">
+        import numpy as np (and canonical import numpy),
+        np.array, np.zeros, np.ones, np.arange, np.linspace,
+        np.random.default_rng, np.random.* (general),
+        np.eye, np.insert, np.cumsum, np.allclose, np.sqrt, np.sum,
+        np.dot, @ operator, np.linalg.inv, np.linalg.det,
+        array properties (.shape, .dtype, .ndim, .size),
+        reshaping (.reshape, .ravel, .flatten),
+        indexing (basic, boolean, fancy),
+        element-wise operations, broadcasting rules,
+        aggregations along axes (.sum, .mean, .std, .min, .max, axis=0/1),
+        linear algebra basics (matrix add/mult, transpose, determinant 2x2/3x3)
+      </category>
+      <category name="pandas">
+        import pandas as pd (and canonical import pandas),
+        pd.Series, pd.DataFrame (from dict, list of dicts, CSV),
+        pd.read_csv, pd.merge, pd.concat, pd.to_datetime, pd.json_normalize,
+        pandas.io.json.json_normalize (legacy path, also in scope),
+        indexing: [], .loc[], .iloc[], .query(),
+        inspection: .head, .tail, .info, .describe, .shape, .dtypes,
+        .value_counts, .unique, .nunique,
+        filtering: boolean masks, multiple conditions with &amp; and |,
+        sorting: .sort_values, .sort_index,
+        missing data: .isna, .fillna, .dropna, interpolation (basic),
+        groupby: .groupby, .agg, .transform,
+        string accessor: .str.contains, .str.extract, .str.replace,
+        datetime accessor: .dt,
+        apply: .apply (row/col), .applymap,
+        reshaping: .pivot_table, .melt, .stack, .unstack, .join,
+        window: .rolling, .expanding, .shift, .rank,
+        basic matplotlib.pyplot (plot, figure, savefig, show, title,
+        xlabel, ylabel)
+      </category>
+      <category name="nested_data_and_json_flattening">
+        recursive flattening (dict, list, mixed),
+        iterative flattening with a stack (preview),
+        pd.json_normalize, pandas.io.json.json_normalize,
+        unflattening, leaf extraction, path-to-value search,
+        dot-notation key joining (a.b.c)
+      </category>
+      <category name="deviation_deltas">
+        Day 1: integer interning (-5 to 256), identity operators
+        (is, is not), membership operators (in, not in) — ADDED per v4 package.
+        Day 2: .isalpha, .isalnum, from-scratch string method coding — ADDED.
+        DC-001: 10 from-scratch string implementations — placed on Day 6.
+        DC-002: Text Analyzer mini-project — placed on Day 6.
+        DC-003: Number Guessing Game — simplified and placed on Day 3
+        (no def, loop-based only).
+        SD-001 scope impact: practice volume restructuring affected
+        structure/quality gates, not concept scope.
+        SD-002 scope impact: review-day expected warnings (Gate 5 + 10),
+        not concept scope.
+      </category>
+      <category name="out_of_scope_during_phase_1">
+        The following are LATER-PHASE constructs that did NOT appear
+        in Phase 1 exercises/problems/projects (only in preview notes):
+        linked lists (Phase 3 Week 7), trees / BSTs / tries (Phase 3),
+        graphs / BFS / DFS (Phase 4), dynamic programming as technique
+        (Phase 4), heaps as structure (Phase 2 Week 6 via heapq),
+        regression (Phase 4), scipy / scipy.stats (Phase 2 Week 5+),
+        statsmodels (Phase 2 Week 6), sklearn and beyond (Phase 8+),
+        bisect (Phase 2 Week 5), heapq (Phase 2 Week 6),
+        async/await, sockets, network I/O — not in curriculum.
+      </category>
+    </phase_scope>
+
+  </scope_additions>
+
+</deviation_log>

@@ -1,0 +1,1699 @@
+<curriculum_chunk file="curriculum_weeks04-06.xml"
+                 phase="2" weeks="4-6" days="22-42"
+                 title="Basic DSA + Stats Tier 1A"
+                 source="python_bootcamp_curriculum.md"
+                 version="1.0">
+
+  <!-- AUTHORITATIVE CURRICULUM SPEC — Phase 2, Days 22-42.
+       Combined with deviation_log.xml, this defines the
+       complete scope for all Phase 2 daily packages.
+
+       PRESERVES ALL DETAIL from curriculum source.
+       Every concept, method, exercise, project, and note matters
+       for scope derivation.
+
+       Source extraction: config/transition_briefs/T1_weeks04-06.md
+       (Brief extracted 2026-04-16 per TRANSITION_CONTRACT.md Section 5).
+
+       Review Days: 28, 35, 42 (every Sunday). -->
+
+  <!-- PROBLEM COUNT OVERRIDE NOTE (carries forward from Phase 1, ref: SD-001):
+       Problem counts in this file reflect the ORIGINAL curriculum
+       design from the Phase 2 brief. As of v1.2 of structure_current.xml,
+       the structure template imposes a hard cap on Block 3 problems.
+
+       When curriculum spec exceeds the cap, generate at the cap and
+       note it in the package Block 3 header. Original counts are
+       preserved here for audit trail.
+
+       Phase 2 adds a hybrid-schedule dimension: problems are split
+       across DSA Morning (5h) + Problem Practice afternoon (2h).
+       Structure template structure_phase2.xml (co-designed with
+       Sudhan at transition Step X5) is the binding authority for
+       per-block problem caps.
+
+       Rationale: Rohrer &amp; Taylor (2006) — see deviation_log.xml
+       system deviation entry SD-001.
+
+       QUIZ COUNT NOTE: Review days 28/35/42 specify a hybrid 20-q DSA
+       + 15-q Stats quiz (35 questions total). This differs from Phase 1's
+       single 20-question format. Structure template structure_phase2.xml
+       (Step X5) will reconcile the review-day quiz schema. -->
+
+  <!-- ═══════════════════════════════════════════════════════
+       PHASE 2 OVERVIEW
+       ═══════════════════════════════════════════════════════ -->
+
+  <phase_overview>
+    <goal>Build core algorithmic thinking (arrays, hashing, sorting,
+      searching, stacks, queues, heaps) while simultaneously launching
+      Statistics Tier 1A (descriptive stats, probability, distributions,
+      confidence intervals, hypothesis testing). Six target problems
+      solved. Daily external-platform practice begins.</goal>
+    <daily_budget>11 hours — hybrid schedule (5h DSA / 3h Stats /
+      2h Problem Practice / 1h Evening Review).</daily_budget>
+    <problem_solving>LeetCode daily starting Day 22 (Easy → Medium
+      progression). StrataScratch (continued from Day 18). DataLemur
+      Python + probability questions.</problem_solving>
+    <daily_structure>
+      <block name="DSA Morning" hours="5">DSA theory + implementation + problems</block>
+      <block name="Stats Midday" hours="3">Statistics concepts + Python implementation</block>
+      <block name="Problem Practice" hours="2">LeetCode / StrataScratch / DataLemur</block>
+      <block name="Evening Review" hours="1">Review, flashcards, spaced retrieval</block>
+    </daily_structure>
+    <new_libraries_in_scope>
+      <library day="29">scipy.stats (bernoulli, binom, poisson, norm, expon, bootstrap, ttest_*, shapiro, levene, chisquare, chi2_contingency, fisher_exact, mode)</library>
+      <library day="32">bisect (bisect_left, bisect_right, insort)</library>
+      <library day="38">statsmodels (statsmodels.api as sm, statsmodels.stats.power.TTestIndPower, NormalIndPower, statsmodels.stats.proportion.proportions_ztest)</library>
+      <library day="40">heapq (heappush, heappop, heapify, nlargest, nsmallest)</library>
+    </new_libraries_in_scope>
+  </phase_overview>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WEEK 4: Arrays, Hashing + Descriptive Stats &amp; Probability
+       ═══════════════════════════════════════════════════════ -->
+
+  <week number="4" title="Arrays, Hashing + Descriptive Stats &amp; Probability">
+    <objective>Master array manipulation patterns (two-pointer, sliding
+      window, prefix sums) and hash map techniques. Begin statistics
+      with descriptive stats (mean/median/mode, variance/std, quantiles)
+      and probability foundations (axioms, conditional, Bayes, Law of
+      Total Probability). Start daily LeetCode practice.</objective>
+
+    <!-- ─── DAY 22 ─── -->
+    <day number="22" week="4" weekday="Mon"
+         title="Big-O Notation &amp; Array Foundations">
+
+      <topics>Big-O notation, space complexity, Python list internals,
+        array iteration, two-pointer pattern (introduction), descriptive
+        statistics Part 1 (mean, median, mode)</topics>
+
+      <concepts>
+        <concept>Big-O notation: O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ), O(n!)</concept>
+        <concept>Space complexity: auxiliary space vs total space, in-place algorithms</concept>
+        <concept>How to analyze code: count operations, identify dominant terms, drop constants</concept>
+        <concept>Python list internals: dynamic arrays, amortized O(1) append, O(n) insert at index 0</concept>
+        <concept>Array problems introduction: iterate, search, two-pointer pattern (start)</concept>
+        <concept>Arithmetic mean, weighted mean, trimmed mean — when to use each</concept>
+        <concept>Median: why it's robust, odd vs even length, relationship to mean (skewness)</concept>
+        <concept>Mode: when useful (categorical data), multimodal distributions</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>manual mean/median/mode implementations (from scratch)</method>
+        <method>np.mean() (verification)</method>
+        <method>np.median() (verification)</method>
+        <method>scipy.stats.mode() (verification)</method>
+        <method>max_subarray_brute() (O(n²) brute-force)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Big-O theory (all complexity classes), space complexity,
+            how to analyze code, Python list internals (dynamic arrays,
+            amortized O(1) append). Array problems introduction + two-pointer
+            pattern (intro). 5 problems: find max/min in single pass, check
+            for duplicate elements, reverse an array in-place, move all zeros
+            to end preserving order (LC #283-style), find missing number in
+            0..n (LC #268-style).</content>
+          <problem_count>5</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Descriptive Statistics Part 1: arithmetic/weighted/trimmed
+            mean (when to use each), median robustness, mode for categorical
+            data. Python implementation from scratch (no numpy), then verify
+            with np.mean/np.median/scipy.stats.mode. Visualize: skewed dataset,
+            plot histogram, mark mean/median/mode. Interview insight: "When
+            would you use median instead of mean?" — the outlier story.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode Easy: 3 array problems. Two Sum (LC #1) brute-force
+            today (hash-map version on Day 25). Best Time to Buy and Sell Stock
+            (LC #121-style). Contains Duplicate (LC #217-style).</content>
+          <platform>LeetCode Easy — Two Sum (#1 brute-force), Best Time to Buy and Sell Stock (#121), Contains Duplicate (#217) [verify on platform]</platform>
+          <problem_count>3</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Big-O flashcards for common complexities. Stats: quiz
+            yourself on mean/median/mode distinctions.</content>
+        </block>
+      </blocks>
+
+      <notes>First day of hybrid DSA + Stats schedule. Two Sum solved
+        brute-force only; hash-map version is Day 25's lead-in.
+        scipy.stats.mode is a verification-only usage — first mention of
+        scipy.stats before Day 29's formal entry to scope.</notes>
+    </day>
+
+    <!-- ─── DAY 23 ─── -->
+    <day number="23" week="4" weekday="Tue"
+         title="Two-Pointer Pattern + Variance &amp; Standard Deviation">
+
+      <topics>Two-pointer technique (same-direction, opposite-direction
+        templates), variance, standard deviation, Bessel's correction,
+        coefficient of variation</topics>
+
+      <concepts>
+        <concept>Two-pointer technique: theory, when to apply (sorted arrays, finding pairs), templates</concept>
+        <concept>Two-pointer variants: same-direction vs opposite-direction</concept>
+        <concept>Population vs sample variance (n vs n-1 divisor)</concept>
+        <concept>Bessel's correction: why n-1 gives unbiased estimation, derivation intuition</concept>
+        <concept>Standard deviation: square root of variance, units match data, 68-95-99.7 rule (preview)</concept>
+        <concept>Coefficient of variation: comparing variability across scales</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>variance from scratch (population and sample)</method>
+        <method>standard deviation from scratch</method>
+        <method>np.var(ddof=0) / np.var(ddof=1)</method>
+        <method>np.std(ddof=0) / np.std(ddof=1)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Two-pointer technique theory + opposite-direction and
+            same-direction templates. 8 problems: Two Sum on sorted array
+            (two pointers), Remove Duplicates from Sorted Array (LC #26-style),
+            Container With Most Water (LC #11-style), Valid Palindrome
+            (LC #125-style), Three Sum (LC #15-style) sort + two pointers,
+            merge two sorted arrays in-place, Squares of a Sorted Array
+            (LC #977-style), Dutch National Flag / Sort Colors (LC #75-style).</content>
+          <problem_count>8</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Variance: population vs sample (n vs n-1 divisor), Bessel's
+            correction intuition. Standard deviation: √variance interpretation
+            (68-95-99.7 preview), units-match-data. Python: compute variance
+            and std from scratch, compare with np.var(ddof=0) and np.var(ddof=1).
+            Coefficient of variation. Plot distributions with same mean but
+            different std. Exercise: dataset of exam scores, compute all
+            descriptive stats, write a 3-sentence summary a manager would
+            understand.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode Easy: 3 problems. DataLemur: 1 easy data science
+            question.</content>
+          <platform>LeetCode Easy (3 two-pointer-adjacent problems); DataLemur (1 Easy) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Review two-pointer templates (same vs opposite direction).
+            Stats: explain Bessel's correction to a non-statistician.</content>
+        </block>
+      </blocks>
+
+      <notes>Three Sum is first true Medium-level DSA problem of Phase 2.
+        Stats written-summary exercise builds data communication skill.</notes>
+    </day>
+
+    <!-- ─── DAY 24 ─── -->
+    <day number="24" week="4" weekday="Wed"
+         title="Sliding Window + Quantiles, IQR &amp; Outliers">
+
+      <topics>Sliding window technique (fixed + variable), Kadane's algorithm,
+        quartiles, percentiles, IQR, box plots, outlier detection methods,
+        MAD, trimmed mean</topics>
+
+      <concepts>
+        <concept>Sliding window technique: fixed-size windows, variable-size windows, templates</concept>
+        <concept>Key insight: sliding window avoids recomputation — maintain running state</concept>
+        <concept>Kadane's algorithm: maximum subarray sum in O(n)</concept>
+        <concept>Quantiles: quartiles (Q1, Q2, Q3), percentiles, deciles</concept>
+        <concept>IQR: Q3 - Q1 ("middle 50%"), resistant to outliers</concept>
+        <concept>Box plot anatomy: whiskers, box, median line, outlier dots</concept>
+        <concept>Outlier detection: IQR method (&lt; Q1 - 1.5×IQR or &gt; Q3 + 1.5×IQR), Z-score method (|z| &gt; 3)</concept>
+        <concept>Robust statistics: Median Absolute Deviation (MAD), trimmed mean</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>kadane(arr) (max subarray sum O(n))</method>
+        <method>fixed-size sliding window template</method>
+        <method>variable-size sliding window template</method>
+        <method>np.percentile()</method>
+        <method>np.quantile()</method>
+        <method>plt.boxplot()</method>
+        <method>IQR outlier detection from scratch</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Sliding window theory: fixed-size and variable-size templates.
+            Key insight: maintain running state. 7 problems: Maximum sum subarray
+            of size k, Longest Substring Without Repeating Characters (LC #3-style),
+            Minimum Size Subarray Sum (LC #209-style), Maximum Average Subarray
+            (LC #643-style), count subarrays with sum equal to k (prefix-sum
+            bridge to Day 27), Kadane's Algorithm for maximum subarray sum
+            (LC #53-style), Fruit Into Baskets / longest substring with at most
+            2 distinct characters.</content>
+          <problem_count>7</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Quantiles, IQR, outliers: quartiles/percentiles/deciles,
+            IQR = Q3-Q1 (middle 50%). Box plot anatomy (whiskers, box, median,
+            outlier dots). Outlier detection: IQR 1.5×rule, Z-score |z|&gt;3.
+            Robust stats: MAD, trimmed mean. Python: np.percentile, matplotlib
+            boxplot, IQR detection from scratch. Exercise: load housing prices
+            dataset, identify outliers using both methods, compare.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode Easy/Medium: 3 sliding window problems.
+            StrataScratch: 1 Python question.</content>
+          <platform>LeetCode Easy/Medium (3 sliding window); StrataScratch (1 Python) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Review: fixed vs variable window templates. Stats: draw a
+            box plot from memory and label all components.</content>
+        </block>
+      </blocks>
+
+      <notes>Kadane's is a FAANG-frequency problem — commit the pattern.
+        Subarrays-sum-k foreshadows Day 27 prefix sums.</notes>
+    </day>
+
+    <!-- ─── DAY 25 ─── -->
+    <day number="25" week="4" weekday="Thu"
+         title="Hash Maps &amp; Sets + Probability Foundations">
+
+      <topics>Hash map fundamentals (hashing, collision handling, O(1) average
+        lookup), frequency counting, complement pattern, probability axioms,
+        conditional probability, independence, Bayes' rule, base rate fallacy</topics>
+
+      <concepts>
+        <concept>Hash map fundamentals: what hashing is, hash functions, collision handling (chaining, open addressing), O(1) average lookup</concept>
+        <concept>Python dicts and sets as hash maps: implementation under the hood</concept>
+        <concept>When to use hash maps: frequency counting, lookup optimization, complement problems</concept>
+        <concept>Sample space, events, probability axioms</concept>
+        <concept>Conditional probability: P(A|B) = P(A∩B)/P(B), tree diagram intuition</concept>
+        <concept>Independence: P(A∩B) = P(A)·P(B), independence ≠ mutually exclusive</concept>
+        <concept>Bayes' rule: formula and intuition via medical-test example</concept>
+        <concept>Base rate fallacy: why P(disease|positive) differs wildly from test accuracy</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>two_sum_hash(arr, target) (O(n) hash map)</method>
+        <method>Bayes calculation function</method>
+        <method>probability simulation (100,000 trials)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Hash map theory (hashing, collisions, chaining, open
+            addressing, O(1) average). Python dict/set as hash maps.
+            8 problems: Two Sum with hash map (revisit from Day 22), Valid
+            Anagram (LC #242-style), Group Anagrams (LC #49-style), Top K
+            Frequent Elements (LC #347-style), Longest Consecutive Sequence
+            (LC #128-style), Intersection of Two Arrays (LC #349-style),
+            Subarray Sum Equals K using prefix sum + hash map (LC #560-style),
+            Isomorphic Strings.</content>
+          <problem_count>8</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Probability foundations: axioms, conditional probability
+            P(A|B), independence, Bayes' rule. Medical test walkthrough
+            (disease prevalence 1%, test accuracy 99% → P(disease|positive))
+            — base rate fallacy. Python: Bayes calculator, tree-diagram
+            visualization. Exercise: 5 probability problems solved via both
+            formula AND simulation (100k trials, compare to theoretical).</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode Easy/Medium: 3 hash map problems.
+            DataLemur: 1 probability question.</content>
+          <platform>LeetCode (3 hash map); DataLemur (1 probability) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Review: O(n) brute-force → O(1) with hash map. Stats:
+            recompute medical-test Bayes problem from memory.</content>
+        </block>
+      </blocks>
+
+      <notes>Subarray Sum = K (LC #560) bridges hash map + prefix sum
+        (Day 27 topic). Bayes with tree diagrams is a key interview visual.</notes>
+    </day>
+
+    <!-- ─── DAY 26 ─── -->
+    <day number="26" week="4" weekday="Fri"
+         title="String Problems + Law of Total Probability &amp; Independence">
+
+      <topics>String pattern problems (prefix, palindrome via expand-from-center,
+        compression), Law of Total Probability, independence deep dive,
+        uncorrelated ≠ independent</topics>
+
+      <concepts>
+        <concept>String pattern problems building on Week 1 strings + Day 25 hash maps</concept>
+        <concept>Longest common prefix, string compression, valid parentheses (stack preview)</concept>
+        <concept>Expand-from-center technique for longest palindromic substring</concept>
+        <concept>Encode/decode with delimiters, count-and-say pattern</concept>
+        <concept>Law of Total Probability: P(A) = Σ P(A|Bᵢ)P(Bᵢ) — partition the sample space</concept>
+        <concept>Pairwise vs mutual independence</concept>
+        <concept>"Uncorrelated ≠ independent" — common interview trap</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>longest_common_prefix(strs)</method>
+        <method>compress_string(s)</method>
+        <method>is_valid_parens(s) (stack preview — list-as-stack only)</method>
+        <method>my_strstr(haystack, needle)</method>
+        <method>reverse_words(s)</method>
+        <method>longest_palindromic_substring(s) (expand-from-center)</method>
+        <method>encode_list(strs) / decode_string(s)</method>
+        <method>count_and_say(n)</method>
+        <method>ProbabilityCalculator class (conditional + Bayes + LoTP)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>8 string pattern problems: Longest Common Prefix
+            (LC #14-style), String Compression ("aabcccaaa" → "a2b1c3a3"),
+            Valid Parentheses stack-preview (LC #20-style) using list-as-stack,
+            Implement strStr() (LC #28-style), Reverse Words in a String
+            (LC #151-style), Longest Palindromic Substring expand-from-center
+            (LC #5-style), Encode and Decode Strings (delimiter approach),
+            Count and Say (LC #38-style).</content>
+          <problem_count>8</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Law of Total Probability: P(A) = Σ P(A|Bᵢ)P(Bᵢ) — partition
+            the sample space. Intuition: "average the conditional probabilities,
+            weighted by how likely each condition is." Example: customer churn
+            across segments. Independence deep dive: pairwise vs mutual,
+            "uncorrelated ≠ independent". Simulated examples: generate
+            correlated and uncorrelated data. Exercise: 5 problems combining
+            Bayes + LoTP. Python: build ProbabilityCalculator class handling
+            conditional, Bayes, total probability.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode Medium: 3 string problems.
+            StrataScratch: 1 Python question.</content>
+          <platform>LeetCode Medium (3 string); StrataScratch (1 Python) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Review: string patterns (prefix, palindrome, compression).
+            Stats: derive Bayes' rule from the definition of conditional
+            probability.</content>
+        </block>
+      </blocks>
+
+      <notes>Valid Parentheses here uses Python list-as-stack — explicit
+        Stack class enters scope Day 36. Longest Palindromic Substring
+        uses expand-from-center, NOT DP (DP is Phase 4).</notes>
+    </day>
+
+    <!-- ─── DAY 27 ─── -->
+    <day number="27" week="4" weekday="Sat"
+         title="Prefix Sums &amp; Review + Probability Review">
+
+      <topics>Prefix sum technique (1D + 2D), range sum queries, week 4 DSA
+        review, probability review via Monty Hall, Birthday problem, A/B
+        false-positive preview</topics>
+
+      <concepts>
+        <concept>1D prefix sum: precompute cumulative sums for O(1) range queries</concept>
+        <concept>2D prefix sum: matrix region sums</concept>
+        <concept>Product of array except self (two-pass, no division)</concept>
+        <concept>Pivot index via prefix sums</concept>
+        <concept>Subarrays with sum divisible by k (prefix sum + modular arithmetic)</concept>
+        <concept>Monty Hall problem: intuition + simulation + Bayes connection</concept>
+        <concept>Birthday problem: collision probability + simulation</concept>
+        <concept>A/B testing false-positive preview: 5% significance → 5% false-positive rate</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>range_sum_query_1d(arr) class with O(1) queries</method>
+        <method>product_except_self(arr) (two-pass, no division)</method>
+        <method>find_pivot_index(arr)</method>
+        <method>matrix_region_sum (2D prefix sum)</method>
+        <method>monty_hall_simulation(trials)</method>
+        <method>birthday_collision_simulation(n, trials)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Prefix sums deep dive: technique, when to use, template.
+            6 problems: Range Sum Query (LC #303-style), Product of Array
+            Except Self (LC #238-style), Find Pivot Index (LC #724-style),
+            2D prefix sum (matrix region sum), Running Sum of 1D Array,
+            Number of Subarrays with Sum Divisible by k. Plus: 5 timed
+            mixed-pattern problems integrating two-pointer + sliding window
+            + hash map from Week 4.</content>
+          <problem_count>11</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Probability review integrating Days 25-26. Comprehensive
+            exercise: Monty Hall — explain intuitively, prove with simulation,
+            connect to Bayes. Birthday problem: P(2 of 23 share a birthday),
+            simulate it. Applied: A/B testing preview — "5% significance →
+            5% false-positive rate". 10-question probability quiz (target ≥80%).</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 mixed problems (Easy + Medium).
+            DataLemur: 2 questions.</content>
+          <platform>LeetCode Easy+Medium (3 mixed); DataLemur (2) [verify on platform]</platform>
+          <problem_count>5</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Week 4 review: what patterns felt hardest? (probably
+            sliding window variable — that's normal). Stats: probability
+            concept flowchart.</content>
+        </block>
+      </blocks>
+
+      <notes>First day with a scored assessment (probability quiz).
+        Monty Hall demands BOTH simulation and formula. Total-per-day
+        problem count (16) exceeds the standard-day cap (structure
+        template will enforce at verification time).</notes>
+    </day>
+
+    <!-- ─── DAY 28 (REVIEW DAY) ─── -->
+    <day number="28" week="4" weekday="Sun"
+         title="Week 4 Review + Integration Day"
+         review_day="true">
+
+      <topics>Review of Days 22-27 (Big-O, arrays, two-pointer, sliding window,
+        hash maps, strings, prefix sums + descriptive stats, variance,
+        quantiles/IQR, probability, Bayes, LoTP), self-assessment quiz,
+        timed practice, Statistical Data Explorer integration project</topics>
+
+      <concepts>
+        <concept>Review: all concepts from Days 22-27 (Week 4 DSA + Week 4 Stats)</concept>
+        <concept>Self-assessment: 20-question DSA quiz + 15-question Stats quiz</concept>
+        <concept>Timed problem-solving: 10 mixed problems in 3 hours</concept>
+        <concept>Integration: OOP wrapper for descriptive stats + outlier detection + visualization (DataExplorer class)</concept>
+      </concepts>
+
+      <methods_introduced>
+        <!-- Review day — no new methods introduced -->
+      </methods_introduced>
+
+      <blocks>
+        <block name="Morning Review" hours="3">
+          <content>DSA review quiz (20 questions): hash map lookup complexity,
+            two-pointer vs sliding window decision, prefix sum vs sliding
+            window distinction, Two Sum from memory in O(n), Kadane's
+            algorithm from memory, and 15 more. Stats review quiz (15
+            questions): population vs sample variance, median-vs-mean
+            decision, P(A|B) from joint probability table, base rate
+            fallacy in one sentence, and 11 more.</content>
+        </block>
+        <block name="Midday Timed Practice" hours="3">
+          <content>10 problems in 3 hours (DSA + Stats combined): 5 DSA
+            problems (mix of all Week 4 patterns), 3 probability computation
+            problems, 2 StrataScratch/DataLemur questions.</content>
+          <problem_count>10</problem_count>
+        </block>
+        <block name="Afternoon Integration" hours="4">
+          <content>Integration project: Statistical Data Explorer.
+            Load any CSV/JSON dataset. Automatically compute descriptive
+            statistics (mean, median, mode, variance, std, quantiles, IQR).
+            Detect and flag outliers (IQR + Z-score methods). Generate a
+            summary report. Visualize distributions (histograms, box plots).
+            Uses OOP (class DataExplorer), error handling, modular code.
+            Push to GitHub.</content>
+          <project>Statistical Data Explorer (DataExplorer class)</project>
+        </block>
+        <block name="Evening Reflection" hours="1">
+          <content>Reflect on Week 4 hybrid (DSA + Stats) schedule. Is the
+            pace sustainable? Adjust if needed. Preview Week 5: Sorting
+            algorithms + Distributions.</content>
+        </block>
+      </blocks>
+
+      <checkpoint>
+        <criterion test="Big-O analysis is second nature">
+          Can analyze any code snippet's complexity in &lt; 1 min</criterion>
+        <criterion test="Two-pointer, sliding window, hash map patterns mastered">
+          Timed problem set: 5/7 correct in time</criterion>
+        <criterion test="Descriptive statistics implemented from scratch + with libraries">
+          DataExplorer project works correctly</criterion>
+        <criterion test="Probability foundations solid">
+          Quiz score ≥ 80% on probability</criterion>
+        <criterion test="LeetCode started">
+          15+ Easy problems solved, first Medium attempts</criterion>
+      </checkpoint>
+
+      <notes>Review Day — no new concepts. Hybrid quiz format (35 total
+        questions: 20 DSA + 15 Stats) differs from Phase 1's 20-question
+        single quiz. DataExplorer is Week 4 deliverable (Checkpoint gate).</notes>
+    </day>
+
+  </week>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WEEK 5: Sorting &amp; Searching + Distributions &amp; Sampling
+       ═══════════════════════════════════════════════════════ -->
+
+  <week number="5" title="Sorting &amp; Searching + Distributions &amp; Sampling">
+    <objective>Implement sorting algorithms from scratch (bubble/selection/
+      insertion + merge sort + quicksort), master binary search (3 templates
+      + binary search on answer), learn probability distributions (Bernoulli,
+      Binomial, Poisson, Normal, Exponential) + CLT + Standard Error + sampling.
+      Solve two target problems: Largest Perimeter (Problem #15) and Sieve
+      of Eratosthenes (Problem #6).</objective>
+
+    <!-- ─── DAY 29 ─── -->
+    <day number="29" week="5" weekday="Mon"
+         title="Basic Sorting Algorithms + Bernoulli &amp; Binomial">
+
+      <topics>Bubble sort, selection sort, insertion sort, stability, Bernoulli
+        distribution, Binomial distribution, A/B testing connection</topics>
+
+      <concepts>
+        <concept>Why learn sorting from scratch: understand trade-offs, interview fundamentals, foundation for harder problems</concept>
+        <concept>Bubble sort: O(n²), optimized with early termination</concept>
+        <concept>Selection sort: O(n²), always same comparisons regardless of input</concept>
+        <concept>Insertion sort: O(n²) worst, O(n) best (nearly-sorted), Timsort base case</concept>
+        <concept>Comparison: when each sort is appropriate</concept>
+        <concept>Stability: what it means and why it matters</concept>
+        <concept>Bernoulli distribution: P(success)=p, mean=p, variance=p(1-p)</concept>
+        <concept>Binomial distribution: n independent Bernoulli trials, count successes, mean=np, variance=np(1-p), PMF formula</concept>
+        <concept>Connection to A/B testing: binomial underpins proportion comparison</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>bubble_sort(arr)</method>
+        <method>selection_sort(arr)</method>
+        <method>insertion_sort(arr)</method>
+        <method>scipy.stats.bernoulli.pmf()</method>
+        <method>scipy.stats.bernoulli.rvs()</method>
+        <method>scipy.stats.binom.pmf()</method>
+        <method>scipy.stats.binom.cdf()</method>
+        <method>scipy.stats.binom.rvs()</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Three basic sorts: Bubble (with early-termination optimization),
+            Selection (fixed comparisons), Insertion (O(n) best for nearly-sorted,
+            used as Timsort base). Comparison table (time, space, stability,
+            best use). 4 problems: implement all three and test on random arrays,
+            count comparisons and swaps on same input, sort list of tuples by
+            second element (test stability), insertion sort on linked list
+            (conceptual only — full LL is Phase 3).</content>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Bernoulli distribution: single trial with P(success)=p,
+            mean=p, variance=p(1-p). Real-world: coin flip, click/no-click,
+            conversion. scipy.stats.bernoulli: simulate 10,000 Bernoulli trials.
+            Binomial distribution: n independent trials, PMF formula, mean=np,
+            variance=np(1-p). Plot PMF for different n, p. Connection to A/B
+            testing. Exercise: "1000 flips, 530 heads — is the coin fair?"
+            (hypothesis testing preview).</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 sorting-related problems. Sort Colors (Dutch
+            National Flag) revisited with sorting lens. Merge Sorted Array
+            (LC #88-style). Valid Anagram sorting vs hash approach.</content>
+          <platform>LeetCode (3 sorting: Sort Colors, Merge Sorted Array #88, Valid Anagram) [verify on platform]</platform>
+          <problem_count>3</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Review sort comparison table. Stats: draw Binomial PMF for
+            n=20, p=0.3 from intuition.</content>
+        </block>
+      </blocks>
+
+      <notes>scipy.stats enters scope today — first new library of Phase 2.
+        Use np.random.seed() for reproducibility in simulations.</notes>
+    </day>
+
+    <!-- ─── DAY 30 ─── -->
+    <day number="30" week="5" weekday="Tue"
+         title="Merge Sort &amp; Quicksort + Poisson Distribution">
+
+      <topics>Merge sort (divide and conquer), quicksort (Lomuto/Hoare
+        partitions, pivot selection), Timsort, Poisson distribution,
+        Binomial→Poisson limit</topics>
+
+      <concepts>
+        <concept>Merge sort: divide step, recursive calls, merge step; O(n log n) always, O(n) space; stable</concept>
+        <concept>Quicksort: partition step (Lomuto vs Hoare), pivot selection (first, last, random, median-of-three), O(n log n) avg / O(n²) worst; in-place, unstable</concept>
+        <concept>Python's sorted() and .sort(): Timsort (hybrid merge + insertion), why Python chose it</concept>
+        <concept>Kth Largest Element via quickselect (O(n) average)</concept>
+        <concept>Poisson distribution: models number of events in a fixed interval, parameter λ, mean=variance=λ</concept>
+        <concept>Rare-events intuition: "known average rate"</concept>
+        <concept>Binomial → Poisson limit: when n is large and p is small, Binomial(n,p) ≈ Poisson(np)</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>merge_sort(arr) + merge(left, right) helper</method>
+        <method>quicksort(arr) + partition(arr, lo, hi) (Lomuto)</method>
+        <method>quickselect(arr, k) for Kth-largest</method>
+        <method>scipy.stats.poisson.pmf()</method>
+        <method>scipy.stats.poisson.cdf()</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Merge sort deep dive: divide/recurse/merge, draw the full
+            tree, implement from scratch. O(n log n) always, O(n) space.
+            Stable, predictable, good for linked lists + external sorting.
+            Quicksort deep dive: partition (Lomuto vs Hoare), pivot selection
+            (random, median-of-three). O(n log n) avg / O(n²) worst (sorted
+            input + bad pivot). In-place, unstable. Comparison: merge vs quick.
+            Python Timsort overview. 4 problems: merge sort for strings,
+            quicksort with random pivot tested on sorted input, sort list of
+            dicts by key with comparison function, Kth Largest Element via
+            quickselect (LC #215-style).</content>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Poisson distribution: "number of events in a fixed interval"
+            when independent and rate constant. Parameter λ, mean=variance=λ.
+            PMF formula + intuition. Real-world: tickets per hour, errors per
+            day, customers per minute. Binomial→Poisson limit: large n, small p
+            → Binomial(n,p) ≈ Poisson(np), show via simulation. scipy.stats.poisson
+            PMF plot for different λ. Exercise: "3 errors/day average — P(0 errors
+            tomorrow)? P(5 or more)?" Calculate + simulate.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 2 sorting-based problems.
+            DataLemur: 1 statistics question.</content>
+          <platform>LeetCode (2 sorting-based); DataLemur (1 stats) [verify on platform]</platform>
+          <problem_count>3</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Implement merge sort from scratch in ≤15 minutes.
+            Stats: Poisson vs Binomial decision rule.</content>
+        </block>
+      </blocks>
+
+      <notes>Quickselect is a stretch (O(n) average). Recursion is already
+        in scope from Phase 1 (Day 15-16) — no new scope for recursive
+        algorithms.</notes>
+    </day>
+
+    <!-- ─── DAY 31 ─── -->
+    <day number="31" week="5" weekday="Wed"
+         title="Binary Search + Normal Distribution &amp; CLT">
+
+      <topics>Binary search (three templates: exact, leftmost, rightmost),
+        common pitfalls, Normal distribution, 68-95-99.7 rule, Standard Normal,
+        Central Limit Theorem, Standard Error</topics>
+
+      <concepts>
+        <concept>Binary search fundamentals: sorted data, halving search space, O(log n)</concept>
+        <concept>Three templates: find exact, find leftmost (bisect_left-style), find rightmost (bisect_right-style)</concept>
+        <concept>Common pitfalls: off-by-one errors, infinite loops, integer overflow (not in Python but know it)</concept>
+        <concept>Search in Rotated Sorted Array, Find Peak Element, Sqrt(x) via binary search</concept>
+        <concept>Normal (Gaussian) distribution: bell curve, parameters μ and σ</concept>
+        <concept>68-95-99.7 rule: 1σ, 2σ, 3σ</concept>
+        <concept>Standard Normal: Z = (X - μ)/σ, Z-tables conceptually</concept>
+        <concept>PDF formula awareness (understand shape, don't memorize)</concept>
+        <concept>Central Limit Theorem: sampling distribution of the mean approaches Normal regardless of underlying distribution</concept>
+        <concept>Standard Error: SE = σ/√n, standard deviation of the sampling distribution</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>binary_search(arr, target) — exact, leftmost, rightmost variants</method>
+        <method>search_insert_position(arr, target)</method>
+        <method>search_rotated_sorted(arr, target)</method>
+        <method>find_peak_element(arr)</method>
+        <method>my_sqrt(x) via binary search</method>
+        <method>scipy.stats.norm.pdf()</method>
+        <method>scipy.stats.norm.cdf()</method>
+        <method>scipy.stats.norm.ppf()</method>
+        <method>scipy.stats.norm.rvs()</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Binary search theory: sorted data, halving search space,
+            O(log n). Three templates: exact, leftmost, rightmost. Common
+            pitfalls. 8 problems: Standard binary search, Search Insert
+            Position (LC #35), First and Last Position of Element in Sorted
+            Array (LC #34), Search in Rotated Sorted Array (LC #33), Find
+            Peak Element (LC #162), Sqrt(x) via binary search (LC #69),
+            Search a 2D Matrix (LC #74), Find Minimum in Rotated Sorted
+            Array (LC #153).</content>
+          <problem_count>8</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Normal distribution: bell curve, μ + σ parameters. 68-95-99.7
+            rule — draw it, internalize. Standard Normal: Z = (X-μ)/σ.
+            PDF formula + shape. scipy.stats.norm for PDF/CDF plotting.
+            Central Limit Theorem: sampling distribution of mean → Normal
+            regardless of source. Demonstrate with simulation from 3 non-normal
+            sources (uniform, exponential, Poisson). Standard Error: SE = σ/√n.
+            Exercise: simulate CLT with 3 different non-normal distributions.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 binary search Medium problems.
+            StrataScratch: 1 question.</content>
+          <platform>LeetCode Medium (3 binary search); StrataScratch (1) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Write all three binary search templates from memory.
+            Stats: explain CLT without jargon.</content>
+        </block>
+      </blocks>
+
+      <notes>CLT is the foundational theorem for Week 6's confidence intervals
+        and hypothesis testing. Simulation approach is mandatory for intuition.</notes>
+    </day>
+
+    <!-- ─── DAY 32 ─── -->
+    <day number="32" week="5" weekday="Thu"
+         title="Binary Search Advanced + Exponential Distribution">
+
+      <topics>Binary search on answer (monotonic answer space), bisect module,
+        Exponential distribution, memoryless property, distribution
+        relationship diagram</topics>
+
+      <concepts>
+        <concept>Binary search on answer: when the answer space is monotonic, binary search on the answer itself</concept>
+        <concept>Capacity to Ship Packages, Koko Eating Bananas, Split Array Largest Sum patterns</concept>
+        <concept>Find the duplicate number via binary search</concept>
+        <concept>Median of Two Sorted Arrays (hard stretch)</concept>
+        <concept>bisect module: bisect_left, bisect_right, insort — when to use the library</concept>
+        <concept>Exponential distribution: models time between events (continuous counterpart to Poisson), parameter λ, mean=1/λ</concept>
+        <concept>Memoryless property: P(X &gt; s+t | X &gt; s) = P(X &gt; t) — "future doesn't depend on time already waited"</concept>
+        <concept>Distribution relationships: Bernoulli → Binomial, Poisson ↔ Exponential, Binomial → Normal (CLT), Binomial → Poisson (large n, small p)</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>ship_capacity(weights, days) (BS on answer)</method>
+        <method>koko_eating_bananas(piles, h) (BS on answer)</method>
+        <method>split_array_largest_sum(arr, k) (BS on answer, stretch)</method>
+        <method>find_duplicate(arr) (BS approach)</method>
+        <method>bisect.bisect_left()</method>
+        <method>bisect.bisect_right()</method>
+        <method>bisect.insort()</method>
+        <method>scipy.stats.expon.pdf()</method>
+        <method>scipy.stats.expon.cdf()</method>
+        <method>scipy.stats.expon.sf() (survival function)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Binary search on answer: when answer space is monotonic,
+            BS on the answer itself. 6 problems: Capacity to Ship Packages
+            (LC #1011), Koko Eating Bananas (LC #875), Split Array Largest
+            Sum (LC #410, hard — doable with BS on answer), Find the Duplicate
+            Number (LC #287, BS approach), Median of Two Sorted Arrays (LC #4,
+            stretch), bisect module tour (bisect_left / bisect_right / insort).</content>
+          <problem_count>6</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Exponential distribution: time between events (continuous
+            counterpart to Poisson). Parameter λ, mean=1/λ, memoryless property.
+            Real-world: customer arrivals, failure times, session duration.
+            Memoryless: P(X&gt;s+t | X&gt;s) = P(X&gt;t). scipy.stats.expon PDF/CDF/
+            survival function. Distribution relationships diagram: Bernoulli →
+            Binomial → Normal (CLT) / Poisson (large n, small p); Poisson ↔
+            Exponential. Exercise: given a real dataset, identify best-fit
+            distribution via histograms + goodness-of-fit.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 2 binary-search-on-answer problems.
+            DataLemur: 2 questions.</content>
+          <platform>LeetCode (2 BS-on-answer); DataLemur (2) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Recognize binary-search-on-answer pattern. Stats:
+            draw distribution relationship diagram from memory.</content>
+        </block>
+      </blocks>
+
+      <notes>bisect module enters scope today. Median of Two Sorted Arrays
+        is LC Hard — mark as optional stretch.</notes>
+    </day>
+
+    <!-- ─── DAY 33 (TARGET) ─── -->
+    <day number="33" week="5" weekday="Fri"
+         title="Mixed Sorting/Searching + Sampling">
+
+      <target_problem number="15" name="Largest Perimeter" />
+
+      <topics>Largest Perimeter triangle (greedy + sorting), Merge Intervals,
+        Meeting Rooms II (sweep line), H-Index, custom sort keys, sampling
+        methods, sampling bias, bootstrap Standard Error</topics>
+
+      <concepts>
+        <concept>Largest Perimeter: sort descending, check triangle inequality b+c &gt; a, first valid triple wins — greedy + sorting</concept>
+        <concept>Merge Intervals: sort by start, then merge</concept>
+        <concept>Meeting Rooms II: how many rooms needed — sweep line approach (heap approach reserved for Day 40)</concept>
+        <concept>H-Index via sort</concept>
+        <concept>Custom sort keys: sort by frequency then by value</concept>
+        <concept>Sampling methods: simple random, stratified, cluster, systematic — when to use each</concept>
+        <concept>Sampling bias: selection bias, survivorship bias, response bias, convenience sampling — real examples</concept>
+        <concept>Representativeness: why your sample must represent the population</concept>
+        <concept>Point estimates vs uncertainty: "mean is 42" vs "mean is 42 ± 3"</concept>
+        <concept>Standard Error intuition: "how much would the estimate change on a different sample?" SE = σ/√n — √n relationship</concept>
+        <concept>Bootstrap Standard Error from scratch</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>largest_perimeter(arr) (TARGET PROBLEM #15)</method>
+        <method>merge_intervals(intervals)</method>
+        <method>meeting_rooms_count(intervals) (sweep-line)</method>
+        <method>h_index(citations)</method>
+        <method>custom sorted(key=lambda ...) patterns</method>
+        <method>bootstrap_se(data, statistic, n_iter=10000) (from scratch)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Largest Perimeter Triangle (TARGET PROBLEM #15): sort
+            descending, for each triple (a,b,c) where a≥b≥c check b+c&gt;a,
+            first valid triple gives largest perimeter. Greedy + sorting.
+            Implement from scratch, verify against LC #976. O(n log n).
+            5 mixed sort/search problems: Merge Intervals (LC #56, sort +
+            merge), Meeting Rooms II (sweep-line approach today), array
+            partitioning, H-Index (sort-based), custom sort (sort by
+            frequency then value).</content>
+          <problem_count>6</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Sampling and Estimation: simple random/stratified/cluster/
+            systematic sampling. Sampling biases: selection, survivorship,
+            response, convenience. Representativeness. Point estimates vs
+            uncertainty. SE intuition: "different sample → different estimate".
+            SE = σ/√n: why √n? Intuition via simulation — plot SE as n grows.
+            Python: simulate biased sampling showing distortion. Implement
+            bootstrap SE from scratch. Exercise: 10,000 customer purchases —
+            estimate mean with uncertainty for n ∈ {100, 500, 1000, 5000}.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 mixed problems (sorting + searching).
+            StrataScratch: 1 question.</content>
+          <platform>LeetCode (3 mixed sort/search); StrataScratch (1) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Largest Perimeter from scratch in ≤5 minutes. Stats:
+            name 4 sampling biases with real examples.</content>
+        </block>
+      </blocks>
+
+      <notes>TARGET PROBLEM #15 (Largest Perimeter) focus day. Meeting
+        Rooms II uses sweep-line today — heap approach reserved for Day 40
+        when heapq enters scope.</notes>
+    </day>
+
+    <!-- ─── DAY 34 (TARGET) ─── -->
+    <day number="34" week="5" weekday="Sat"
+         title="Sieve of Eratosthenes + Standard Error Deep Dive">
+
+      <target_problem number="6" name="Prime Numbers Below N" />
+
+      <topics>Sieve of Eratosthenes, primality (O(√n)), prime factorization,
+        GCD/LCM, fast exponentiation (O(log n)), Palindrome Number, Roman
+        ↔ integer, Standard Error deep dive (mean/proportion/difference),
+        margin of error, sample size derivation, bootstrap SE</topics>
+
+      <concepts>
+        <concept>Sieve of Eratosthenes: mark multiples of p starting from p², remaining are primes; O(n log log n)</concept>
+        <concept>Primality testing via O(√n) trial division</concept>
+        <concept>Prime factorization, GCD (Euclidean), LCM = (a*b)/GCD</concept>
+        <concept>Pow(x, n) via O(log n) fast exponentiation (recursion halving)</concept>
+        <concept>Palindrome Number without string conversion</concept>
+        <concept>Roman numeral conversion (Roman to Integer, Integer to Roman)</concept>
+        <concept>Standard Error for different estimators: SE of mean, SE of proportion, SE of difference</concept>
+        <concept>Margin of error: how it relates to confidence intervals (Day 36 preview)</concept>
+        <concept>Sample size and SE: √n relationship — quadrupling n halves SE</concept>
+        <concept>Bootstrap SE: when theoretical SE unknown or formula doesn't exist — resample with replacement, compute statistic, SE = std of bootstrapped values</concept>
+        <concept>Sample size derivation for target margin of error</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>sieve_eratosthenes(n) (TARGET PROBLEM #6)</method>
+        <method>is_prime(n) (O(√n))</method>
+        <method>prime_factorize(n)</method>
+        <method>gcd(a, b) (Euclidean)</method>
+        <method>lcm(a, b)</method>
+        <method>my_pow(x, n) (fast exponentiation, recursion)</method>
+        <method>is_palindrome_number(x)</method>
+        <method>roman_to_int(s)</method>
+        <method>int_to_roman(n)</method>
+        <method>se_mean(data)</method>
+        <method>se_proportion(p, n)</method>
+        <method>se_difference(...)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Sieve of Eratosthenes (TARGET PROBLEM #6): step-by-step
+            implementation, optimization (start from p², only check up to √N).
+            O(n log log n). Space O(n). Variations: segmented sieve for very
+            large N, counting primes. 4 number theory bonus: Count Primes
+            below N (LC #204), primality O(√n), prime factorization, GCD
+            (Euclidean) + LCM. 3 math-pattern: Pow(x, n) via O(log n) fast
+            exponentiation (LC #50), Palindrome Number (LC #9), Roman to
+            Integer / Integer to Roman.</content>
+          <problem_count>7</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Standard Error deep dive: SE of mean, SE of proportion,
+            SE of difference. Margin of error → confidence intervals preview.
+            √n relationship. Bootstrap SE: resample with replacement 10,000×,
+            compute statistic, SE = std. Implement from scratch. Practical:
+            compute SE of mean via formula AND bootstrap on real dataset,
+            compare. Sample size derivation: "how large a sample for mean ±2
+            at 95% confidence?" Interview connection: "why is sample size
+            important in A/B testing?" → SE → power (Day 38).</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 2 math problems + 1 array problem.
+            DataLemur: 1 question.</content>
+          <platform>LeetCode (2 math + 1 array); DataLemur (1) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Sieve from scratch in ≤5 minutes. Stats: SE formula
+            and intuition, no lookup.</content>
+        </block>
+      </blocks>
+
+      <notes>TARGET PROBLEM #6 (Sieve of Eratosthenes) focus day. Fast
+        exponentiation uses recursion from Phase 1 Days 15-16 — no new scope.</notes>
+    </day>
+
+    <!-- ─── DAY 35 (REVIEW DAY) ─── -->
+    <day number="35" week="5" weekday="Sun"
+         title="Week 5 Review + Integration Day"
+         review_day="true">
+
+      <topics>Review of Days 29-34 (sorting, binary search, sieve + Bernoulli,
+        Binomial, Poisson, Normal, Exponential, CLT, SE), self-assessment
+        quiz, timed practice, Distribution Explorer integration project</topics>
+
+      <concepts>
+        <concept>Review: all Week 5 DSA (basic sorts, merge sort, quicksort, binary search 3 templates + BS on answer, Sieve)</concept>
+        <concept>Review: all Week 5 Stats (5 distributions: Bernoulli, Binomial, Poisson, Normal, Exponential; CLT; Standard Error)</concept>
+        <concept>Self-assessment: 20-question DSA quiz + 15-question Stats quiz</concept>
+        <concept>Timed problem-solving: 10 mixed problems in 3 hours</concept>
+        <concept>Integration: Distribution Explorer demonstrating all 5 distributions + CLT + bootstrap CIs</concept>
+      </concepts>
+
+      <methods_introduced>
+        <!-- Review day — no new methods introduced -->
+      </methods_introduced>
+
+      <blocks>
+        <block name="Morning Review" hours="3">
+          <content>DSA quiz (20 questions): merge sort time and space
+            complexity, when quicksort is O(n²), write leftmost binary
+            search from memory, identify the BS-on-answer pattern,
+            implement the Sieve from memory, and 15 more. Stats quiz
+            (15 questions): Binomial(100, 0.3) mean and variance, CLT
+            in one sentence, memoryless property and which distribution
+            has it, distribution relationship diagram, SE if σ=10 and
+            n=100, and 10 more.</content>
+        </block>
+        <block name="Midday Timed Practice" hours="3">
+          <content>10 problems in 3 hours: 5 DSA (sorting/searching mix),
+            3 statistics computation problems, 2 platform questions
+            (StrataScratch/DataLemur).</content>
+          <problem_count>10</problem_count>
+        </block>
+        <block name="Afternoon Integration" hours="4">
+          <content>Integration project: Distribution Explorer (class or
+            Jupyter notebook). Generate samples from any of the 5
+            distributions (Bernoulli, Binomial, Poisson, Normal,
+            Exponential). Compute and display descriptive statistics.
+            Demonstrate CLT (take means of samples, show convergence to
+            Normal). Calculate bootstrap CIs and SE. Visualize with
+            matplotlib. Push to GitHub.</content>
+          <project>Distribution Explorer</project>
+        </block>
+        <block name="Evening Reflection" hours="1">
+          <content>Week 5 reflection: are sorting algorithms solid? Can you
+            implement all 5 distributions in Python? Preview Week 6: stacks,
+            queues, hypothesis testing.</content>
+        </block>
+      </blocks>
+
+      <checkpoint>
+        <criterion test="Can implement merge sort and quicksort from scratch">
+          Timed implementation &lt; 15 min each</criterion>
+        <criterion test="Binary search patterns (3 variants) mastered">
+          5/5 on binary search problem set</criterion>
+        <criterion test="Sieve of Eratosthenes implemented">
+          From scratch in &lt; 5 minutes</criterion>
+        <criterion test="Largest Perimeter solved">
+          From scratch in &lt; 5 minutes</criterion>
+        <criterion test="All 5 distributions understood + implemented">
+          Distribution Explorer works correctly</criterion>
+        <criterion test="CLT and SE understood intuitively + mathematically">
+          Can explain to a non-technical audience</criterion>
+        <criterion test="30+ LeetCode problems solved total">
+          Track on LeetCode profile</criterion>
+      </checkpoint>
+
+      <notes>Review Day — no new concepts. Hybrid quiz format (35 questions).
+        Distribution Explorer is Week 5 deliverable — CLT demonstration is
+        the showcase piece.</notes>
+    </day>
+
+  </week>
+
+  <!-- ═══════════════════════════════════════════════════════
+       WEEK 6: Stacks, Queues + Confidence Intervals &amp; Hypothesis Testing
+       ═══════════════════════════════════════════════════════ -->
+
+  <week number="6" title="Stacks, Queues, Heaps + Confidence Intervals &amp; Hypothesis Testing">
+    <objective>Implement stacks and queues from scratch, master classic
+      applications (balanced parentheses, min-stack, monotonic stack),
+      implement heaps and priority queues via heapq, complete hypothesis
+      testing foundation (CIs, Type I/II errors, power, t-test, proportion
+      z-test, chi-square). Solve 4 target problems this week (Stack,
+      Balancing Special Text, Min-Stack/Monotonic-Stack, Matrix
+      Multiplication).</objective>
+
+    <!-- ─── DAY 36 (TARGET) ─── -->
+    <day number="36" week="6" weekday="Mon"
+         title="Stack Implementation + Confidence Intervals">
+
+      <target_problem number="3" name="Stack (implementation)" />
+
+      <topics>Stack ADT (LIFO), three implementations (list, simplified
+        linked-list preview, fixed-size array), stack applications overview,
+        confidence intervals (frequentist interpretation), bootstrap CI</topics>
+
+      <concepts>
+        <concept>Stack concept: LIFO (Last In, First Out) — push, pop, peek, is_empty, size</concept>
+        <concept>Implementation 1: Python list (simple abstraction, O(1) amortized)</concept>
+        <concept>Implementation 2: Linked list (simplified Node preview — full LL is Phase 3)</concept>
+        <concept>Implementation 3: Fixed-size array stack (for understanding overflow)</concept>
+        <concept>Stack applications overview: expression evaluation, undo/redo, browser back/forward, DFS</concept>
+        <concept>Confidence interval: "if we repeated the experiment 100 times, ~95 of intervals would contain the true parameter" — NOT "there's a 95% chance the true value is in this interval"</concept>
+        <concept>3 common CI misconceptions (list and correct each)</concept>
+        <concept>CI for mean: x̄ ± z*(σ/√n) for large n, x̄ ± t*(s/√n) for small n</concept>
+        <concept>CI for proportion: p̂ ± z*√(p̂(1-p̂)/n)</concept>
+        <concept>CI width depends on confidence level (z*), variability (σ), sample size (n)</concept>
+        <concept>Bootstrap CI: percentile method (2.5th and 97.5th percentiles of bootstrapped stat)</concept>
+        <concept>BCa method (bias-corrected and accelerated) via scipy.stats.bootstrap</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>Stack class (list-backed: push, pop, peek, is_empty, size, __str__)</method>
+        <method>LinkedStack class (simplified Node-based, preview only)</method>
+        <method>FixedSizeStack class</method>
+        <method>reverse_string_with_stack(s)</method>
+        <method>is_valid_push_pop_sequence(pushes, pops)</method>
+        <method>MyQueueViaStacks class (LC #232)</method>
+        <method>MyStackViaQueues class (LC #225)</method>
+        <method>ci_mean_formula(data, alpha=0.05)</method>
+        <method>ci_proportion_formula(x, n, alpha=0.05)</method>
+        <method>bootstrap_ci(data, statistic, alpha=0.05, n_iter=10000)</method>
+        <method>scipy.stats.bootstrap()</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Stack concept: LIFO. 3 implementations: Python list
+            (O(1) amortized), simplified linked list (Node class preview —
+            full LL is Phase 3), fixed-size array (overflow awareness).
+            Stack applications: expression eval, undo/redo, browser history,
+            DFS. 5 problems: Stack class (push/pop/peek/is_empty/size/__str__),
+            reverse a string using stack, check if push/pop sequence is valid,
+            Queue via Two Stacks (LC #232), Stack via Two Queues (LC #225).
+            TARGET PROBLEM #3 (Stack): implementation focus today; min-stack
+            + monotonic patterns on Day 38.</content>
+          <problem_count>5</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Confidence intervals: correct frequentist interpretation
+            + 3 common misconceptions. Formula CI for mean (z* large n,
+            t* small n), CI for proportion. Width drivers: confidence level,
+            σ, n. Bootstrap CI: percentile method from scratch, BCa via
+            scipy.stats.bootstrap. Python: compute CIs manually and with
+            scipy. Exercise: 50 customer satisfaction scores — compute
+            95% CI for the MEDIAN (formula-based approach fails; bootstrap
+            works).</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 stack Easy problems.
+            StrataScratch: 1 question.</content>
+          <platform>LeetCode Easy (3 stack); StrataScratch (1) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Draw stack state after 5 operations. Stats: correct the
+            3 common CI misconceptions.</content>
+        </block>
+      </blocks>
+
+      <notes>TARGET PROBLEM #3 (Stack) — implementation focus today;
+        min-stack + monotonic stack patterns continue Day 38. Linked-list
+        implementation is SIMPLIFIED (Node class with value + next, push/pop
+        only) — full LL operations are Phase 3 (Week 7). Explicit Stack
+        class convention starts today (replaces list-as-stack from Day 26).</notes>
+    </day>
+
+    <!-- ─── DAY 37 (TARGET) ─── -->
+    <day number="37" week="6" weekday="Tue"
+         title="Balanced Parentheses &amp; Stack Applications + Hypothesis Testing Framework">
+
+      <target_problem number="1" name="Balancing Special Text" />
+
+      <topics>Balanced parentheses (multiple delimiter types), stack
+        applications (RPN evaluation, monotonic stack introduction via
+        Daily Temperatures, Next Greater Element, Decode String, Simplify
+        Path), hypothesis testing framework (H₀/H₁, p-value, α, decision
+        rule)</topics>
+
+      <concepts>
+        <concept>Balanced Parentheses — classic stack problem: check ()[]{} balancing</concept>
+        <concept>Algorithm: push opening delimiters, pop and match closing</concept>
+        <concept>Edge cases: empty string, only closing, mismatched types, extra opening</concept>
+        <concept>Extensions: wildcards, custom delimiters, nested HTML tags</concept>
+        <concept>RPN (Reverse Polish Notation) evaluation</concept>
+        <concept>Monotonic stack introduction via Daily Temperatures</concept>
+        <concept>Next Greater Element pattern</concept>
+        <concept>Decode String (nested bracket decoding)</concept>
+        <concept>Simplify Path (filesystem-style path canonicalization)</concept>
+        <concept>Hypothesis testing logic: assume H₀, measure surprise</concept>
+        <concept>H₀ (null hypothesis) vs H₁ (alternative hypothesis), one-tailed vs two-tailed</concept>
+        <concept>p-value: probability under H₀ of data this extreme or more — NOT the probability H₀ is true</concept>
+        <concept>Significance level α (typically 0.05) — threshold for "surprising enough"</concept>
+        <concept>Decision rule: if p &lt; α, reject H₀; otherwise, fail to reject (NOT "accept H₀")</concept>
+        <concept>Simulation-based hypothesis testing: generate null distribution via permutation (10,000 trials)</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>is_balanced(s, delimiters) (TARGET PROBLEM #1)</method>
+        <method>eval_rpn(tokens)</method>
+        <method>daily_temperatures(temps) (monotonic stack)</method>
+        <method>next_greater_element(arr)</method>
+        <method>decode_string(s) (nested brackets)</method>
+        <method>simplify_path(path)</method>
+        <method>simulation_p_value(observed, generate_null_fn, n_iter=10000)</method>
+        <method>permutation-based hypothesis test (manual, np.random only)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Balanced Parentheses (TARGET PROBLEM #1): multi-delimiter
+            version with ()[]{}. Extensions: wildcards, custom delimiters,
+            nested HTML tags. Algorithm: push opens, pop-and-match on closes.
+            Edge cases. 6 stack applications: Valid Parentheses (LC #20) full
+            solution, Evaluate Reverse Polish Notation (LC #150), Daily
+            Temperatures (LC #739) — monotonic stack introduction, Next
+            Greater Element (LC #496), Decode String (LC #394), Simplify
+            Path (LC #71).</content>
+          <problem_count>7</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Hypothesis testing framework. Logic: assume H₀, quantify
+            surprise. H₀ vs H₁, one-tailed vs two-tailed. p-value definition
+            (common misinterpretations!). α significance level. Decision
+            rule. Python: implement hypothesis test from scratch via
+            simulation — 1) state H₀/H₁, 2) choose test statistic,
+            3) generate null distribution via 10,000 permutations,
+            4) compute p-value, 5) decide. Exercise: "Coin flipped 100 times,
+            lands heads 60. Is it fair?" Solve with simulation AND formula.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 stack Easy/Medium.
+            DataLemur: 1 statistics question.</content>
+          <platform>LeetCode Easy/Medium (3 stack); DataLemur (1 stats) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Balanced Parens in ≤5 minutes. Stats: hypothesis test
+            decision flowchart from memory.</content>
+        </block>
+      </blocks>
+
+      <notes>TARGET PROBLEM #1 (Balancing Special Text). Monotonic stack
+        introduced today (Daily Temperatures); deepened Day 38.</notes>
+    </day>
+
+    <!-- ─── DAY 38 (TARGET) ─── -->
+    <day number="38" week="6" weekday="Wed"
+         title="Advanced Stack Patterns + Type I/II Errors &amp; Power">
+
+      <target_problem number="3" name="Stack (min-stack and monotonic patterns)" />
+
+      <topics>Min-Stack (2 approaches), monotonic stack pattern, Largest
+        Rectangle in Histogram (stack classic), Trapping Rain Water (stack),
+        Online Stock Span, Remove K Digits, Asteroid Collision, Type I /
+        Type II errors, statistical power, power analysis</topics>
+
+      <concepts>
+        <concept>Min-Stack: approach 1 — two stacks (main + min-tracking)</concept>
+        <concept>Min-Stack: approach 2 — store (value, current_min) tuples</concept>
+        <concept>Monotonic stack pattern: maintaining increasing/decreasing order for efficient next-greater/smaller lookup</concept>
+        <concept>Largest Rectangle in Histogram — monotonic stack classic (LC Hard)</concept>
+        <concept>Trapping Rain Water — stack approach + precomputed-heights approach</concept>
+        <concept>Online Stock Span, Remove K Digits, Asteroid Collision</concept>
+        <concept>Type I error (false positive): rejecting H₀ when it's true — probability = α</concept>
+        <concept>Type II error (false negative): failing to reject H₀ when H₁ is true — probability = β</concept>
+        <concept>α/β trade-off: decreasing α increases β; can't minimize both</concept>
+        <concept>Real-world framing: Type I = "launching a feature that doesn't help"; Type II = "not launching a feature that does"</concept>
+        <concept>Statistical power: Power = 1 - β — probability of correctly detecting a real effect</concept>
+        <concept>Power drivers: sample size (↑n → ↑power), effect size, α, variability (↓σ → ↑power)</concept>
+        <concept>Power analysis: "How many samples for 80% power at 5% α to detect a 2% lift?"</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>MinStack class (TARGET PROBLEM #3: two-stack variant + tuple variant)</method>
+        <method>largest_rectangle_histogram(heights)</method>
+        <method>trap_rain_water(heights) (stack approach)</method>
+        <method>OnlineStockSpan class</method>
+        <method>remove_k_digits(num, k)</method>
+        <method>asteroid_collision(asteroids)</method>
+        <method>statsmodels.stats.power.TTestIndPower</method>
+        <method>statsmodels.stats.power.NormalIndPower</method>
+        <method>TTestIndPower().solve_power(...)</method>
+        <method>empirical power simulation (10,000 trials)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Min-Stack (TARGET PROBLEM #3 continued): approach 1
+            two-stacks (main + min-tracking), approach 2 tuple storage.
+            Space trade-off analysis. LC #155. Monotonic Stack pattern:
+            increasing/decreasing templates. Algorithm walkthrough. 6
+            problems: Min Stack (LC #155), Largest Rectangle in Histogram
+            (LC #84, monotonic classic, LC Hard — don't skip), Trapping
+            Rain Water (LC #42, stack approach), Online Stock Span (LC #901),
+            Remove K Digits (LC #402), Asteroid Collision (LC #735).</content>
+          <problem_count>6</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Type I/II errors. α/β trade-off. Real-world framing
+            (medical tests vs marketing). Statistical Power = 1 - β.
+            Power drivers: n, effect size, α, σ. Power analysis:
+            statsmodels.stats.power.TTestIndPower. Simulation: generate data
+            with known effect, run test 10,000 times, count detections =
+            empirical power. Exercise: A/B test design — current conversion
+            10%, detect 2% absolute increase at 80% power, 5% α. How many
+            users per group?</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 2 monotonic stack Medium problems.
+            StrataScratch: 1 question.</content>
+          <platform>LeetCode Medium (2 monotonic stack); StrataScratch (1) [verify on platform]</platform>
+          <problem_count>3</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Min-stack and monotonic stack templates. Stats:
+            hand-compute power-analysis sample size.</content>
+        </block>
+      </blocks>
+
+      <notes>TARGET PROBLEM #3 continued (min-stack + monotonic patterns).
+        statsmodels enters scope today — first and only Phase 2 day
+        introducing statsmodels power functions. Largest Rectangle in
+        Histogram is LC Hard but canonical monotonic-stack — do not skip.</notes>
+    </day>
+
+    <!-- ─── DAY 39 ─── -->
+    <day number="39" week="6" weekday="Thu"
+         title="Queues &amp; Deques + T-test &amp; Proportion Test">
+
+      <topics>Queue ADT (FIFO), three implementations (list — inefficient,
+        collections.deque — efficient, circular queue with fixed-size array),
+        deque double-ended operations, Sliding Window Maximum (monotonic
+        deque), t-test variants (1-sample, 2-sample Welch/pooled, paired),
+        proportion z-test, assumption checks (Shapiro-Wilk, Levene)</topics>
+
+      <concepts>
+        <concept>Queue concept: FIFO (First In, First Out) — enqueue, dequeue, front, is_empty</concept>
+        <concept>Implementation 1: Python list (O(n) for dequeue — inefficient, explain why)</concept>
+        <concept>Implementation 2: collections.deque (O(1) both ends — efficient, already in scope from Phase 1 Day 20 but now used as queue)</concept>
+        <concept>Implementation 3: Circular queue via fixed-size array (head/tail pointers)</concept>
+        <concept>Deque (double-ended queue): operations at both ends</concept>
+        <concept>Sliding Window Maximum via monotonic deque (LC Hard but canonical)</concept>
+        <concept>One-sample t-test: "is this sample mean different from a known value?"</concept>
+        <concept>Two-sample t-test (independent): Welch's (unequal variance) vs pooled (equal variance)</concept>
+        <concept>Paired t-test: "did the treatment change things for the same subjects?"</concept>
+        <concept>t-distribution: heavier tails than Normal, approaches Normal as df → ∞</concept>
+        <concept>When to use t-test vs z-test: small n + unknown σ → t-test; large n → either works</concept>
+        <concept>Proportion z-test: one-sample and two-sample for comparing conversion rates</concept>
+        <concept>Assumption checks: Shapiro-Wilk (normality), Levene's test (equal variance)</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>Queue class (deque-backed internally)</method>
+        <method>CircularQueue class (fixed-size array, head/tail pointers)</method>
+        <method>recent_calls_counter(window_ms) (LC #933)</method>
+        <method>sliding_window_maximum(nums, k) (monotonic deque)</method>
+        <method>HitCounter class</method>
+        <method>Round Robin task scheduler (concept only)</method>
+        <method>scipy.stats.ttest_1samp()</method>
+        <method>scipy.stats.ttest_ind()</method>
+        <method>scipy.stats.ttest_rel()</method>
+        <method>scipy.stats.shapiro()</method>
+        <method>scipy.stats.levene()</method>
+        <method>statsmodels.stats.proportion.proportions_ztest()</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Queue concept: FIFO. 3 implementations: Python list
+            (inefficient, explain why O(n)), collections.deque (O(1) both
+            ends), circular queue via fixed-size array. Deque operations
+            at both ends. 6 problems: Queue class (deque-backed), Circular
+            Queue (LC #622), Number of Recent Calls (LC #933), Sliding
+            Window Maximum (LC #239, monotonic deque, LC Hard), Design Hit
+            Counter, Round Robin scheduler concept.</content>
+          <problem_count>6</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>T-test variants: 1-sample, 2-sample independent (Welch
+            vs pooled — equal-variance assumption), paired. t-distribution
+            heavier tails, → Normal as df grows. When t vs z. Python:
+            scipy.stats.ttest_1samp / ttest_ind / ttest_rel. Proportion
+            z-test via statsmodels.stats.proportion.proportions_ztest.
+            Assumption checks: scipy.stats.shapiro (normality), scipy.stats.
+            levene (equal variance). Exercise: Group A: 500 users, 60
+            converted. Group B: 500 users, 75 converted. Full test with
+            all steps.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 queue problems.
+            DataLemur: 1 question.</content>
+          <platform>LeetCode (3 queue); DataLemur (1) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Circular Queue index math. Stats: T-test decision tree
+            — which variant when?</content>
+        </block>
+      </blocks>
+
+      <notes>Sliding Window Maximum is LC Hard but canonical. collections.deque
+        usage broadens from Phase 1 Day 20 (general-purpose) to explicit
+        queue semantics today.</notes>
+    </day>
+
+    <!-- ─── DAY 40 ─── -->
+    <day number="40" week="6" weekday="Fri"
+         title="Priority Queue / Heaps + Chi-Square Test">
+
+      <topics>Heap ADT (complete binary tree, min-heap / max-heap property),
+        Python heapq module, priority queue pattern, max-heap via negation,
+        chi-square goodness of fit, chi-square test of independence,
+        contingency tables, degrees of freedom, Fisher's exact test</topics>
+
+      <concepts>
+        <concept>Heap: complete binary tree, heap-order property, array representation</concept>
+        <concept>Operations: insert (bubble up), extract-min (bubble down), heapify</concept>
+        <concept>heapq module: heappush, heappop, heapify, nlargest, nsmallest</concept>
+        <concept>Python has min-heap only — negate values for max-heap behavior</concept>
+        <concept>Priority queue = heap underneath</concept>
+        <concept>Kth Largest in Stream, Last Stone Weight (max-heap via negation), K Closest Points to Origin</concept>
+        <concept>Merge K Sorted Lists (concept only — full implementation after Phase 3 linked lists)</concept>
+        <concept>Find Median from Data Stream via two heaps (max-heap + min-heap)</concept>
+        <concept>Chi-square goodness of fit: "does this distribution match what we expected?"</concept>
+        <concept>Chi-square test of independence: "are these two categorical variables related?"</concept>
+        <concept>Contingency tables: construct, compute expected frequencies, χ² statistic</concept>
+        <concept>Degrees of freedom: (rows - 1) × (cols - 1) for independence test</concept>
+        <concept>Assumption: expected frequency ≥ 5 per cell; otherwise use Fisher's exact test</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>MinHeap class (from scratch, array-based: insert, extract_min, heapify_up, heapify_down)</method>
+        <method>heapq.heappush()</method>
+        <method>heapq.heappop()</method>
+        <method>heapq.heapify()</method>
+        <method>heapq.nlargest()</method>
+        <method>heapq.nsmallest()</method>
+        <method>KthLargestStream class (LC #703)</method>
+        <method>last_stone_weight(stones) (max-heap via negation)</method>
+        <method>k_closest_points(points, k)</method>
+        <method>MedianFinder class (two heaps, LC #295)</method>
+        <method>scipy.stats.chisquare()</method>
+        <method>scipy.stats.chi2_contingency()</method>
+        <method>scipy.stats.fisher_exact()</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Heap: complete binary tree, heap-order property, array
+            representation. Operations: insert (bubble up), extract-min
+            (bubble down), heapify. heapq module tour: heappush, heappop,
+            heapify, nlargest, nsmallest. Python is min-heap only — negate
+            for max-heap. Priority Queue = heap underneath. 6 problems:
+            MinHeap from scratch (array-based), Kth Largest Element in a
+            Stream (LC #703), Last Stone Weight (LC #1046) via max-heap-
+            by-negation, K Closest Points to Origin (LC #973), Merge K
+            Sorted Lists (LC #23 concept only), Find Median from Data
+            Stream (LC #295, two-heaps approach).</content>
+          <problem_count>6</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Chi-square goodness of fit: "does this distribution match
+            expected?" Example: are website visits equally distributed across
+            weekdays? Chi-square test of independence: "are these two
+            categorical variables related?" Example: user plan (free/paid)
+            vs churn (yes/no). Contingency tables, expected frequencies,
+            χ² statistic. Degrees of freedom: (r-1)(c-1). Python:
+            scipy.stats.chisquare, scipy.stats.chi2_contingency. Assumption:
+            expected freq ≥ 5 per cell → else scipy.stats.fisher_exact.
+            Exercise: click data across 4 button colors and 3 user segments.
+            Is preference independent of segment?</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 2 heap Medium problems.
+            StrataScratch: 1 question.</content>
+          <platform>LeetCode Medium (2 heap); StrataScratch (1) [verify on platform]</platform>
+          <problem_count>3</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Draw heap array/tree representation and trace insert
+            + extract. Stats: chi-square variant decision rule (GoF vs
+            independence).</content>
+        </block>
+      </blocks>
+
+      <notes>heapq enters scope today. Merge K Sorted Lists is conceptual
+        only — full implementation deferred to Phase 3 (Week 7) after
+        linked lists.</notes>
+    </day>
+
+    <!-- ─── DAY 41 (TARGET) ─── -->
+    <day number="41" week="6" weekday="Sat"
+         title="Mixed Stack/Queue Practice + Matrix Multiplication + Stats Integration">
+
+      <target_problem number="13" name="Matrix Multiplication" />
+
+      <topics>Matrix multiplication from scratch (triple nested loop), mixed
+        stack/queue problems (MaxStack, stack-with-middle, Backspace String
+        Compare, Next Greater Element II circular, Remove Adjacent Duplicates),
+        hypothesis testing integration (test selection decision framework),
+        multiple comparisons preview, statistical vs practical significance</topics>
+
+      <concepts>
+        <concept>Matrix multiplication: for A (m×n) and B (n×p), C (m×p) where C[i][j] = Σ A[i][k] × B[k][j]</concept>
+        <concept>Triple nested loop implementation — O(m·n·p), O(n³) for square</concept>
+        <concept>Verification via NumPy: A @ B or np.dot(A, B)</concept>
+        <concept>Strassen's algorithm O(n^2.807) exists (mention only, no implementation)</concept>
+        <concept>Edge cases: non-square matrices, incompatible dimensions, 1D vectors</concept>
+        <concept>MaxStack: push, pop, peekMax, popMax (O(1) each)</concept>
+        <concept>Stack with getMiddle operation</concept>
+        <concept>Backspace String Compare: stack-based and two-pointer variants</concept>
+        <concept>Next Greater Element II (circular array, monotonic stack)</concept>
+        <concept>Remove All Adjacent Duplicates in String</concept>
+        <concept>Hypothesis test selection decision framework: comparing 1 group to a value / 2 groups continuous / paired / proportions / categories</concept>
+        <concept>Multiple comparisons preview: testing many things inflates false-positive rate — p-hacking risk</concept>
+        <concept>Statistical significance ≠ practical significance: large n can make tiny differences "significant"</concept>
+      </concepts>
+
+      <methods_introduced>
+        <method>matmul_from_scratch(A, B) (TARGET PROBLEM #13 — triple loop)</method>
+        <method>MaxStack class</method>
+        <method>StackWithMiddle class</method>
+        <method>backspace_compare(s, t) (stack + two-pointer variants)</method>
+        <method>next_greater_element_circular(nums) (LC #503)</method>
+        <method>remove_adjacent_duplicates(s) (LC #1047)</method>
+        <method>test_selection_decision(scenario) (returns recommended test)</method>
+      </methods_introduced>
+
+      <blocks>
+        <block name="DSA Morning" hours="5">
+          <content>Matrix Multiplication from scratch (TARGET PROBLEM #13):
+            C[i][j] = Σ A[i][k] × B[k][j]. Triple nested loop O(m·n·p).
+            Verify with NumPy @ and np.dot. Complexity: O(n³) for square;
+            Strassen O(n^2.807) mention only. Edge cases: non-square, dim
+            mismatch, vectors. 5 mixed stack/queue problems: MaxStack
+            (push/pop/peekMax/popMax), stack with getMiddle, Backspace
+            String Compare (LC #844, stack + two-pointer), Next Greater
+            Element II (LC #503, circular monotonic), Remove All Adjacent
+            Duplicates in String (LC #1047).</content>
+          <problem_count>6</problem_count>
+        </block>
+        <block name="Stats Midday" hours="3">
+          <content>Hypothesis Testing Integration: decision framework.
+            "I have data — which test?" 1 group vs value → 1-sample t-test;
+            2 groups continuous → 2-sample t-test / Mann-Whitney (Phase 3);
+            paired → paired t-test / Wilcoxon (Phase 3); proportions →
+            proportion z-test; categories → chi-square. 5 scenario-based
+            problems: identify test, state H₀/H₁, check assumptions, run
+            in Python, interpret in plain English. Common pitfalls:
+            multiple comparisons / p-hacking, statistical vs practical
+            significance.</content>
+        </block>
+        <block name="Problem Practice" hours="2">
+          <content>LeetCode: 3 mixed problems, timed (20 min each).
+            DataLemur: 1 question.</content>
+          <platform>LeetCode timed (3 mixed, 20 min each); DataLemur (1) [verify on platform]</platform>
+          <problem_count>4</problem_count>
+        </block>
+        <block name="Evening Review" hours="1">
+          <content>Matrix multiplication from scratch in ≤10 minutes.
+            Stats: commit test selection flowchart to memory.</content>
+        </block>
+      </blocks>
+
+      <notes>TARGET PROBLEM #13 (Matrix Multiplication) focus day. Matrix
+        mult verification against `A @ B` (numpy) is mandatory. Integration
+        session — no NEW stat tests today. Mann-Whitney / Wilcoxon
+        (non-parametric) are Phase 3 Week 7 — mentioned as "next week"
+        preview only.</notes>
+    </day>
+
+    <!-- ─── DAY 42 (REVIEW DAY) ─── -->
+    <day number="42" week="6" weekday="Sun"
+         title="Week 6 Review + Applied Hypothesis Testing Project"
+         review_day="true">
+
+      <topics>Review of Days 36-41 (stacks, queues, heaps, matrix mult +
+        CIs, hypothesis testing framework, Type I/II, power, t-tests,
+        proportion z-test, chi-square), self-assessment quiz, timed
+        practice, A/B Test Analyzer v1 integration project, Phase 2
+        retrospective</topics>
+
+      <concepts>
+        <concept>Review: all Week 6 DSA (stack list + min + monotonic; queue list/deque/circular; heap/heapq; matrix mult)</concept>
+        <concept>Review: all Week 6 Stats (CIs + bootstrap CI; hypothesis test framework; Type I/II; power; t-tests; proportion z-test; chi-square GoF and independence)</concept>
+        <concept>Self-assessment: 20-question DSA quiz + 15-question Stats quiz</concept>
+        <concept>Timed problem-solving: 10 mixed problems in 3 hours</concept>
+        <concept>Integration: A/B Test Analyzer v1 — auto-selects test, runs it, reports results in plain English</concept>
+        <concept>Phase 2 retrospective: target problems solved, DSA + Stats coverage, LeetCode count</concept>
+      </concepts>
+
+      <methods_introduced>
+        <!-- Review day — no new methods introduced -->
+      </methods_introduced>
+
+      <blocks>
+        <block name="Morning Review" hours="3">
+          <content>DSA quiz (20 questions): implement a stack's push and pop
+            from memory; min-stack getMin complexity; trace monotonic stack
+            on [3,1,4,1,5,9]; stack vs queue; matrix multiplication for 2×3
+            and 3×2 from memory; heap vs sorted list; and 14 more. Stats
+            quiz (15 questions): what a p-value of 0.03 means in plain
+            English; Type I vs Type II; paired vs independent t-test; 95%
+            CI for a sample mean given data; statistical power and its
+            drivers; and 10 more.</content>
+        </block>
+        <block name="Midday Timed Practice" hours="3">
+          <content>10 problems in 3 hours: 5 DSA (stacks, queues, heaps,
+            mixed), 3 hypothesis testing problems, 2 platform questions.</content>
+          <problem_count>10</problem_count>
+        </block>
+        <block name="Afternoon Integration" hours="4">
+          <content>Integration project: A/B Test Analyzer (v1). Input: two
+            groups of data (from CSV or generated). Automatically: 1) compute
+            descriptive statistics per group, 2) visualize distributions,
+            3) select appropriate test (t-test / proportion z-test / chi-square),
+            4) run the test and report p-value, CI, effect size, 5) make
+            recommendation in plain English. Uses OOP (ABTestAnalyzer class),
+            proper error handling. Explicitly v1 — full version with power
+            analysis + CUPED + Bayesian option is Capstone 1 in Weeks 10-12
+            (Phase 4). Push to GitHub.</content>
+          <project>A/B Test Analyzer (v1)</project>
+        </block>
+        <block name="Evening Reflection" hours="1">
+          <content>Phase 2 retrospective: 6 target problems now solvable
+            (Nested JSON Flattening carried from Day 20, Sieve, Largest
+            Perimeter, Balancing Special Text, Stack, Matrix Multiplication).
+            DSA: arrays, strings, hashing, sorting, searching, stacks,
+            queues, heaps. Stats: all of Tier 1A through hypothesis testing
+            (non-parametric tests arrive Phase 3 Week 7). LeetCode: should
+            be 50+ problems by now.</content>
+        </block>
+      </blocks>
+
+      <checkpoint>
+        <criterion test="Stack implementation (list + applications) mastered">
+          Implement from scratch + 3 applications</criterion>
+        <criterion test="Balancing Special Text solved">
+          Solve in &lt; 5 minutes</criterion>
+        <criterion test="Matrix Multiplication implemented">
+          From scratch + NumPy verification</criterion>
+        <criterion test="Queue, deque, and heap understood">
+          Implementation + problem-solving</criterion>
+        <criterion test="Confidence intervals understood deeply">
+          Correct the 3 common misconceptions</criterion>
+        <criterion test="Hypothesis testing framework solid">
+          Decision flowchart + 5 scenario problems correct</criterion>
+        <criterion test="Chi-square, t-test, proportion test all implemented">
+          A/B Test Analyzer works correctly</criterion>
+      </checkpoint>
+
+      <notes>Review Day — no new concepts. Week 6 AND Phase 2 retrospective.
+        A/B Test Analyzer is explicitly v1 — full version (power analysis,
+        CUPED, Bayesian) is Capstone 1 in Phase 4. Phase 3 (Week 7) begins
+        linked lists + non-parametric tests at T2.</notes>
+    </day>
+
+  </week>
+
+  <!-- ═══════════════════════════════════════════════════════
+       CROSS-REFERENCES
+       ═══════════════════════════════════════════════════════ -->
+
+  <cross_references>
+    <target_problems_in_phase>
+      <problem number="15" name="Largest Perimeter"
+              day="33" status="primary focus" />
+      <problem number="6" name="Prime Numbers Below N (Sieve of Eratosthenes)"
+              day="34" status="primary focus" />
+      <problem number="3" name="Stack"
+              day="36,38" status="implementation (Day 36) + min-stack and monotonic patterns (Day 38)" />
+      <problem number="1" name="Balancing Special Text"
+              day="37" status="primary focus" />
+      <problem number="13" name="Matrix Multiplication"
+              day="41" status="primary focus (foundation laid Day 17)" />
+    </target_problems_in_phase>
+
+    <displaced_content_references>
+      <!-- No displaced content introduced in Phase 2. DC-001/002/003
+           were Phase 1 displacements, all placed by Day 6 (see
+           deviation_log.xml). -->
+    </displaced_content_references>
+
+    <platform_usage>
+      <platform name="LeetCode" first_used="Day 22"
+                sections="Easy array / two-pointer / sliding window / hash map / strings / prefix sums (Week 4); sorting / binary search / number theory (Week 5); stack / queue / heap / matrix (Week 6) — Easy through Hard" />
+      <platform name="StrataScratch" first_used="Day 18"
+                sections="Python Easy and Medium (continued from Phase 1)" />
+      <platform name="DataLemur" first_used="Day 22"
+                sections="Python + probability + statistics Easy and Medium" />
+      <platform name="HackerRank" first_used="Day 1"
+                sections="Continued Phase 1 usage (Python Introduction, Strings, Lists, Collections)" />
+      <platform name="CodingBat" first_used="Day 3"
+                sections="Phase 1 only (Warmup-2, Logic-2)" />
+      <platform name="Exercism" first_used="Day 6"
+                sections="Phase 1 only (Python track)" />
+    </platform_usage>
+
+    <projects_index>
+      <project day="28" name="Statistical Data Explorer (DataExplorer class)" review_day="true" />
+      <project day="35" name="Distribution Explorer" review_day="true" />
+      <project day="42" name="A/B Test Analyzer (v1)" review_day="true" />
+    </projects_index>
+
+    <scope_carry_forward>
+      <!-- Phase 1 scope is cumulative and ALL carries forward to Phase 2.
+           See deviation_log.xml <scope_additions> <phase_scope phase="1"
+           days="1-21"> for the full Phase 1 inventory.
+
+           Phase 2 day N scope = Phase 1 Day 21 scope ∪ Phase 2 cumulative
+           additions through day N. Cumulative invariant verified at
+           scope_registry.xml rotation (Step X4 of T1 transition) and by
+           validate_transition.py Check 4. -->
+    </scope_carry_forward>
+  </cross_references>
+
+</curriculum_chunk>

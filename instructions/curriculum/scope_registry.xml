@@ -1,0 +1,2219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scope_registry version="1.0" generated_at="2026-04-14T07:06:06.445543+00:00" source="scripts/generate_scope_registry.py">
+  <always_allowed_bare_names>bool,float,input,int,print,str,type</always_allowed_bare_names>
+  <phase id="1" days="1-21" curriculum_file="curriculum_weeks01-03.xml">
+    <day number="1">
+      <bare_names>abs,id,max,min,round,sum</bare_names>
+    </day>
+    <day number="2">
+      <bare_names>len</bare_names>
+    </day>
+    <day number="3">
+      <ast_features>break,continue,for,if,list_comprehension,ternary_if,while</ast_features>
+      <bare_names>enumerate,range,zip</bare_names>
+    </day>
+    <day number="4">
+      <bare_names>list,reversed,sorted,tuple</bare_names>
+    </day>
+    <day number="5">
+      <ast_features>dict_comprehension</ast_features>
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+      </imports>
+      <bare_names>Counter,OrderedDict,defaultdict,dict,frozenset,hash,set</bare_names>
+    </day>
+    <day number="6">
+      <ast_features>def,lambda,return,set_comprehension</ast_features>
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import defaultdict</import>
+        <import>from functools import reduce</import>
+      </imports>
+      <bare_names>filter,map,reduce</bare_names>
+      <qualified_names>functools.reduce</qualified_names>
+    </day>
+    <day number="7" review_day="true" inherits="6">
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from functools import reduce</import>
+      </imports>
+    </day>
+    <day number="8">
+      <ast_features>generator_expression,yield</ast_features>
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import defaultdict</import>
+        <import>from functools import reduce</import>
+        <import>import sys</import>
+        <import>import tracemalloc</import>
+      </imports>
+      <bare_names>iter,next</bare_names>
+      <qualified_names>sys.getsizeof,tracemalloc.get_traced_memory,tracemalloc.start,tracemalloc.stop</qualified_names>
+      <exceptions>StopIteration</exceptions>
+    </day>
+    <day number="9">
+      <ast_features>import,import_from,with</ast_features>
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import defaultdict</import>
+        <import>from functools import reduce</import>
+        <import>from pathlib import Path</import>
+        <import>import csv</import>
+        <import>import json</import>
+        <import>import pathlib</import>
+        <import>import sys</import>
+      </imports>
+      <bare_names>Path,open</bare_names>
+      <qualified_names>csv.DictReader,csv.DictWriter,csv.reader,csv.writer,json.dump,json.dumps,json.load,json.loads</qualified_names>
+    </day>
+    <day number="10">
+      <ast_features>class,raise,try_except</ast_features>
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import defaultdict</import>
+        <import>from functools import reduce</import>
+        <import>from pathlib import Path</import>
+        <import>import csv</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import pathlib</import>
+        <import>import sys</import>
+      </imports>
+      <bare_names>isinstance</bare_names>
+      <qualified_names>logging.basicConfig,logging.critical,logging.debug,logging.error,logging.info,logging.warning</qualified_names>
+      <exceptions>AttributeError,BaseException,Exception,FileNotFoundError,IndexError,KeyError,KeyboardInterrupt,OverflowError,PermissionError,TypeError,UnicodeDecodeError,ValueError,ZeroDivisionError</exceptions>
+    </day>
+    <day number="11">
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <bare_names>combinations,date,deepcopy,deque,lru_cache,permutations,timedelta</bare_names>
+      <qualified_names>copy.deepcopy,datetime.date,datetime.datetime,datetime.timedelta,functools.lru_cache,itertools.combinations,itertools.permutations,math.ceil,math.e,math.floor,math.pi,math.sqrt,random.randint,random.shuffle,re.findall,re.match,re.search,re.sub</qualified_names>
+      <decorators>lru_cache</decorators>
+      <user_module_prefixes>finance_tracker,my_package,string_tools</user_module_prefixes>
+    </day>
+    <day number="12">
+      <imports>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <bare_names>classmethod,dataclass,property,staticmethod</bare_names>
+      <qualified_names>dataclasses.dataclass,dataclasses.field</qualified_names>
+      <decorators>classmethod,dataclass,property,staticmethod</decorators>
+    </day>
+    <day number="13">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <bare_names>ABC,abstractmethod,super</bare_names>
+      <qualified_names>abc.ABC,abc.abstractmethod</qualified_names>
+      <decorators>abstractmethod</decorators>
+    </day>
+    <day number="14" review_day="true" inherits="13">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <user_module_prefixes>library_system</user_module_prefixes>
+    </day>
+    <day number="15">
+      <ast_features>yield_from</ast_features>
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>sys.setrecursionlimit</qualified_names>
+      <exceptions>RecursionError</exceptions>
+    </day>
+    <day number="16">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>math.log2,random.sample,time.perf_counter</qualified_names>
+    </day>
+    <day number="17">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>numpy.allclose,numpy.arange,numpy.array,numpy.cumsum,numpy.dot,numpy.eye,numpy.insert,numpy.linalg.det,numpy.linalg.inv,numpy.linspace,numpy.ones,numpy.random.default_rng,numpy.sqrt,numpy.sum,numpy.zeros</qualified_names>
+      <user_module_prefixes>linalg_scratch</user_module_prefixes>
+    </day>
+    <day number="18">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>matplotlib.pyplot.figure,matplotlib.pyplot.plot,matplotlib.pyplot.savefig,matplotlib.pyplot.show,matplotlib.pyplot.title,matplotlib.pyplot.xlabel,matplotlib.pyplot.ylabel,pandas.DataFrame,pandas.Series,pandas.read_csv</qualified_names>
+    </day>
+    <day number="19">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>pandas.concat,pandas.merge,pandas.to_datetime</qualified_names>
+    </day>
+    <day number="20">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>pandas.json_normalize</qualified_names>
+    </day>
+    <day number="21" review_day="true" inherits="20">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <user_module_prefixes>data_pipeline</user_module_prefixes>
+    </day>
+  </phase>
+  <phase id="2" days="22-42" curriculum_file="curriculum_weeks04-06.xml">
+    <day number="22">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>matplotlib.pyplot.axvline,matplotlib.pyplot.hist,matplotlib.pyplot.legend,numpy.mean,numpy.median,numpy.random.Generator.exponential</qualified_names>
+    </day>
+    <day number="23">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>numpy.std,numpy.var</qualified_names>
+    </day>
+    <day number="24">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>matplotlib.pyplot.boxplot,numpy.percentile,numpy.quantile</qualified_names>
+    </day>
+    <day number="25">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="26">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="27">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="28" review_day="true" inherits="27">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="29">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>scipy.stats.bernoulli,scipy.stats.binom,scipy.stats.mode</qualified_names>
+    </day>
+    <day number="30">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>scipy.stats.poisson</qualified_names>
+    </day>
+    <day number="31">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>numpy.random.choice,numpy.random.seed,scipy.stats.norm</qualified_names>
+    </day>
+    <day number="32">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <bare_names>bisect_left,bisect_right,insort</bare_names>
+      <qualified_names>bisect.bisect_left,bisect.bisect_right,bisect.insort,scipy.stats.expon</qualified_names>
+    </day>
+    <day number="33">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="34">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="35" review_day="true" inherits="34">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="36">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>scipy.stats.bootstrap</qualified_names>
+    </day>
+    <day number="37">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="38">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from statsmodels.stats import power</import>
+        <import>from statsmodels.stats.power import NormalIndPower</import>
+        <import>from statsmodels.stats.power import TTestIndPower</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import statsmodels</import>
+        <import>import statsmodels.api as sm</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <qualified_names>statsmodels.stats.power.NormalIndPower,statsmodels.stats.power.TTestIndPower</qualified_names>
+    </day>
+    <day number="39">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from scipy.stats import levene</import>
+        <import>from scipy.stats import shapiro</import>
+        <import>from scipy.stats import ttest_1samp</import>
+        <import>from scipy.stats import ttest_ind</import>
+        <import>from scipy.stats import ttest_rel</import>
+        <import>from statsmodels.stats import power</import>
+        <import>from statsmodels.stats.power import NormalIndPower</import>
+        <import>from statsmodels.stats.power import TTestIndPower</import>
+        <import>from statsmodels.stats.proportion import proportions_ztest</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import statsmodels</import>
+        <import>import statsmodels.api as sm</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <bare_names>levene,proportions_ztest,shapiro,ttest_1samp,ttest_ind,ttest_rel</bare_names>
+      <qualified_names>scipy.stats.levene,scipy.stats.shapiro,scipy.stats.ttest_1samp,scipy.stats.ttest_ind,scipy.stats.ttest_rel,statsmodels.stats.proportion.proportions_ztest</qualified_names>
+    </day>
+    <day number="40">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from heapq import heapify</import>
+        <import>from heapq import heappop</import>
+        <import>from heapq import heappush</import>
+        <import>from heapq import heappush, heappop</import>
+        <import>from heapq import nlargest</import>
+        <import>from heapq import nsmallest</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from scipy.stats import chi2_contingency</import>
+        <import>from scipy.stats import chisquare</import>
+        <import>from scipy.stats import fisher_exact</import>
+        <import>from scipy.stats import levene</import>
+        <import>from scipy.stats import shapiro</import>
+        <import>from scipy.stats import ttest_1samp</import>
+        <import>from scipy.stats import ttest_ind</import>
+        <import>from scipy.stats import ttest_rel</import>
+        <import>from statsmodels.stats import power</import>
+        <import>from statsmodels.stats.power import NormalIndPower</import>
+        <import>from statsmodels.stats.power import TTestIndPower</import>
+        <import>from statsmodels.stats.proportion import proportions_ztest</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import heapq</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import statsmodels</import>
+        <import>import statsmodels.api as sm</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+      <bare_names>chi2_contingency,chisquare,fisher_exact,heapify,heappop,heappush,nlargest,nsmallest</bare_names>
+      <qualified_names>heapq.heapify,heapq.heappop,heapq.heappush,heapq.nlargest,heapq.nsmallest,scipy.stats.chi2_contingency,scipy.stats.chisquare,scipy.stats.fisher_exact</qualified_names>
+    </day>
+    <day number="41">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from heapq import heapify</import>
+        <import>from heapq import heappop</import>
+        <import>from heapq import heappush</import>
+        <import>from heapq import heappush, heappop</import>
+        <import>from heapq import nlargest</import>
+        <import>from heapq import nsmallest</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from scipy.stats import chi2_contingency</import>
+        <import>from scipy.stats import chisquare</import>
+        <import>from scipy.stats import fisher_exact</import>
+        <import>from scipy.stats import levene</import>
+        <import>from scipy.stats import shapiro</import>
+        <import>from scipy.stats import ttest_1samp</import>
+        <import>from scipy.stats import ttest_ind</import>
+        <import>from scipy.stats import ttest_rel</import>
+        <import>from statsmodels.stats import power</import>
+        <import>from statsmodels.stats.power import NormalIndPower</import>
+        <import>from statsmodels.stats.power import TTestIndPower</import>
+        <import>from statsmodels.stats.proportion import proportions_ztest</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import heapq</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import statsmodels</import>
+        <import>import statsmodels.api as sm</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+    <day number="42" review_day="true" inherits="41">
+      <imports>
+        <import>from abc import ABC</import>
+        <import>from abc import ABC, abstractmethod</import>
+        <import>from abc import abstractmethod</import>
+        <import>from bisect import bisect_left</import>
+        <import>from bisect import bisect_left, bisect_right</import>
+        <import>from bisect import bisect_right</import>
+        <import>from bisect import insort</import>
+        <import>from collections import Counter</import>
+        <import>from collections import Counter, defaultdict</import>
+        <import>from collections import Counter, defaultdict, OrderedDict</import>
+        <import>from collections import OrderedDict</import>
+        <import>from collections import defaultdict</import>
+        <import>from collections import deque</import>
+        <import>from copy import deepcopy</import>
+        <import>from dataclasses import dataclass</import>
+        <import>from dataclasses import dataclass, field</import>
+        <import>from datetime import date</import>
+        <import>from datetime import date, timedelta</import>
+        <import>from datetime import datetime</import>
+        <import>from datetime import datetime, date, timedelta</import>
+        <import>from datetime import timedelta</import>
+        <import>from functools import lru_cache</import>
+        <import>from functools import reduce</import>
+        <import>from heapq import heapify</import>
+        <import>from heapq import heappop</import>
+        <import>from heapq import heappush</import>
+        <import>from heapq import heappush, heappop</import>
+        <import>from heapq import nlargest</import>
+        <import>from heapq import nsmallest</import>
+        <import>from itertools import combinations</import>
+        <import>from itertools import combinations, permutations</import>
+        <import>from itertools import permutations</import>
+        <import>from math import sqrt</import>
+        <import>from matplotlib import pyplot as plt</import>
+        <import>from pandas import DataFrame</import>
+        <import>from pandas import Series</import>
+        <import>from pandas import json_normalize</import>
+        <import>from pandas.io.json import json_normalize</import>
+        <import>from pathlib import Path</import>
+        <import>from scipy import stats</import>
+        <import>from scipy.stats import chi2_contingency</import>
+        <import>from scipy.stats import chisquare</import>
+        <import>from scipy.stats import fisher_exact</import>
+        <import>from scipy.stats import levene</import>
+        <import>from scipy.stats import shapiro</import>
+        <import>from scipy.stats import ttest_1samp</import>
+        <import>from scipy.stats import ttest_ind</import>
+        <import>from scipy.stats import ttest_rel</import>
+        <import>from statsmodels.stats import power</import>
+        <import>from statsmodels.stats.power import NormalIndPower</import>
+        <import>from statsmodels.stats.power import TTestIndPower</import>
+        <import>from statsmodels.stats.proportion import proportions_ztest</import>
+        <import>from typing import Any</import>
+        <import>from typing import Dict</import>
+        <import>from typing import List</import>
+        <import>from typing import Optional</import>
+        <import>from typing import Tuple</import>
+        <import>from typing import Union</import>
+        <import>import bisect</import>
+        <import>import copy</import>
+        <import>import csv</import>
+        <import>import dataclasses</import>
+        <import>import datetime</import>
+        <import>import functools</import>
+        <import>import heapq</import>
+        <import>import itertools</import>
+        <import>import json</import>
+        <import>import logging</import>
+        <import>import math</import>
+        <import>import math as m</import>
+        <import>import matplotlib</import>
+        <import>import matplotlib.pyplot as plt</import>
+        <import>import numpy</import>
+        <import>import numpy as np</import>
+        <import>import os</import>
+        <import>import pandas</import>
+        <import>import pandas as pd</import>
+        <import>import pathlib</import>
+        <import>import random</import>
+        <import>import re</import>
+        <import>import scipy</import>
+        <import>import scipy.stats</import>
+        <import>import scipy.stats as stats</import>
+        <import>import statsmodels</import>
+        <import>import statsmodels.api as sm</import>
+        <import>import sys</import>
+        <import>import time</import>
+        <import>import typing</import>
+      </imports>
+    </day>
+  </phase>
+</scope_registry>
