@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-05-08T09:00:00+05:30
-updated_by: study-morning-briefing
+last_updated: 2026-05-08T19:00:00+05:30
+updated_by: study-spaced-rep-reminder
 max_carry_forward_days: 7
 ---
 
@@ -9,3 +9,4 @@ max_carry_forward_days: 7
 | date | routine | reason | notes |
 |------|---------|--------|-------|
 | 2026-05-08 | study-morning-briefing | skipped-vacation | n/a |
+| 2026-05-08 | study-spaced-rep-reminder | skipped-vacation | n/a |
