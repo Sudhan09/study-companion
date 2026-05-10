@@ -1,6 +1,6 @@
 ---
-last_updated: 2026-05-10T14:20:03+05:30
-updated_by: /resume-routines
+last_updated: 2026-05-10T19:59:49+05:30
+updated_by: user
 mode: loop_week
 bootcamp:
   phase: 2
@@ -10,7 +10,7 @@ bootcamp:
   active_structure: structure_phase2.xml
   status: in_progress
 loop_week:
-  current_day: 3
+  current_day: 1
   active: true
   next_topic: "Strings & Variable-Width Shapes"
 ---
@@ -18,7 +18,7 @@ loop_week:
 <!-- Per design §J #11 two-dimension schema: bootcamp + loop_week are independent dimensions, must not be conflated. -->
 <!-- bootcamp.completed_through_day=21 from pipeline progress_state.xml (Phase 1 complete, Phase 2 active, Days 22-42). -->
 <!-- bootcamp.current_day=15 user-set on resume; refined at next Sunday Review checkpoint. -->
-<!-- loop_week.current_day=3 per loop-strategy progress tracker. -->
+<!-- loop_week.current_day=1 user-reset on 2026-05-10 (was 3); loop-strategy.md PROGRESS TRACKER section now stale. -->
 
 ## Today
 
