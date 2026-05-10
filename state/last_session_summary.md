@@ -1,29 +1,25 @@
 ---
-last_updated: 2026-05-06T20:00:00+05:30
-updated_by: build-init
-session_id: build-init
-session_duration_min: 0
+last_updated: 2026-05-10T14:20:03+05:30
+updated_by: /resume-routines
+vacation_gap_days: 3
 ---
-
-<!-- Per design §F schema. Overwritten (not appended) on every /post-session and /day-wrap invocation. -->
-<!-- Placeholder: replaced on first /post-session or /day-wrap. -->
 
 ## What landed
 
-- (placeholder — first real entry written by `/post-session` or `/day-wrap`)
+- (vacation gap — pre-vacation session summary archived to `archive/sessions/2026-05-08-pre-resume.md`)
 
 ## What didn't land or got paused
 
-- (placeholder)
+- 3-day vacation: short trip
 
 ## Tomorrow's first task
 
-(placeholder — should be specific, not "review notes")
+Re-orient with `/companion` or jump straight to `/teach <topic>`. First scheduled briefing fires at 09:00 IST.
 
 ## Energy state
 
-(1-5, placeholder)
+(TBD — fill via `/day-wrap` at end of first session back)
 
 ## Drift this session
 
-- (placeholder — populated by Stop hook detections)
+- (none — vacation gap)
