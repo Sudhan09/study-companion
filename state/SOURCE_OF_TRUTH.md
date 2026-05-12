@@ -65,3 +65,11 @@ Other state files have only the two required fields.
 - **Resume flow:** `/resume-routines` archives current `last_session_summary.md` to `archive/sessions/<pre-resume-date>-pre-resume.md`, prompts user for resume day, rewrites `current_day.md.mode: <prior-mode>`, appends to `archive/vacations.md`, removes `state/vacation.md`.
 - **Step 0 preamble:** every routine reads `state/current_day.md` first. If `mode: paused`, the routine appends one entry to `state/missed_routines.md` and exits cleanly. No back-dated replay (per Q1 decision).
 - **Hooks pause-aware (V1 scope, per Q5):** `stop.js` skips drift-log append when paused; `/day-wrap` skill refuses to advance day when paused; `user-prompt-submit.js` confirms before routing `:wrap` token when paused.
+
+## Loop Boot Camp curriculum (separate registry, user-authored)
+
+- `instructions/loop_curriculum/*.md` holds the day-by-day Loop Foundations Boot Camp curriculum (Days 1-7, parallel to but not part of the bootcamp pipeline).
+- **Writer:** user (manual PRs only). NOT auto-synced.
+- **Readers:** `/teach`, `/drill`, `study-morning-briefing` routine when `state/current_day.md`'s `loop_week.current_day` is set.
+- High-level strategy (4-phase plan, root causes, non-negotiable rules) lives in `instructions/loop-strategy.md`. Day-by-day operational curriculum (blocks, drills, mini-bosses) lives in `instructions/loop_curriculum/loop_week_day_XX.md`.
+- See `instructions/loop_curriculum/README.md` for day-to-topic map and authoring discipline.
