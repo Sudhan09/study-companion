@@ -1,15 +1,1 @@
-{
-  "status": "OK",
-  "timestamp": "2026-05-13T08:41:08+05:30",
-  "active_chunk": "curriculum_weeks04-06.xml",
-  "pipeline_commit": "af63ff8bb6f0c06c75a126dba79705fd68dc4be8",
-  "files_synced": [
-    "progress_state.xml",
-    "deviation_log.xml",
-    "rules.xml",
-    "scope_registry.xml",
-    "structure_current.xml",
-    "curriculum_weeks04-06.xml"
-  ],
-  "missing": []
-}
+{"status": "OK", "timestamp": "2026-05-14T03:04:28+00:00", "active_chunk": "curriculum_weeks04-06.xml", "pipeline_commit": "af63ff8bb6f0c06c75a126dba79705fd68dc4be8", "files_synced": ["progress_state.xml", "deviation_log.xml", "rules.xml", "scope_registry.xml", "structure_current.xml", "curriculum_weeks04-06.xml"], "missing": []}
