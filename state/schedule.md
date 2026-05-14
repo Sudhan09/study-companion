@@ -1,24 +1,33 @@
 ---
-last_updated: 2026-05-13T09:07:27+05:30
+last_updated: 2026-05-14T09:10:54+0530
 updated_by: study-morning-briefing
-date: 2026-05-13
-stale_flags: []
+date: 2026-05-14
+stale_flags:
+  - "STALE-INPUT: state/current_day.md (last_updated 2026-05-12T16:05+0530, ~41h ago — no study session ran 2026-05-13)"
+  - "STALE-INPUT: state/active_weak_spots.md (last_updated 2026-05-12T16:30+0530, ~41h ago — same cause)"
+  - "STALE-INPUT: state/last_session_summary.md (last_updated 2026-05-12T16:05+0530, ~41h ago — same cause)"
 ---
 
-# Today's plan — 2026-05-13 (Phase 2 • Bootcamp Day 15 • Loop Week Day 2)
+# Today's plan — 2026-05-14 (Phase 2 • Bootcamp Day 15 • Loop Week Day 2)
 
-> **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22-42) is NOT today's driver.
+> **⚠️ [STALE-INPUT]** Three state files (`state/current_day.md`, `state/active_weak_spots.md`, `state/last_session_summary.md`) were last updated 2026-05-12T16:05+0530 (~41h ago). This is expected — no study session ran 2026-05-13 (routines-only day per `logs/2026-05-13.md`). Content below is sourced from those files; data quality is intact, timestamps are stale by design.
+>
+> **Carry note:** `state/current_day.md` "Today" section references 2026-05-13 for Loop Week Day 2. No session ran. Day 2 carries to today (2026-05-14) unchanged. `loop_week.current_day=2` and `loop_week.next_topic="Dicts/Sets"` remain authoritative.
+
+> **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22–42) is NOT today's driver.
 > All content is Loop Foundations Boot Camp. Topic: **Dicts/Sets**.
 
 > **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. No mismatch.
 > **Note:** `bootcamp.current_day=15` (user-set on resume, 2026-05-10) is < `completed_through_day=21`. User-maintained — confirm or update at next Sunday Review checkpoint.
+
+> **⚠️ F3 status confirm needed at session start:** `active_weak_spots.md` records F3 as Band 2 escalated (3+ slips, 2026-05-12). `last_session_summary.md` notes user framed F3 as "still on watch." Confirm or override at session start before drills begin.
 
 ---
 
 ## Topic
 
 **Dicts, Sets & Pattern Stacking in Nested Loops**
-Loop Foundations Boot Camp Day 2. Theme: lock loop fluency on hashed structures — frequency counting, grouping, O(1) membership, two-sum hash trick, and pattern stacking inside nested loops.
+Loop Foundations Boot Camp Day 2 (carried from 2026-05-13 — no session ran yesterday). Theme: lock loop fluency on hashed structures — frequency counting, grouping, O(1) membership, two-sum hash trick, and pattern stacking inside nested loops.
 
 ---
 
@@ -38,22 +47,25 @@ Loop Foundations Boot Camp Day 2. Theme: lock loop fluency on hashed structures 
 
 ## Active weak spots in scope today
 
-- **A1** — Multi-step loop body (Band 2 escalated, 1/3 reps toward graduation) → **Primary drill target today.** Block B Pattern 1 (frequency counting — multi-step: `key = char`, `count = counts.get(char, 0) + 1`, `counts[char] = count`), Block D.1 `word_frequency` / `group_by_length`, Block E Mini-Boss A `count_pairs_summing_to`. Rep #2 needed (of 3) before moving to Band 3.
+- **A1** — Multi-step loop body (Band 2 escalated, 1/3 reps toward graduation) → **Primary drill target today.** Block B Pattern 1 (frequency counting — multi-step accumulator: `counts.get(char, 0) + 1`), Block D.1 `word_frequency` / `group_by_length`, Block E Mini-Boss A `count_pairs_summing_to`. Rep #2 needed (of 3) before Band 3.
 
-- **F3** — Operator/condition confusion (Band 2 escalated, 0/2 reps — 3+ slips last session) → **Secondary drill target today.** Block A.3 + A.5 (set ops `|`/`&`/`-`/`^`, boolean operators), Block B.3 (`complement in seen` — must check BEFORE adding to dict), Block C.6 (`j > i` not `j != i` in upper-triangular). Two independent Band 2 reps required to downgrade from escalated. ⚠️ User framed F3 as "still on watch" yesterday — confirm override or keep escalated status at session start.
+- **F3** — Operator/condition confusion (Band 2 escalated per protocol, 0/2 reps — 3+ slips on 2026-05-12) → **Secondary drill target today.** ⚠️ Status needs user confirm at session start (escalated per protocol vs "still on watch" per user summary). Block A.3 + A.5 (set ops `|`/`&`/`-`/`^`, boolean operators), Block B.3 (`complement in seen` — must check BEFORE adding to dict), Block C.6 (`j > i` not `j != i` in upper-triangular).
 
-- **B2** — Bail to AI (Band 2 watch improving, 3/5 clean sessions) → Monitoring only today. Session #4 of 5 needed for clean-threshold downgrade. Protocol: if stuck >5 min, mandatory "I need ___, I know ___, I'm stuck on ___" before any hint. No bail-to-AI.
+- **B2** — Bail to AI (Band 2 watch improving, 3/5 clean sessions) → Monitoring only today. Session #4 of 5 needed for clean-threshold downgrade. Protocol: if stuck >5 min, mandatory "I need ___, I know ___, I'm stuck on ___" before any hint.
 
 ---
 
 ## Yesterday recap
 
-**Completed:** Block B full catalog — 5 single-state patterns (Counter/Tracker/Search/Filter/Accumulator) + 3 stacked-pair drills (B.3 #1–#3). Block C.1–C.6 nested patterns — nested predictions, Tier 2 idioms, coord grids, Cartesian products, upper-triangular, step-in-nested. 3 wins locked (`while+pop` queue model, B.3 break-order rule, C.2 Tier 2 physical-metaphor META win). **A1: 1 clean independent rep (B.3 Drill #2 Search+Counter).** Energy 4/5.
+**Completed:** No study session on 2026-05-13 (routines ran — 6 commits: curriculum-sync, morning-briefing, spaced-rep. Zero study content per `logs/2026-05-13.md`.)
 
-**Unresolved:** Block C.7 (counter scope trap), Block D (functions), Block E (mini-boss) — skipped by user choice at early wrap. **F3 fired 3+ times → RTI escalation protocol triggered (`watch` → `band-2-watch`).** These are today's Block C and D content; mini-boss is Block E.
+**Last real session (2026-05-12 — Loop Week Day 1):**
+**Completed:** Block B full catalog — 5 single-state patterns (Counter/Tracker/Search/Filter/Accumulator) + 3 stacked-pair drills (B.3 #1–#3). Block C.1–C.6 nested patterns — nested predictions, Tier 2 idioms (physical-metaphor lock), coord grids, Cartesian products, upper-triangular, step-in-nested. 3 wins locked (`while+pop` queue model, B.3 break-order rule, C.2 Tier 2 physical-metaphor META win). **A1: 1 clean independent rep (B.3 Drill #2 Search+Counter).**
+
+**Unresolved (carries to today as Blocks C.7, D, E):** Block C.7 (counter scope trap), Block D (functions), Block E (mini-boss) — skipped by user choice at early wrap on 2026-05-12. **F3 fired 3+ times → RTI escalation protocol triggered.** These are today's Block C and D content; mini-boss is Block E.
 
 ---
 
 ## Curriculum anchor
 
-[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 2] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_02.md`. Phase 3b L3 coverage active (pattern stacking, Range Tier 3). No Phase 2 bootcamp active_chunk content today (mode=loop_week).
+[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 2] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_02.md`. Phase 3b L3 coverage active (pattern stacking, Range Tier 3). No Phase 2 bootcamp active_chunk content today (mode=loop_week). Curriculum sync: OK at 2026-05-14T08:34+0530.
