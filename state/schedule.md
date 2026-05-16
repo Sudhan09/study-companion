@@ -1,20 +1,20 @@
 ---
-last_updated: 2026-05-15T09:07:50+05:30
+last_updated: 2026-05-16T09:09:57+05:30
 updated_by: study-morning-briefing
-date: 2026-05-15
+date: 2026-05-16
 stale_flags: [STALE-INPUT]
 ---
 
-# Today's plan — 2026-05-15 (Phase 2 • Bootcamp Day 15 • Loop Week Day 2)
+# Today's plan — 2026-05-16 (Phase 2 • Bootcamp Day 15 • Loop Week Day 2)
 
-> **⚠️ [STALE-INPUT]** Three state files (`state/current_day.md`, `state/active_weak_spots.md`, `state/last_session_summary.md`) were last updated 2026-05-12T16:05–16:30+05:30 (~65h ago). No study session ran on 2026-05-13 or 2026-05-14 — routines-only days. Content below is sourced from those files; data quality intact, timestamps stale by design.
+> **⚠️ [STALE-INPUT]** Three state files (`state/current_day.md`, `state/active_weak_spots.md`, `state/last_session_summary.md`) were last updated 2026-05-12T16:05–16:30+05:30 (~4 days ago). No study session ran on 2026-05-13, 2026-05-14, or 2026-05-15 — routines-only days. Staleness is by design (no `/day-wrap` = no state update). Content quality intact; timestamps stale.
 >
-> **Carry note:** Loop Week Day 2 carries for the 3rd consecutive day (scheduled 2026-05-13 → missed; 2026-05-14 → missed; today 2026-05-15). `loop_week.current_day=2` and `loop_week.next_topic="Dicts/Sets"` remain authoritative. Blocks C.7, D, E from 2026-05-12 early-wrap are still outstanding and folded into today's plan.
+> **Carry note:** Loop Week Day 2 carries for the **4th consecutive day** (scheduled 2026-05-13 → missed; 2026-05-14 → missed; 2026-05-15 → missed; today 2026-05-16). `loop_week.current_day=2` and `loop_week.next_topic="Dicts/Sets"` remain authoritative. Blocks C.7, D, E from 2026-05-12 early-wrap are still outstanding and folded into today's full plan.
 
 > **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22–42) is NOT today's driver.
 > All content is Loop Foundations Boot Camp. Topic: **Dicts/Sets**.
 
-> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. No mismatch.
+> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-16T08:40+05:30 (pipeline commit af63ff8).
 > **Note:** `bootcamp.current_day=15` (user-set on resume, 2026-05-10) is < `completed_through_day=21`. User-maintained — confirm or update at next Sunday Review checkpoint.
 
 > **⚠️ F3 status confirm needed at session start:** `active_weak_spots.md` records F3 as Band 2 escalated (3+ slips, 2026-05-12). `last_session_summary.md` notes user framed F3 as "still on watch." Confirm or override before first F3-targeting drill.
@@ -24,7 +24,7 @@ stale_flags: [STALE-INPUT]
 ## Topic
 
 **Dicts, Sets & Pattern Stacking in Nested Loops**
-Loop Foundations Boot Camp Day 2 (3rd carry — no session 2026-05-13 or 2026-05-14). Theme: lock loop fluency on hashed structures — frequency counting, grouping, O(1) membership, two-sum hash trick, and pattern stacking inside nested loops. Blocks C.7, D, E folded in from 2026-05-12 early wrap.
+Loop Foundations Boot Camp Day 2 (4th carry — no session 2026-05-13, 2026-05-14, or 2026-05-15). Theme: lock loop fluency on hashed structures — frequency counting, grouping, O(1) membership, two-sum hash trick, and pattern stacking inside nested loops. Blocks C.7, D, E folded in from 2026-05-12 early wrap.
 
 ---
 
@@ -34,7 +34,7 @@ Loop Foundations Boot Camp Day 2 (3rd carry — no session 2026-05-13 or 2026-05
 
 - **Block B (1.5h) — Loop Forms × Dicts/Sets + Five Native Patterns:** Walk a dict in all 3 forms (keys, values, items) on same problem → 5 native patterns: (1) Frequency counting — `.get()`, `defaultdict`, `Counter` (three flavors, same output) → **A1 Rep #2 drill target** (`counts.get(char, 0) + 1` multi-step accumulator body); (2) Grouping by key with `defaultdict(list)`; (3) Lookup table replacing if/elif; (4) Inverting a dict + safe-invert variant; (5) Membership testing with set (O(1) vs O(n)). Two-sum hash trick close-out — **F3 Band 2 target:** `complement in seen` must be checked BEFORE adding to dict.
 
-- **Block C (2h) — Phase 3b L3: Pattern Stacking Inside Nested + Range Tier 3:** Mental shift — Counter/Search/Tracker declared OUTSIDE both loops. Counter scope trap C.7 (3 positions: outside both / between / inside inner — **A1+F3 combined target**). C.2 Counter inside nested → C.3 Search+flag-and-break → C.4 Tracker across pairs, sentinel direction → C.5 Range Tier 3 cold traces (`range(i)` / `range(i+1)` / `range(i+1,n)` / `range(i,n)`) → C.6 Upper-triangular deep (`range(i+1,n)`, why `j>i` not `j!=i` — **F3 target**) with anagram pairs + closest pair → C.8 Edge cases (empty, single-element, modify-during-iteration). *Note: C.1–C.6 were drilled 2026-05-12; C.7 is the unresolved carry. C.8 is new.*
+- **Block C (2h) — Phase 3b L3: Pattern Stacking Inside Nested + Range Tier 3:** Mental shift — Counter/Search/Tracker declared OUTSIDE both loops. **C.7 counter scope trap** (3 positions: outside both / between / inside inner — **A1+F3 combined target**; carry from 2026-05-12). C.2 Counter inside nested → C.3 Search+flag-and-break → C.4 Tracker across pairs, sentinel direction → C.5 Range Tier 3 cold traces (`range(i)` / `range(i+1)` / `range(i+1,n)` / `range(i,n)`) → C.6 Upper-triangular deep (`range(i+1,n)`, why `j>i` not `j!=i` — **F3 target**) with anagram pairs + closest pair → C.8 Edge cases (empty, single-element, modify-during-iteration). *Note: C.1–C.6 were drilled 2026-05-12; C.7 is the unresolved carry. C.8 is new.*
 
 - **Block D (1.5h) — Functions + Inventory Class:** Rewrite all 5 Block B patterns as 10 functions (`word_frequency`, `group_by_length`, `invert_dict`, `safe_invert_dict`, `find_intersection`, `top_n_frequent`, `first_non_repeating`, `group_anagrams`, `two_sum`, `count_pairs_summing_to`). Then build `Inventory` class (8 methods using dict/set/Counter internally). Function discipline checklist active.
 
@@ -54,7 +54,7 @@ Loop Foundations Boot Camp Day 2 (3rd carry — no session 2026-05-13 or 2026-05
 
 ## Yesterday recap
 
-**Completed:** No study session on 2026-05-13 or 2026-05-14 (routines-only days; 2 morning briefings stamped, no session content logged).
+**Completed:** No study session on 2026-05-13, 2026-05-14, or 2026-05-15 (routines-only days; 3 morning briefings stamped, no session content logged).
 
 **Last real session (2026-05-12 — Loop Week Day 1):**
 Block B full catalog (5 single-state patterns + 3 stacking drills B.3 #1–#3) + Block C.1–C.6 nested patterns. 3 wins locked (`while+pop` queue model, B.3 break-order rule, C.2 Tier 2 physical-metaphor META). **A1: 1 clean independent rep (B.3 Drill #2 Search+Counter)**. F3 escalated (3+ slips). Energy 4/5.
@@ -65,4 +65,4 @@ Block B full catalog (5 single-state patterns + 3 stacking drills B.3 #1–#3) +
 
 ## Curriculum anchor
 
-[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 2] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_02.md`. Phase 3b L3 coverage active (pattern stacking, Range Tier 3, upper-triangular deep). No Phase 2 bootcamp active_chunk content today (mode=loop_week). Curriculum sync: OK at 2026-05-15T08:40+05:30.
+[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 2] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_02.md`. Phase 3b L3 coverage active (pattern stacking, Range Tier 3, upper-triangular deep). No Phase 2 bootcamp active_chunk content today (mode=loop_week). Curriculum sync: OK at 2026-05-16T08:40+05:30.
