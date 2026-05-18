@@ -1,11 +1,11 @@
 ---
-last_updated: 2026-05-11T09:07:14+05:30
+last_updated: 2026-05-18T09:10:27+05:30
 updated_by: study-monday-distillation
-last_run: 2026-05-11
+last_run: 2026-05-18
 ---
 
 # Distilled archive index
 
 | Date | Sessions | Wins | Drills | Drift | File |
-
-_Nothing to archive: no logs/ files strictly older than 7 days as of 2026-05-11._
+|------|----------|------|--------|-------|------|
+| 2026-05-10 | 0 (vacation_gap) | 0 | 0 | 0 | [archive/completed_days/2026-05-10.md](../archive/completed_days/2026-05-10.md) |
