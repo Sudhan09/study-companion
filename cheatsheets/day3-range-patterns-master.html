@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Range Patterns — Master Cheat Sheet (Day 3)</title>
+<script>
+  /* Set theme before paint — prevents a flash of the wrong theme */
+  (function(){
+    try {
+      var t = localStorage.getItem('rangeCheatTheme');
+      if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --card: #ffffff;
+    --ink: #1a2332;
+    --ink-soft: #5a6473;
+    --muted: #8a93a3;
+    --code-bg: #fef6e4;
+    --code-ink: #5a3a00;
+    --rule: #e6e3dc;
+    --trap-bg: #fde8e8;
+    --trap-ink: #8a1a1a;
+    --tip-bg: #e6f4ea;
+    --tip-ink: #1b5e20;
+    --note-bg: #fef3c7;
+    --note-ink: #78350f;
+    --formula-border: #e7c98a;
+    --decision-bg: #1a2332;
+    --decision-ink: #f6f3eb;
+    --decision-q: #fde8a8;
+    --decision-code-bg: rgba(255,255,255,0.12);
+    --shadow: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lift: 0 6px 24px rgba(0,0,0,0.12);
+
+    --walk-all: #64748b;
+    --neighbors: #d97706;
+    --rle: #c2410c;
+    --window: #e11d48;
+    --two-ptr-opp: #9333ea;
+    --two-ptr-same: #be185d;
+    --shapes: #4b6bfb;
+    --backwards: #16a34a;
+    --step: #0891b2;
+  }
+
+  [data-theme="dark"] {
+    --bg: #14171f;
+    --card: #1c2029;
+    --ink: #e8eaed;
+    --ink-soft: #9aa3b2;
+    --muted: #6b7280;
+    --code-bg: #232834;
+    --code-ink: #e6c07b;
+    --rule: #2d323d;
+    --trap-bg: #3a1d1d;
+    --trap-ink: #f3a5a5;
+    --tip-bg: #16291c;
+    --tip-ink: #86d99c;
+    --note-bg: #32280f;
+    --note-ink: #f0c674;
+    --formula-border: #5a4a2a;
+    --decision-bg: #0d0f15;
+    --decision-ink: #f0ede4;
+    --decision-q: #fde8a8;
+    --decision-code-bg: rgba(255,255,255,0.08);
+    --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-lift: 0 8px 28px rgba(0,0,0,0.55);
+
+    --walk-all: #94a3b8;
+    --neighbors: #f59e0b;
+    --rle: #fb7137;
+    --window: #fb5279;
+    --two-ptr-opp: #c084fc;
+    --two-ptr-same: #f472b6;
+    --shapes: #7c93ff;
+    --backwards: #4ade80;
+    --step: #22d3ee;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    padding: 40px 20px 80px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body, .card, nav, nav a, header, header .anchor, pre, code,
+  .trap, .tip, .note, .formula, table th, table td, .decision, footer {
+    transition: background-color 0.28s ease, color 0.28s ease,
+                border-color 0.28s ease, box-shadow 0.28s ease;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: 30px;
+    letter-spacing: -0.5px;
+  }
+  header .sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  header .anchor {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 12px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    color: var(--muted);
+    background: var(--card);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+
+  nav {
+    background: var(--card);
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 28px;
+    border: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+  }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+    border-left: 3px solid transparent;
+  }
+  nav a:hover { background: var(--bg); }
+  nav a.active {
+    background: var(--bg);
+    border-left-color: var(--shapes);
+    font-weight: 600;
+  }
+  nav .num {
+    display: inline-block;
+    width: 22px;
+    color: var(--muted);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    padding: 24px 28px 26px;
+    position: relative;
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 16px; bottom: 16px;
+    width: 4px;
+    border-radius: 4px;
+    background: var(--accent, var(--ink));
+  }
+  .card h2 {
+    margin: 0 0 6px;
+    font-size: 20px;
+    color: var(--accent, var(--ink));
+    letter-spacing: -0.2px;
+  }
+  .card h2.collapsible {
+    cursor: pointer;
+    padding-right: 30px;
+    user-select: none;
+  }
+  .card h2.collapsible::after {
+    content: '';
+    position: absolute;
+    right: 28px;
+    top: 32px;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.22s ease, top 0.22s ease;
+    opacity: 0.55;
+  }
+  .card h2.collapsible:hover::after { opacity: 1; }
+  .card.collapsed h2.collapsible::after {
+    transform: rotate(-135deg);
+    top: 36px;
+  }
+  .card.collapsed { padding-bottom: 20px; }
+  .card.collapsed > *:not(h2):not(.one-liner) { display: none; }
+  .card .one-liner {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .card h3 {
+    margin: 18px 0 8px;
+    font-size: 16px;
+    color: var(--ink);
+  }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 14px 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 12px 0;
+    position: relative;
+  }
+  code {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13px;
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 4px 9px;
+    border-radius: 5px;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    color: var(--ink-soft);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+  pre:hover .copy-btn { opacity: 1; }
+  .copy-btn:hover { color: var(--ink); border-color: var(--ink-soft); }
+  .copy-btn.copied {
+    opacity: 1;
+    background: var(--tip-bg);
+    color: var(--tip-ink);
+    border-color: var(--tip-ink);
+  }
+
+  .trap, .tip, .note {
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0 6px;
+    font-size: 14px;
+  }
+  .trap {
+    background: var(--trap-bg);
+    color: var(--trap-ink);
+    border-left: 3px solid var(--trap-ink);
+  }
+  .tip {
+    background: var(--tip-bg);
+    color: var(--tip-ink);
+    border-left: 3px solid var(--tip-ink);
+  }
+  .note {
+    background: var(--note-bg);
+    color: var(--note-ink);
+    border-left: 3px solid var(--note-ink);
+  }
+
+  .formula {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 14px;
+    margin: 8px 0;
+    border: 1px solid var(--formula-border);
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  th {
+    background: var(--bg);
+    font-weight: 600;
+  }
+
+  .decision {
+    background: var(--decision-bg);
+    color: var(--decision-ink);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 36px;
+  }
+  .decision h2 {
+    margin: 0 0 14px;
+    font-size: 20px;
+    color: var(--decision-ink);
+  }
+  .decision ol {
+    margin: 0;
+    padding-left: 22px;
+  }
+  .decision li {
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .decision code {
+    background: var(--decision-code-bg);
+    color: var(--decision-ink);
+  }
+  .decision .q {
+    font-weight: 600;
+    color: var(--decision-q);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 36px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* --- Reading progress bar --- */
+  #progressBar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--shapes), var(--two-ptr-opp), var(--two-ptr-same));
+    z-index: 200;
+    transition: width 0.1s linear;
+  }
+
+  /* --- Floating controls (theme + collapse) --- */
+  .controls {
+    position: fixed;
+    top: 16px; right: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 210;
+  }
+  .ctrl-btn {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .ctrl-btn:hover { border-color: var(--ink-soft); }
+  .ctrl-btn:active { transform: scale(0.95); }
+  .icon-btn {
+    width: 38px;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-btn svg { width: 18px; height: 18px; display: block; }
+  [data-theme="light"] .ico-sun { display: none; }
+  [data-theme="dark"]  .ico-moon { display: none; }
+
+  /* --- Back to top --- */
+  #toTop {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: var(--shadow-lift);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s;
+    z-index: 210;
+  }
+  #toTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #toTop:hover { border-color: var(--ink-soft); }
+  #toTop svg { width: 18px; height: 18px; }
+
+  /* --- Hash-target highlight --- */
+  @keyframes flashPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(75,107,251,0.0), var(--shadow); }
+    15%  { box-shadow: 0 0 0 4px rgba(75,107,251,0.45), var(--shadow-lift); }
+    100% { box-shadow: 0 0 0 0 rgba(75,107,251,0.0), var(--shadow); }
+  }
+  .flash { animation: flashPulse 2s ease; }
+
+  @media (max-width: 560px) {
+    .controls { top: 10px; right: 10px; }
+    .ctrl-btn { font-size: 12px; padding: 7px 9px; }
+    header h1 { font-size: 24px; }
+  }
+
+  @media print {
+    body { padding: 20px; background: #fff; }
+    nav, .controls, #progressBar, #toTop, .copy-btn { display: none !important; }
+    .card, .decision { page-break-inside: avoid; box-shadow: none; }
+    .card.collapsed > * { display: revert !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<div class="controls">
+  <button id="collapseAll" class="ctrl-btn" type="button">Collapse all</button>
+  <button id="themeToggle" class="ctrl-btn icon-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4.5"/>
+      <path d="M12 1.5v3M12 19.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1.5 12h3M19.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
+    </svg>
+  </button>
+</div>
+
+<button id="toTop" type="button" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<div class="wrap">
+
+<header>
+  <h1>Range Patterns — Master Cheat Sheet</h1>
+  <div class="sub">Every range formula from Day 3, organized by purpose · with the reasoning behind each one</div>
+  <div class="anchor">Loop Week · Day 3 · Cross-Block Reference (B + C + D)</div>
+</header>
+
+<nav>
+  <a href="#mental-model"><span class="num">0.</span>The mental model</a>
+  <a href="#walk-all"><span class="num">1.</span>Walk every position</a>
+  <a href="#neighbors"><span class="num">2.</span>Need neighbors</a>
+  <a href="#rle"><span class="num">3.</span>RLE-style (vs previous)</a>
+  <a href="#window"><span class="num">4.</span>Sliding window</a>
+  <a href="#two-ptr-opp"><span class="num">5.</span>Two-pointer opposite ends</a>
+  <a href="#two-ptr-same"><span class="num">6.</span>Two-pointer same direction</a>
+  <a href="#shapes"><span class="num">7.</span>Variable-width (shapes)</a>
+  <a href="#backwards"><span class="num">8.</span>Walk backwards</a>
+  <a href="#step"><span class="num">9.</span>Step / skip</a>
+  <a href="#decision-tree"><span class="num">10.</span>Decision tree</a>
+</nav>
+
+<!-- 0. MENTAL MODEL -->
+<section class="card" id="mental-model">
+  <h2>0 · The mental model</h2>
+  <div class="one-liner">Every range answers ONE question: <b>"where in the sequence do I walk, and how?"</b></div>
+
+  <p>The shape of the range is determined by what you're DOING in the loop. Three questions to ask:</p>
+  <ol>
+    <li><b>Do I need to peek at neighbors?</b> → trim the range (skip the first or last position)</li>
+    <li><b>Do I need a chunk of N consecutive items?</b> → window math (stop early enough that the chunk fits)</li>
+    <li><b>Does the inner range depend on the outer?</b> → shape math (triangle, pyramid, etc.)</li>
+  </ol>
+
+  <div class="tip"><b>Master rule</b> · <code>range(N)</code> walks <code>0, 1, 2, ..., N-1</code>. It stops <i>before</i> N. To include the last position, the argument to range must be (last position + 1).</div>
+</section>
+
+<!-- 1. WALK ALL -->
+<section class="card" id="walk-all" style="--accent: var(--walk-all);">
+  <h2>1 · Walk every position</h2>
+  <div class="one-liner">No special needs — just visit each item once.</div>
+
+  <div class="formula">range(len(s))   ·   enumerate(s)   ·   for x in s</div>
+
+<pre><code># Indexed walk
+for i in range(len(s)):
+    use(s[i])
+
+# Indexed + value (Pythonic — use this 80% of the time)
+for i, ch in enumerate(s):
+    use(i, ch)
+
+# Just values (no index needed)
+for ch in s:
+    use(ch)</code></pre>
+
+  <h3>Why this range?</h3>
+  <p>You want every index from <code>0</code> to <code>len(s) - 1</code>. <code>range(len(s))</code> gives exactly that.</p>
+
+  <div class="tip"><b>When to use which</b> · <code>for x in s</code> if you don't need the index. <code>enumerate</code> if you need both. <code>range(len(s))</code> when you need the index for math (jumping around, comparing positions).</div>
+</section>
+
+<!-- 2. NEIGHBORS -->
+<section class="card" id="neighbors" style="--accent: var(--neighbors);">
+  <h2>2 · Need to peek at neighbors</h2>
+  <div class="one-liner">Trim the range so the neighbor lookup stays inside the sequence.</div>
+
+  <table>
+    <thead><tr><th>Need</th><th>Range</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Look at <code>s[i+1]</code> (right neighbor)</td><td><code>range(len(s) - 1)</code></td><td>Stop 1 early — at last position, there is no s[i+1]</td></tr>
+      <tr><td>Look at <code>s[i-1]</code> (left neighbor)</td><td><code>range(1, len(s))</code></td><td>Start at 1 — at position 0, there is no s[i-1]</td></tr>
+      <tr><td>Look at BOTH neighbors</td><td><code>range(1, len(s) - 1)</code></td><td>Trim both edges</td></tr>
+    </tbody>
+  </table>
+
+<pre><code># Right neighbor — duplicate-detection example
+for i in range(len(s) - 1):
+    if s[i] == s[i+1]:
+        print(f"duplicate at {i}")
+
+# Left neighbor — comparing each to the previous
+for i in range(1, len(s)):
+    if s[i] &gt; s[i-1]:
+        print(f"increasing at {i}")</code></pre>
+
+  <h3>The dominos lock</h3>
+  <p><i>"Need a right neighbor? Stop 1 early."</i> This is the rule. The "-1" is because the last position has no neighbor to its right — you'd crash with IndexError trying to read past the end.</p>
+
+  <div class="trap"><b>Trap</b> · forgetting the <code>-1</code> → <code>IndexError</code> on the last iteration when you try <code>s[i+1]</code>.</div>
+</section>
+
+<!-- 3. RLE -->
+<section class="card" id="rle" style="--accent: var(--rle);">
+  <h2>3 · RLE-style — compare each item to the PREVIOUS one</h2>
+  <div class="one-liner">Walk starting from position 1, look back at i-1.</div>
+
+  <div class="formula">range(1, len(s))</div>
+
+<pre><code># Run-length encoding compress (Pattern 4)
+count = 1
+for i in range(1, len(s)):
+    if s[i] == s[i-1]:
+        count += 1
+    else:
+        # flush previous group
+        count = 1</code></pre>
+
+  <h3>Why start at 1 (not 0)?</h3>
+  <p>Because at each step we look BACK at <code>s[i-1]</code>. If we started at <code>i=0</code>, <code>s[i-1]</code> would be <code>s[-1]</code> — which Python treats as the LAST character (wraparound). That would be a bug. Starting at <code>i=1</code> means <code>s[i-1]</code> is always a real earlier position.</p>
+
+  <div class="tip"><b>Initialization quirk</b> · with RLE, you initialize <code>count = 1</code> BEFORE the loop because you've already "seen" <code>s[0]</code>. The loop starts comparing from position 1.</div>
+</section>
+
+<!-- 4. SLIDING WINDOW -->
+<section class="card" id="window" style="--accent: var(--window);">
+  <h2>4 · Sliding window — chunks of N consecutive items</h2>
+  <div class="one-liner">Stop early enough that an N-item window still fits.</div>
+
+  <div class="formula">range(len(s) - window_size + 1)</div>
+
+<pre><code># Substring scanning (Pattern 5)
+for i in range(len(s) - window_size + 1):
+    window = s[i:i+window_size]   # window of `window_size` items
+    if is_unique(window):
+        return True</code></pre>
+
+  <h3>Why this formula?</h3>
+  <ul>
+    <li><b><code>- window_size</code></b> → leaves room for the window to fit at the right edge</li>
+    <li><b><code>+ 1</code></b> → to <i>include</i> the last valid starting position (counting from 0 needs the +1)</li>
+  </ul>
+
+  <p>For <code>s = "hello"</code> (length 5) with window size 3, valid starts are positions 0, 1, 2 → 3 positions. Formula: <code>5 - 3 + 1 = 3</code>. ✓</p>
+
+  <div class="tip"><b>Generalized dominos</b> · the dominos rule from §2 is a special case of this — when window_size = 2 (you + 1 neighbor), the formula becomes <code>range(len - 2 + 1) = range(len - 1)</code>.</div>
+
+  <div class="trap"><b>Trap</b> · using just <code>range(len(s))</code> instead → at the last positions, your slice <code>s[i:i+window_size]</code> would be SHORT (cut off by the string end). Silent bug — the slice still works, it's just incomplete.</div>
+</section>
+
+<!-- 5. TWO-POINTER OPPOSITE ENDS -->
+<section class="card" id="two-ptr-opp" style="--accent: var(--two-ptr-opp);">
+  <h2>5 · Two-pointer from opposite ends (walking inward)</h2>
+  <div class="one-liner">Not a <code>range()</code> — manual pointers, <code>while</code> loop, stops when they meet.</div>
+
+  <div class="formula">left, right = 0, len(s) - 1<br>while left &lt; right: ...</div>
+
+<pre><code># Palindrome (Pattern 3)
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    while left &lt; right:
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+
+# Reverse via swap (build a list, swap, join)
+def reverse_string(s):
+    chars = list(s)
+    left, right = 0, len(chars) - 1
+    while left &lt; right:
+        chars[left], chars[right] = chars[right], chars[left]
+        left += 1
+        right -= 1
+    return "".join(chars)</code></pre>
+
+  <h3>Why the stop condition <code>left &lt; right</code>?</h3>
+  <ul>
+    <li>Pointers walk inward from opposite ends. When they meet (or cross), we're done.</li>
+    <li>For an odd-length string, they meet at the middle char — which doesn't need to compare with itself.</li>
+    <li>For an even-length string, they cross over without meeting — last pair is the two innermost chars.</li>
+  </ul>
+
+  <div class="tip"><b>When to use this</b> · palindrome checks, in-place reverse, pair-based comparisons (sum to target with sorted array, etc.). Lets you walk half the sequence — twice as fast as the slice-and-compare approach for long strings with early failures.</div>
+</section>
+
+<!-- 6. TWO-POINTER SAME DIRECTION -->
+<section class="card" id="two-ptr-same" style="--accent: var(--two-ptr-same);">
+  <h2>6 · Two-pointer same direction (window expand/contract)</h2>
+  <div class="one-liner">Both pointers move right. One scouts ahead (right), the other lags behind (left). The gap is your window.</div>
+
+  <div class="formula">left = 0<br>for right in range(len(s)):<br>&nbsp;&nbsp;&nbsp;&nbsp;# expand or contract window</div>
+
+<pre><code># Longest substring without repeating chars (LC 3 — Block B.3)
+def longest_unique_substring(s):
+    seen = set()
+    left = 0
+    best = 0
+    for right in range(len(s)):
+        # Shrink window from the left until s[right] is unique
+        while s[right] in seen:
+            seen.remove(s[left])
+            left += 1
+        seen.add(s[right])
+        best = max(best, right - left + 1)
+    return best
+
+# Also used for: max sum subarray of size K, smallest window
+# containing all chars of X, etc.</code></pre>
+
+  <h3>Why this differs from §5</h3>
+  <p>§5 has pointers moving in OPPOSITE directions (one right, one left, meeting in the middle). §6 has BOTH pointers moving in the SAME direction (both right), with the WINDOW between them growing or shrinking.</p>
+
+  <div class="tip"><b>When to use this</b> · variable-size window problems where you can't know the window size up-front. Real sliding window (the proper version of Pattern 5). Comes up in interview problems all the time — Day 6+ territory.</div>
+</section>
+
+<!-- 7. VARIABLE WIDTH SHAPES -->
+<section class="card" id="shapes" style="--accent: var(--shapes);">
+  <h2>7 · Variable-width inner ranges (shapes)</h2>
+  <div class="one-liner">Inner range depends on the outer loop variable. Used for triangles, pyramids, diamonds.</div>
+
+  <h3>Key formulas</h3>
+  <table>
+    <thead><tr><th>Formula</th><th>What it produces</th><th>Row by row</th></tr></thead>
+    <tbody>
+      <tr><td><code>range(i + 1)</code></td><td>Growing count, row 0 has 1</td><td>1, 2, 3, 4, 5</td></tr>
+      <tr><td><code>range(i)</code></td><td>Same shape, row 0 has 0 (empty)</td><td>0, 1, 2, 3, 4</td></tr>
+      <tr><td><code>range(height - i - 1)</code></td><td>Leading spaces (shrinking)</td><td>4, 3, 2, 1, 0</td></tr>
+      <tr><td><code>range(2 * i + 1)</code></td><td>Pyramid stars (odd, growing)</td><td>1, 3, 5, 7, 9</td></tr>
+      <tr><td><code>range(2 * (height - i) - 1)</code></td><td>Inverted pyramid stars (odd, shrinking)</td><td>9, 7, 5, 3, 1</td></tr>
+      <tr><td><code>range(i)</code> for inverted spaces</td><td>Leading spaces (growing)</td><td>0, 1, 2, 3, 4</td></tr>
+      <tr><td><code>range(1, i + 2)</code></td><td>Numbers 1 to i+1</td><td>[1], [1,2], [1,2,3]</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The mental model</h3>
+  <p>Imagine a center column at <code>height - 1</code>. Each row extends <code>i</code> steps to the LEFT and <code>i</code> steps to the RIGHT of that center, plus the center itself.</p>
+  <ul>
+    <li>Total stars per row = <code>i + 1 + i = 2i + 1</code> (left + center + right)</li>
+    <li>Leading spaces = <code>height - 1 - i</code> (to push leftmost star to its column)</li>
+    <li>For inverted: count rows REMAINING (<code>height - i</code>) instead of rows DONE</li>
+  </ul>
+
+<pre><code># Left-aligned triangle (Block C.2)
+for i in range(height):
+    for j in range(i + 1):
+        print("*", end="")
+    print()
+
+# Right-aligned triangle (Block C.4) — two inner loops per row
+for i in range(height):
+    for s in range(height - i - 1):       # spaces shrink
+        print(" ", end="")
+    for j in range(i + 1):                 # stars grow
+        print("*", end="")
+    print()
+
+# Centered pyramid (Block D.1) — odd stars, centered
+for i in range(height):
+    for s in range(height - i - 1):       # leading spaces
+        print(" ", end="")
+    for j in range(2 * i + 1):             # odd-numbered stars
+        print("*", end="")
+    print()</code></pre>
+
+  <div class="tip"><b>Decoupling insight</b> · the spaces loop and the stars loop are INDEPENDENT computations. SWAP their order to change the alignment (spaces-first → right-aligned; stars-first → left-aligned with invisible trailing spaces).</div>
+</section>
+
+<!-- 8. BACKWARDS -->
+<section class="card" id="backwards" style="--accent: var(--backwards);">
+  <h2>8 · Walk backwards (descending range)</h2>
+  <div class="one-liner">When you need to iterate from high to low.</div>
+
+  <div class="formula">range(start, stop, -1)   ·   step is NEGATIVE</div>
+
+<pre><code># Walk indices from len(s) - 1 down to 0
+for i in range(len(s) - 1, -1, -1):
+    use(s[i])
+
+# Diamond bottom half (Block D.3 Approach A)
+# After top pyramid, walk back DOWN to make the mirror
+for i in range(height - 2, -1, -1):       # height-2 down to 0
+    for s in range(height - i - 1):
+        print(" ", end="")
+    for j in range(2 * i + 1):
+        print("*", end="")
+    print()</code></pre>
+
+  <h3>Why this format?</h3>
+  <ul>
+    <li><b>Start</b> = the FIRST value you want (e.g., <code>len(s) - 1</code> for last position)</li>
+    <li><b>Stop</b> = one PAST where you want to stop (e.g., <code>-1</code> to include 0)</li>
+    <li><b>Step</b> = <code>-1</code> to count down</li>
+  </ul>
+
+  <div class="note"><b>The "stop = -1" trick</b> · range stops BEFORE the stop value. To INCLUDE 0 going backwards, you have to stop at -1 (the position before 0).</div>
+
+  <div class="tip"><b>Alternative for simple reverse</b> · <code>reversed(s)</code> or <code>s[::-1]</code> are usually cleaner if you just want the values backwards. <code>range(..., -1, -1)</code> is for when you need the INDICES going backwards.</div>
+</section>
+
+<!-- 9. STEP -->
+<section class="card" id="step" style="--accent: var(--step);">
+  <h2>9 · Step / skip patterns</h2>
+  <div class="one-liner">Take every Nth item instead of every item.</div>
+
+  <div class="formula">range(start, stop, step)</div>
+
+<pre><code>range(0, 10, 2)     # 0, 2, 4, 6, 8         (every 2nd)
+range(0, 10, 3)     # 0, 3, 6, 9            (every 3rd)
+range(1, 10, 2)     # 1, 3, 5, 7, 9         (odd numbers)
+
+# Walk a string every other char
+for i in range(0, len(s), 2):
+    print(s[i])
+
+# Slice equivalent
+s[::2]              # same chars as above, simpler if you just want them</code></pre>
+
+  <div class="tip"><b>When to use range vs slice</b> · <code>range(0, N, step)</code> when you need the index for other math. <code>s[::step]</code> when you just want the values.</div>
+</section>
+
+<!-- DECISION TREE -->
+<section class="decision" id="decision-tree">
+  <h2>10 · Decision tree — pick a range by what you need</h2>
+  <ol>
+    <li><span class="q">Do you need the index at all?</span><br>
+    No → <code>for x in seq</code>. Done.<br>
+    Yes → continue.</li>
+
+    <li><span class="q">Do you need the index AND the value?</span><br>
+    Yes → <code>for i, x in enumerate(seq)</code>. Done.<br>
+    Just the index → continue.</li>
+
+    <li><span class="q">Do you need to peek at a neighbor?</span><br>
+    Right neighbor (<code>s[i+1]</code>) → <code>range(len(s) - 1)</code>.<br>
+    Left neighbor (<code>s[i-1]</code>) → <code>range(1, len(s))</code>.<br>
+    Both neighbors → <code>range(1, len(s) - 1)</code>.</li>
+
+    <li><span class="q">Do you need a chunk of N items?</span><br>
+    Fixed-size sliding window → <code>range(len(s) - N + 1)</code>.</li>
+
+    <li><span class="q">Do you need to compare from both ends?</span><br>
+    Palindrome / reverse / pair → <code>left, right = 0, len(s) - 1; while left &lt; right</code>.</li>
+
+    <li><span class="q">Do you need a variable-size window?</span><br>
+    Longest unique substring / smallest containing X → two pointers same direction (§6).</li>
+
+    <li><span class="q">Is the inner range a function of the outer loop variable?</span><br>
+    You're building a shape. Use formulas from §7 (<code>range(i + 1)</code>, <code>range(2*i + 1)</code>, etc.).</li>
+
+    <li><span class="q">Walking backwards?</span><br>
+    Indices descending → <code>range(len(s) - 1, -1, -1)</code>. Or use <code>reversed()</code> / <code>s[::-1]</code> if you just want values.</li>
+
+    <li><span class="q">Skipping items?</span><br>
+    Every Nth → <code>range(0, len(s), N)</code>.</li>
+  </ol>
+</section>
+
+<!-- THE 5 CORE FORMULAS TO MEMORIZE -->
+<section class="card" id="memorize">
+  <h2>The 5 formulas to actually memorize</h2>
+  <div class="one-liner">If you remember these, you can derive the rest.</div>
+
+  <table>
+    <thead><tr><th>Formula</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>range(len(s))</code></td><td>Walk every position</td></tr>
+      <tr><td><code>range(len(s) - 1)</code></td><td>Stop 1 early — for right-neighbor access</td></tr>
+      <tr><td><code>range(1, len(s))</code></td><td>Start at 1 — for left-neighbor access (and RLE-style)</td></tr>
+      <tr><td><code>range(len(s) - window + 1)</code></td><td>Sliding window valid starts</td></tr>
+      <tr><td><code>range(i + 1)</code></td><td>Inner depends on outer — triangle shape</td></tr>
+    </tbody>
+  </table>
+
+  <p>Everything else (<code>2*i + 1</code>, <code>height - i - 1</code>, <code>range(start, stop, -1)</code>) is built from the same logic — counting from 0, leaving room, including endpoints. Once these 5 click, the rest is variations on the theme.</p>
+</section>
+
+<footer>
+  Saved 2026-05-20 · review daily · part of Day 3 boot-camp materials
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var STORAGE_KEY = 'rangeCheatTheme';
+
+  /* ---------- Theme toggle ---------- */
+  var themeBtn = document.getElementById('themeToggle');
+  themeBtn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem(STORAGE_KEY, next); } catch (e) {}
+  });
+
+  /* ---------- Reading progress bar ---------- */
+  var bar = document.getElementById('progressBar');
+  function updateProgress() {
+    var doc = document.documentElement;
+    var total = doc.scrollHeight - doc.clientHeight;
+    var pct = total > 0 ? (doc.scrollTop / total) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+
+  /* ---------- Back to top ---------- */
+  var toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function () {
+    toTop.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---------- Copy buttons on code blocks ---------- */
+  document.querySelectorAll('pre').forEach(function (pre) {
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.type = 'button';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', function () {
+      var codeEl = pre.querySelector('code');
+      var text = codeEl ? codeEl.innerText : pre.innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1400);
+      }).catch(function () {
+        btn.textContent = 'Failed';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1400);
+      });
+    });
+    pre.appendChild(btn);
+  });
+
+  /* ---------- Collapsible cards ---------- */
+  var cards = document.querySelectorAll('section.card');
+  cards.forEach(function (card) {
+    var h2 = card.querySelector('h2');
+    if (!h2) return;
+    h2.classList.add('collapsible');
+    h2.addEventListener('click', function () {
+      card.classList.toggle('collapsed');
+    });
+  });
+
+  var collapseBtn = document.getElementById('collapseAll');
+  collapseBtn.addEventListener('click', function () {
+    var anyOpen = Array.prototype.some.call(cards, function (c) {
+      return !c.classList.contains('collapsed');
+    });
+    cards.forEach(function (c) { c.classList.toggle('collapsed', anyOpen); });
+    collapseBtn.textContent = anyOpen ? 'Expand all' : 'Collapse all';
+  });
+
+  /* ---------- Scroll-spy nav ---------- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var sections = navLinks.map(function (a) {
+    return document.getElementById(a.getAttribute('href').slice(1));
+  });
+  function spy() {
+    var y = window.scrollY + 130;
+    var idx = 0;
+    sections.forEach(function (sec, i) {
+      if (sec && sec.offsetTop <= y) idx = i;
+    });
+    navLinks.forEach(function (a, i) {
+      a.classList.toggle('active', i === idx);
+    });
+  }
+  window.addEventListener('scroll', spy, { passive: true });
+  spy();
+
+  /* ---------- Nav click expands a collapsed target ---------- */
+  navLinks.forEach(function (a) {
+    a.addEventListener('click', function () {
+      var tgt = document.getElementById(a.getAttribute('href').slice(1));
+      if (tgt) tgt.classList.remove('collapsed');
+    });
+  });
+
+  /* ---------- Highlight the hash target on load / change ---------- */
+  function flashTarget() {
+    if (!location.hash) return;
+    var tgt = document.querySelector(location.hash);
+    if (!tgt) return;
+    tgt.classList.remove('collapsed');
+    tgt.classList.remove('flash');
+    void tgt.offsetWidth;          /* restart the animation */
+    tgt.classList.add('flash');
+    setTimeout(function () { tgt.classList.remove('flash'); }, 2100);
+  }
+  window.addEventListener('load', flashTarget);
+  window.addEventListener('hashchange', flashTarget);
+})();
+</script>
+
+</body>
+</html>

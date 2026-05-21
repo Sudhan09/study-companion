@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-05-12T16:05:00+05:30
+last_updated: 2026-05-21T20:38:09+05:30
 updated_by: /day-wrap
 mode: loop_week
 bootcamp:
@@ -10,41 +10,40 @@ bootcamp:
   active_structure: structure_phase2.xml
   status: in_progress
 loop_week:
-  current_day: 2
+  current_day: 4
   active: true
-  next_topic: "Dicts/Sets"
+  next_topic: "Day 4 cont. — Blocks D, E, F (Range mastery, Functions + MatrixOps, Mini-boss)"
 ---
 
 <!-- Per design §J #11 two-dimension schema: bootcamp + loop_week are independent dimensions, must not be conflated. -->
 <!-- bootcamp.completed_through_day=21 from pipeline progress_state.xml (Phase 1 complete, Phase 2 active, Days 22-42). -->
-<!-- bootcamp.current_day=15 user-set on resume; refined at next Sunday Review checkpoint. -->
-<!-- loop_week.current_day=2 advanced by /day-wrap on 2026-05-12 (Day 1 retry completed). loop-strategy.md PROGRESS TRACKER section is stale. -->
-<!-- loop_week.next_topic patched "Strings & Variable-Width Shapes" → "Dicts/Sets" on 2026-05-12; prior value was Day 3 content mistakenly stored. -->
+<!-- bootcamp.current_day=15 user-set on resume (2026-05-10); refined at next Sunday Review checkpoint. -->
+<!-- loop_week.current_day=4 advanced from 3 on 2026-05-21 — Day 4 half-day session covered Blocks A, B, C (Comprehensions, translation drills, zip/enumerate). Blocks D, E, F not yet started. -->
+<!-- loop_week.next_topic — Day 4 is HALF DONE. Next session resumes Day 4 at Block D, not Day 5. Day 3 Block F mini-boss gate also still outstanding (skipped at 2026-05-21 session start per user choice). -->
 
 ## Today
 
-(Day 2 — 2026-05-13) — Loop Foundations Boot Camp Day 2: **Dicts/Sets**.
+(Day 4 — 2026-05-21) — Loop Week Day 4 half-day: Comprehensions + zip/enumerate. Blocks A-C. Energy 5/5.
 
-Plan (to be confirmed by `study-morning-briefing` at 09:00 IST):
-- Block A (warmup): Dict iteration traces (6–7) — `for key in dict`, `for k,v in dict.items()`, `.get()` vs `[]`, `in dict`. F3 boolean-operator targeting.
-- Block B (new mechanics): Dict accumulator patterns (count / group-by) — **A1 replication rep #2** toward graduation.
-- Block C (combined): Stacked dict + counter drills (Band 2) — **A1 + F3 combined target**.
+- **Block A** locked — comprehension mental model, the full 8-form ladder (copy → transform → filter → filter+transform → if/else trap → nested loops → nested+filter → nested comp), A.3 reading practice (8/8 after a fix), A.4 when-not-to-use, A.5 edge cases. Form 8 needed a two-step re-angle + dissection before it landed.
+- **Block B** locked — B.1 five translation patterns (counter, filter, accumulator, search, tracker) taught pattern-by-pattern + 6-problem drill; B.2 which Day 2 patterns translate; B.3 string patterns via `"".join`; B.4 dict comp (duplicate-key trap nailed cold); B.5 set comp; B.6 generator expressions + exhaustion.
+- **Block C** locked — C.1 zip, C.2 zip-in-comps, C.3 enumerate-in-comps, C.4 parallel iteration (opposite-direction zip, 3-way zip, dict-of-dicts).
+- **Day 3 Block F mini-boss gate SKIPPED** at session start — user chose straight-to-Day-4. Diamond + compress from Day 3 remain unverified. Still outstanding.
+- **Side task:** added light/dark mode + interactivity (progress bar, copy buttons, collapsible cards, scroll-spy, hash-highlight) to `cheatsheets/day3-range-patterns-master.html`.
+- **F3 (operator/condition confusion) surfaced 2-3×** — `*` vs `**` (A.3), `>` vs `<` (B.1 search). Escalated weak spot, still live. Plus 2× clause-dropping (forgot squaring, forgot evens filter) and 2× variable-naming slips (loop-var shadowing lists, plural/singular mix-up). All second-pass fixes clean.
 
 ## Yesterday
 
-(Day 1 — 2026-05-12) — Loop Foundations Boot Camp Day 1, post-vacation retry. Lists & Tuples pattern fluency.
+(Day 3 — 2026-05-20) — Loop Week Day 3 fresh teach: Strings & Variable-Width Shapes. ~8 hr session.
 
-- Block B catalog (5 single-state patterns + 3 stacking drills) + Block C.1–C.6 (nested patterns) drilled.
-- Skipped C.7, Block D, Block E by user choice (early wrap mid-curriculum).
-- **3 wins locked:** `while+pop` queue model (B.1.5), pattern-stacking break-order rule (B.3), Tier 2 physical-metaphor teaching-method (C.2 — META win).
-- **A1** (escalated band-2) got first clean independent rep since 2026-04-08 escalation — B.3 Drill #2 Search+Counter. 1/3 toward graduation.
-- **F3** fired 3+ times → RTI protocol escalation triggered (`watch (one-off)` → `band-2-watch`).
-- Energy 4/5 — engaged with some F3 friction.
+- **Block A (String Fundamentals)** locked end-to-end via pen-on-paper teach. All 5 subtopics + A.3's 7 method families covered. **8 cheat sheet HTML files created** for daily review (1 combined + 7 per-subtopic, color-coded).
+- **Block B (Loop Forms × Strings)** Patterns 1–5 taught + traced. Pattern 3 (palindrome / reverse / are_reverses) all 3 functions implemented cold by user — 5/5 test cases per function.
+- **Block C + D** (Variable-width shapes, pyramid, inverted pyramid, hollow rectangle) — user got the geometric reasoning behind formulas. D.1/D.2/D.4 traced but mostly not implemented by user.
+- **Stick-to-curriculum** rule locked after a Pattern 3 drill-skip incident. **Blocks E + F skipped** citing energy — flagged as major gaps.
+- **Energy 3/5** — moderate end-of-day fatigue.
 
-See `state/last_session_summary.md` and `room-to-improve/sessions/2026-05-12.md` for detail.
+## Last 3 sessions summary
 
-## Last 3 days summary
-
-- **2026-05-12** (Loop Week Day 1) — Lists & Tuples pattern fluency. Block B full catalog + Block C.1–C.6 nested patterns. 3 wins, A1 1 rep, F3 escalated. Energy 4/5.
-- **2026-05-11** (Loop Week Day 1 *scheduled*) — Day 1 scheduled but **no study session logged**. Routines ran (morning briefing, spaced-rep, monday-distillation = 8 commits) but zero study content. Day 1 attempt deferred to 2026-05-12.
-- **2026-05-10** — `/resume-routines` ran after 3-day vacation. `bootcamp.current_day` user-set to 15; `loop_week.current_day` reset to 1.
+- **2026-05-21** (Loop Week Day 4 half-day) — Comprehensions + zip/enumerate, Blocks A-C complete. D/E/F + Day 3 Block F gate outstanding. F3 surfaced 2-3×. Energy 5/5.
+- **2026-05-20** (Loop Week Day 3 fresh teach) — Strings & Variable-Width Shapes. Blocks A–D covered (~80%). E + F entirely skipped. 8 cheat sheet HTMLs created. Pen-on-paper teaching method locked. Energy 3/5.
+- **2026-05-19** (Loop Week Day 1+2 review) — Concept refresh + targeted A1/F3 reps. 2 cold A1 reps post-teach. F3 boundary clean. Spec-rigor soft spot surfaced (8 sightings). Energy 3/5.

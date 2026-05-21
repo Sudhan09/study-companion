@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Block A.3 — String Methods Cheat Sheet</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --card: #ffffff;
+    --ink: #1a2332;
+    --ink-soft: #5a6473;
+    --muted: #8a93a3;
+    --code-bg: #fef6e4;
+    --code-ink: #5a3a00;
+    --rule: #e6e3dc;
+    --trap-bg: #fde8e8;
+    --trap-ink: #8a1a1a;
+    --tip-bg: #e6f4ea;
+    --tip-ink: #1b5e20;
+
+    --case: #4b6bfb;
+    --splitjoin: #16a34a;
+    --strip: #d97706;
+    --findreplace: #9333ea;
+    --predicate: #db2777;
+    --padding: #0891b2;
+    --fstring: #e11d48;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px 80px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: 30px;
+    letter-spacing: -0.5px;
+  }
+  header .sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  header .anchor {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 12px;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    color: var(--muted);
+    background: var(--card);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+
+  nav {
+    background: var(--card);
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 28px;
+    border: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+  }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+  nav a:hover { background: var(--bg); }
+  nav .num {
+    display: inline-block;
+    width: 18px;
+    color: var(--muted);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    padding: 24px 28px 26px;
+    position: relative;
+    border: 1px solid var(--rule);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 16px; bottom: 16px;
+    width: 4px;
+    border-radius: 4px;
+    background: var(--accent, var(--ink));
+  }
+  .card h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    color: var(--accent, var(--ink));
+    letter-spacing: -0.2px;
+  }
+  .card .one-liner {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 14px 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 12px 0;
+  }
+  code {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 13px;
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .trap, .tip {
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0 6px;
+    font-size: 14px;
+  }
+  .trap {
+    background: var(--trap-bg);
+    color: var(--trap-ink);
+    border-left: 3px solid var(--trap-ink);
+  }
+  .tip {
+    background: var(--tip-bg);
+    color: var(--tip-ink);
+    border-left: 3px solid var(--tip-ink);
+  }
+  .trap b, .tip b { font-weight: 600; }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 10px 0;
+  }
+  .grid-3 div {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12.5px;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .summary {
+    background: var(--ink);
+    color: #f6f3eb;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 36px;
+  }
+  .summary h2 {
+    margin: 0 0 14px;
+    font-size: 20px;
+    color: #f6f3eb;
+  }
+  .summary ol {
+    margin: 0;
+    padding-left: 22px;
+  }
+  .summary li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .summary code {
+    background: rgba(255,255,255,0.12);
+    color: #f6f3eb;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 36px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  @media print {
+    body { padding: 20px; background: #fff; }
+    nav { display: none; }
+    .card { page-break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>String Methods — Cheat Sheet</h1>
+  <div class="sub">Block A.3 of Day 3 · the 7 method families, the traps, and what to actually use</div>
+  <div class="anchor">Loop Week · Day 3 · Block A.3</div>
+</header>
+
+<nav>
+  <a href="#case"><span class="num">1.</span>Case methods</a>
+  <a href="#splitjoin"><span class="num">2.</span>Split &amp; Join</a>
+  <a href="#strip"><span class="num">3.</span>Strip methods</a>
+  <a href="#findreplace"><span class="num">4.</span>Find · Replace · Count</a>
+  <a href="#predicate"><span class="num">5.</span>Predicate (<code>is...</code>) checks</a>
+  <a href="#padding"><span class="num">6.</span>Padding methods</a>
+  <a href="#fstring"><span class="num">7.</span>f-string format specs</a>
+</nav>
+
+<!-- 1. CASE -->
+<section class="card" id="case" style="--accent: var(--case);">
+  <h2>1 · Case methods — change the size of letters</h2>
+  <div class="one-liner">Shouting, whispering, title-casing. All return a new string; original untouched.</div>
+
+<pre><code>s = "Hello World"
+
+s.upper()        →  "HELLO WORLD"     (all big — shouting)
+s.lower()        →  "hello world"     (all small — quiet)
+s.title()        →  "Hello World"     (first letter of each word big)
+s.capitalize()   →  "Hello world"     (only the very first letter big)
+s.swapcase()     →  "hELLO wORLD"     (flip every letter's case)</code></pre>
+
+  <div class="tip"><b>Daily-use ranking</b> · <code>.lower()</code>, <code>.upper()</code> &rarr; daily. <code>.title()</code> &rarr; book/movie titles. <code>.capitalize()</code> &rarr; sentence-style. <code>.swapcase()</code> &rarr; once in a blue moon.</div>
+  <div class="tip"><b>Most common use</b> · case-insensitive compare: <code>"Apple".lower() == "apple".lower()</code> &rarr; <code>True</code></div>
+</section>
+
+<!-- 2. SPLIT / JOIN -->
+<section class="card" id="splitjoin" style="--accent: var(--splitjoin);">
+  <h2>2 · Split &amp; Join — inverse twins</h2>
+  <div class="one-liner">Split chops a string into a list. Join glues a list back into a string.</div>
+
+<pre><code># SPLIT — chop at every separator
+"apple,banana,cherry".split(",")  →  ['apple', 'banana', 'cherry']
+"hi there friend".split()         →  ['hi', 'there', 'friend']   (no-arg)
+"a,b,,c".split(",")               →  ['a', 'b', '', 'c']         (keeps empties!)
+
+# JOIN — tape pieces back together with glue between
+",".join(["a", "b", "c"])         →  "a,b,c"
+" - ".join(["py", "thon"])        →  "py - thon"
+
+# Inverse pair
+",".join("a,b,c".split(","))      →  "a,b,c"   (back to start)</code></pre>
+
+  <div class="trap"><b>Trap · no-arg vs explicit space.</b> <code>"  hi   world  ".split()</code> &rarr; <code>['hi', 'world']</code> (smart). <code>"  hi   world  ".split(" ")</code> &rarr; <code>['', '', 'hi', '', '', 'world', '', '']</code> (strict, keeps empties).</div>
+  <div class="trap"><b>Trap · join only takes strings.</b> <code>",".join([1, 2, 3])</code> &rarr; <code>TypeError</code>. Fix: <code>",".join(str(x) for x in [1, 2, 3])</code>.</div>
+</section>
+
+<!-- 3. STRIP -->
+<section class="card" id="strip" style="--accent: var(--strip);">
+  <h2>3 · Strip methods — trim the edges</h2>
+  <div class="one-liner">Cuts unwanted characters from the start and end of a string. <b>Never touches the middle.</b></div>
+
+<pre><code>"   hello   ".strip()       →  "hello"        (whitespace from both ends)
+"   hello   ".lstrip()      →  "hello   "     (LEFT only — l = left)
+"   hello   ".rstrip()      →  "   hello"     (RIGHT only — r = right)
+
+# Custom chars to trim
+"###hello###".strip("#")    →  "hello"
+"<<title>>".strip("<>")     →  "title"        (any of < or >)</code></pre>
+
+  <div class="trap"><b>The big trap · strip never touches the middle.</b><br>
+  <code>"  hi  world  ".strip()</code> &rarr; <code>"hi  world"</code> (middle spaces stay!).<br>
+  To remove all spaces, use <code>.replace(" ", "")</code> instead.</div>
+</section>
+
+<!-- 4. FIND / REPLACE / COUNT -->
+<section class="card" id="findreplace" style="--accent: var(--findreplace);">
+  <h2>4 · Find · Replace · Count — searching and swapping</h2>
+  <div class="one-liner">Locate, swap, tally substrings. <code>find</code> forgives misses; <code>index</code> doesn't.</div>
+
+<pre><code># FIND vs INDEX — pick by what you want on a miss
+"hello world".find("world")   →  6             (position)
+"hello world".find("zebra")   →  -1            (sentinel — no crash)
+
+"hello world".index("world")  →  6             (same when found)
+"hello world".index("zebra")  →  ValueError    (CRASHES on miss)
+
+# REPLACE — swap every occurrence (or limit with count arg)
+"a b c d".replace(" ", "_")         →  "a_b_c_d"
+"a b c d".replace(" ", "_", 2)      →  "a_b_c d"     (only first 2)
+
+# COUNT — non-overlapping occurrences
+"ababab".count("ab")          →  3       (not 5 — no overlap)
+"aaaa".count("aa")            →  2       (not 3 — no overlap)</code></pre>
+
+  <div class="tip"><b>Pick rule</b> · use <code>.find()</code> if you'll check the result yourself (<code>if pos == -1: ...</code>). Use <code>.index()</code> if you're sure it's there and want a crash if wrong.</div>
+  <div class="trap"><b>Count trap</b> · matches don't overlap. After a match, count jumps past it.</div>
+</section>
+
+<!-- 5. PREDICATES -->
+<section class="card" id="predicate" style="--accent: var(--predicate);">
+  <h2>5 · Predicate methods — yes/no questions</h2>
+  <div class="one-liner">All return True or False. Check the whole string — one bad char ruins it.</div>
+
+<pre><code># Character-type checks
+"12345".isdigit()       →  True       (every char is 0–9)
+"abc".isalpha()         →  True       (every char is a letter)
+"abc123".isalnum()      →  True       (letters and/or digits)
+"abc 123".isalnum()     →  False      (space breaks it!)
+"   ".isspace()         →  True       (every char is whitespace)
+
+# Prefix / suffix checks
+"hello.py".endswith(".py")            →  True
+"hello.py".startswith("hi")           →  False
+"hello.py".endswith((".py", ".js"))   →  True   (tuple = "any of these")</code></pre>
+
+  <div class="trap"><b>Empty string is always False</b> · <code>"".isalpha()</code>, <code>"".isdigit()</code>, <code>"".isspace()</code> all &rarr; <code>False</code>. They need at least one char to say "yes".</div>
+  <div class="tip"><b>Lock</b> · the rule is "every char satisfies it." One bad char = False.</div>
+</section>
+
+<!-- 6. PADDING -->
+<section class="card" id="padding" style="--accent: var(--padding);">
+  <h2>6 · Padding methods — fit a fixed width</h2>
+  <div class="one-liner">Pad with characters to reach a target width. Strings only grow — they never shrink.</div>
+
+<pre><code>"42".zfill(5)               →  "00042"        (left-pad with 0s)
+"hi".center(10)             →  "    hi    "   (default fill = space)
+"hi".center(10, "*")        →  "****hi****"   (custom fill)
+"hi".ljust(8)               →  "hi      "     (push left, pad right)
+"hi".ljust(8, "-")          →  "hi------"
+"42".rjust(5)               →  "   42"        (push right, pad left)
+"42".rjust(5, "0")          →  "00042"        (same as zfill)
+
+# Already wide enough? No change.
+"hello".rjust(3)            →  "hello"</code></pre>
+
+  <div class="tip"><b>Mnemonic</b> · <code>l</code>just = pushes <b>l</b>eft. <code>r</code>just = pushes <b>r</b>ight. The <i>name</i> says where the content goes, not where the padding goes.</div>
+</section>
+
+<!-- 7. F-STRING FORMAT SPECS -->
+<section class="card" id="fstring" style="--accent: var(--fstring);">
+  <h2>7 · f-string format specs — the mini-language</h2>
+  <div class="one-liner">Inside <code>{}</code>, after a colon, you have a tiny formatting language: <code>{value:[fill][align][width][.precision][type]}</code></div>
+
+  <div class="grid-3">
+    <div><b>&lt;</b> left-align</div>
+    <div><b>&gt;</b> right-align</div>
+    <div><b>^</b> center</div>
+  </div>
+
+<pre><code>name = "Alice"
+x = 42
+y = 3.14159
+
+# Width + alignment
+f"{name:10}"          →  "Alice     "     (width 10, default left for strings)
+f"{name:&gt;10}"          →  "     Alice"     (width 10, right-aligned)
+f"{name:^10}"          →  "  Alice   "     (width 10, centered)
+
+# Fill character (goes BEFORE the align symbol)
+f"{x:0&gt;5}"            →  "00042"          (pad left with 0s)
+f"{name:*^9}"         →  "**Alice**"      (center, fill with *)
+
+# Numbers — precision for floats, type code for ints
+f"{y:.2f}"            →  "3.14"           (2 decimal places)
+f"{y:.0f}"            →  "3"              (no decimals, rounds)
+f"{y:10.2f}"          →  "      3.14"     (width 10, 2 decimals)
+f"{x:5d}"             →  "   42"          (int in width 5)
+
+# Putting it together — a table row
+i, name, price = 3, "Apple", 1.49
+f"{i:3d} | {name:&lt;10} | {price:&gt;8.2f}"
+→  "  3 | Apple      |     1.49"</code></pre>
+
+  <div class="tip"><b>Type codes</b> · <code>d</code> = int, <code>f</code> = float, <code>s</code> = string (default), <code>b</code> = binary, <code>x</code> = hex.</div>
+  <div class="tip"><b>Reading a spec</b> · go left to right: fill, then align, then width, then <code>.</code> + precision, then type. Most specs only use 2-3 of these.</div>
+</section>
+
+<!-- DAILY 5 -->
+<section class="summary">
+  <h2>If you only remember 5 things</h2>
+  <ol>
+    <li><b>All these methods return new strings.</b> The original never changes. A.1's pen-on-paper lock still holds.</li>
+    <li><b>Strip touches only the edges</b>, never the middle. For interior spaces, use <code>.replace(" ", "")</code>.</li>
+    <li><b>.find() returns -1; .index() crashes.</b> Pick by whether you want a crash on miss.</li>
+    <li><b>.count() does NOT overlap.</b> <code>"aaaa".count("aa")</code> is 2, not 3.</li>
+    <li><b>Predicates check the whole string.</b> One bad char = False. Empty string = False for all of them.</li>
+  </ol>
+</section>
+
+<footer>
+  Saved 2026-05-19 · review daily · part of the Day 3 boot-camp materials
+</footer>
+
+</div>
+</body>
+</html>

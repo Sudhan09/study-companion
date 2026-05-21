@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A.3.6 — Padding methods · Cheat Sheet</title>
+<style>
+  :root {
+    --bg:#faf9f6; --card:#fff; --ink:#1a2332; --ink-soft:#5a6473; --muted:#8a93a3;
+    --code-bg:#fef6e4; --code-ink:#5a3a00; --rule:#e6e3dc;
+    --trap-bg:#fde8e8; --trap-ink:#8a1a1a;
+    --tip-bg:#e6f4ea; --tip-ink:#1b5e20;
+    --accent:#0891b2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;padding:36px 20px 60px;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:820px;margin:0 auto;}
+  header{margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--rule);}
+  header h1{margin:0 0 6px;font-size:28px;color:var(--accent);letter-spacing:-0.5px;}
+  header .sub{color:var(--ink-soft);font-size:15px;}
+  header .anchor{display:inline-block;margin-top:10px;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--muted);background:var(--card);padding:4px 10px;border-radius:4px;border:1px solid var(--rule);}
+  .card{background:var(--card);border-radius:12px;margin-bottom:20px;padding:22px 26px;position:relative;border:1px solid var(--rule);box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+  .card::before{content:'';position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:4px;background:var(--accent);}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent);}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:14px 16px;border-radius:8px;overflow-x:auto;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.6;margin:10px 0;}
+  code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;background:var(--code-bg);color:var(--code-ink);padding:1px 6px;border-radius:4px;}
+  pre code{background:transparent;padding:0;}
+  .trap,.tip{border-radius:8px;padding:11px 15px;margin:12px 0 4px;font-size:14px;}
+  .trap{background:var(--trap-bg);color:var(--trap-ink);border-left:3px solid var(--trap-ink);}
+  .tip{background:var(--tip-bg);color:var(--tip-ink);border-left:3px solid var(--tip-ink);}
+  .summary{background:var(--ink);color:#f6f3eb;border-radius:12px;padding:22px 26px;margin-top:30px;}
+  .summary h2{margin:0 0 12px;font-size:18px;color:#f6f3eb;}
+  .summary ol{margin:0;padding-left:20px;}
+  .summary li{margin-bottom:8px;font-size:14.5px;line-height:1.5;}
+  .summary code{background:rgba(255,255,255,0.12);color:#f6f3eb;}
+  footer{text-align:center;margin-top:30px;color:var(--muted);font-size:12.5px;}
+  @media print{body{padding:20px;background:#fff;}.card{page-break-inside:avoid;box-shadow:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>6 · Padding methods</h1>
+  <div class="sub">Make a string fit a fixed width by adding filler. Strings only grow — they never shrink.</div>
+  <div class="anchor">Loop Week · Day 3 · Block A.3 · Subtopic 6</div>
+</header>
+
+<section class="card">
+  <h2>zfill — pad left with zeros</h2>
+<pre><code>"42".zfill(5)            →  "00042"        (3 zeros + "42" = 5 chars)
+"7".zfill(3)             →  "007"
+"-12".zfill(5)           →  "-0012"        (handles the sign correctly)
+
+# Already big enough? No change.
+"hello".zfill(3)         →  "hello"</code></pre>
+  <div class="tip"><b>Used for</b> · invoice numbers, file indexing (<code>img_001.jpg</code>), time formatting (<code>05:09</code>), zero-padded IDs.</div>
+</section>
+
+<section class="card">
+  <h2>center / ljust / rjust — direction-based padding</h2>
+<pre><code>s = "hi"
+
+s.center(10)             →  "    hi    "       (default fill = space)
+s.center(10, "*")        →  "****hi****"       (custom fill)
+
+s.ljust(8)               →  "hi      "         (push left, pad right)
+s.ljust(8, "-")          →  "hi------"
+
+s.rjust(5)               →  "   hi"            (push right, pad left)
+s.rjust(5, "0")          →  "000hi"            (same as zfill on the result)</code></pre>
+  <div class="tip"><b>Mnemonic</b> · <code>l</code>just pushes the content to the <b>l</b>eft (so padding goes on the right). <code>r</code>just pushes the content to the <b>r</b>ight. The name says where the content lands, not where the padding goes.</div>
+</section>
+
+<section class="card">
+  <h2>The no-shrink rule</h2>
+<pre><code># If the string is already that wide or wider, you get the original back
+"hello".rjust(3)         →  "hello"        (5 chars, asked for 3 — no change)
+"hello".center(5)        →  "hello"        (already 5 wide)
+"hello".zfill(2)         →  "hello"        (already > 2 chars)
+
+# Padding only ADDS chars. It never trims.</code></pre>
+  <div class="tip"><b>Lock</b> · width arg is a <b>minimum</b>, not a maximum. To enforce a maximum, slice the result: <code>name.ljust(10)[:10]</code>.</div>
+</section>
+
+<section class="card">
+  <h2>f-string equivalents (cleaner in most cases)</h2>
+<pre><code># These pairs do the same thing:
+"42".zfill(5)            ≡   f"{42:05d}"          →  "00042"
+"hi".center(10)          ≡   f"{'hi':^10}"        →  "    hi    "
+"hi".ljust(10)           ≡   f"{'hi':&lt;10}"        →  "hi        "
+"hi".rjust(10)           ≡   f"{'hi':&gt;10}"        →  "        hi"
+"42".rjust(5, "0")       ≡   f"{42:0&gt;5}"          →  "00042"</code></pre>
+  <div class="tip"><b>Which to use?</b> Methods are clearer when you have a string already in hand. f-strings are clearer when you're <i>building</i> a string from values. Both are fine.</div>
+</section>
+
+<section class="card">
+  <h2>Real-world patterns</h2>
+<pre><code># 1. Zero-padded sequence (filenames, IDs)
+for i in range(1, 11):
+    name = f"image_{str(i).zfill(3)}.jpg"        # image_001.jpg, image_002.jpg, ...
+
+# 2. Aligned table column
+for row in data:
+    print(row['name'].ljust(20), row['score'].rjust(6))
+
+# 3. Banner / divider
+print("DONE".center(40, "="))                    # "==================DONE=================="
+
+# 4. Time formatting (manual)
+def pretty_time(h, m, s):
+    return f"{str(h).zfill(2)}:{str(m).zfill(2)}:{str(s).zfill(2)}"</code></pre>
+</section>
+
+<section class="summary">
+  <h2>Lock these</h2>
+  <ol>
+    <li><code>.zfill(n)</code> pads with zeros on the left. Handles signs correctly.</li>
+    <li><code>.ljust</code> / <code>.rjust</code> / <code>.center</code> — name tells you where the <b>content</b> goes.</li>
+    <li><b>No-shrink rule</b> · the width is a minimum, not a maximum. Strings only grow.</li>
+    <li>All these have f-string equivalents — use whichever reads cleaner for your case.</li>
+    <li>Default fill is a space. Pass a 2nd arg for a custom fill character.</li>
+  </ol>
+</section>
+
+<footer>Saved 2026-05-19 · part of Day 3 boot-camp materials</footer>
+
+</div>
+</body>
+</html>
