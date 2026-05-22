@@ -1,5 +1,5 @@
 ---
-last_updated: 2026-05-21T20:38:09+05:30
+last_updated: 2026-05-22T22:24:29+05:30
 updated_by: /day-wrap
 mode: loop_week
 bootcamp:
@@ -10,40 +10,35 @@ bootcamp:
   active_structure: structure_phase2.xml
   status: in_progress
 loop_week:
-  current_day: 4
+  current_day: 5
   active: true
-  next_topic: "Day 4 cont. — Blocks D, E, F (Range mastery, Functions + MatrixOps, Mini-boss)"
+  next_topic: "Day 5 — Functions DEEP + While Family + Nested-Loop Traps (Phase 3b L5+L6)"
 ---
 
 <!-- Per design §J #11 two-dimension schema: bootcamp + loop_week are independent dimensions, must not be conflated. -->
 <!-- bootcamp.completed_through_day=21 from pipeline progress_state.xml (Phase 1 complete, Phase 2 active, Days 22-42). -->
 <!-- bootcamp.current_day=15 user-set on resume (2026-05-10); refined at next Sunday Review checkpoint. -->
-<!-- loop_week.current_day=4 advanced from 3 on 2026-05-21 — Day 4 half-day session covered Blocks A, B, C (Comprehensions, translation drills, zip/enumerate). Blocks D, E, F not yet started. -->
-<!-- loop_week.next_topic — Day 4 is HALF DONE. Next session resumes Day 4 at Block D, not Day 5. Day 3 Block F mini-boss gate also still outstanding (skipped at 2026-05-21 session start per user choice). -->
+<!-- loop_week.current_day=5 advanced from 4 on 2026-05-22 — Day 4 COMPLETE. 2026-05-21 covered Blocks A-C; 2026-05-22 covered Blocks D, E, F (Range mastery, Functions + MatrixOps, Mini-boss passed). -->
+<!-- loop_week.next_topic — Day 5 is a fresh full day. Day 3 Block F mini-boss gate STILL outstanding (diamond + compress unverified; skipped again at 2026-05-22 session start per user choice) — flag before Day 5. -->
 
 ## Today
 
-(Day 4 — 2026-05-21) — Loop Week Day 4 half-day: Comprehensions + zip/enumerate. Blocks A-C. Energy 5/5.
+(Day 4 second half — 2026-05-22) — Loop Week Day 4 completed: Blocks D, E, F. Energy 5/5.
 
-- **Block A** locked — comprehension mental model, the full 8-form ladder (copy → transform → filter → filter+transform → if/else trap → nested loops → nested+filter → nested comp), A.3 reading practice (8/8 after a fix), A.4 when-not-to-use, A.5 edge cases. Form 8 needed a two-step re-angle + dissection before it landed.
-- **Block B** locked — B.1 five translation patterns (counter, filter, accumulator, search, tracker) taught pattern-by-pattern + 6-problem drill; B.2 which Day 2 patterns translate; B.3 string patterns via `"".join`; B.4 dict comp (duplicate-key trap nailed cold); B.5 set comp; B.6 generator expressions + exhaustion.
-- **Block C** locked — C.1 zip, C.2 zip-in-comps, C.3 enumerate-in-comps, C.4 parallel iteration (opposite-direction zip, 3-way zip, dict-of-dicts).
-- **Day 3 Block F mini-boss gate SKIPPED** at session start — user chose straight-to-Day-4. Diamond + compress from Day 3 remain unverified. Still outstanding.
-- **Side task:** added light/dark mode + interactivity (progress bar, copy buttons, collapsible cards, scroll-spy, hash-highlight) to `cheatsheets/day3-range-patterns-master.html`.
-- **F3 (operator/condition confusion) surfaced 2-3×** — `*` vs `**` (A.3), `>` vs `<` (B.1 search). Escalated weak spot, still live. Plus 2× clause-dropping (forgot squaring, forgot evens filter) and 2× variable-naming slips (loop-var shadowing lists, plural/singular mix-up). All second-pass fixes clean.
+- **Block D** locked — all 5 sub-stages: Range Tier 5 (opposite-direction `zip`), the √n bound (`is_prime`, `factor_pairs` cold), exotic ranges (recognize-don't-use), 6 anti-patterns + the legit `range(len())` cases, 5 comp traps cold (7/7 predictions). F3 fought hard — `*`/`**` and `**2`/`**0.5` slips, all corrected; clean F3 reps earned on `is_prime` and the symmetric-check.
+- **Block E** locked — all 10 E.1 functions + the full 9-method `MatrixOps` class. Major wall climbed mid-block: "what is an object / why wrap a result / instances inside methods" needed many re-angles before it landed; class now runs end-to-end with method chaining.
+- **Block F** mini-boss PASSED — A (translate 5 loops) rough, needed redos on Loops 2/3/4; B (`is_prime`) and C (`pythagorean_triples`) clean cold.
+- **Day 3 Block F mini-boss gate SKIPPED AGAIN** at session start (user choice) — `diamond` + `compress` still unverified. Still outstanding.
+- **F1 escalated** watch→active (the `mat`/`m` define/use mismatch in D.3.3). **B2 held** — user asked to bail on `element_wise`, then wrote it themselves.
+- **Curriculum bug found:** Day 4 `pythagorean_triples(20)` answer key omits the valid triple `(12,16,20)` — flag for curriculum sync upstream.
+- **Output-paste discipline gap** — code pasted without run output ~5× across the session despite repeated flags.
 
 ## Yesterday
 
-(Day 3 — 2026-05-20) — Loop Week Day 3 fresh teach: Strings & Variable-Width Shapes. ~8 hr session.
-
-- **Block A (String Fundamentals)** locked end-to-end via pen-on-paper teach. All 5 subtopics + A.3's 7 method families covered. **8 cheat sheet HTML files created** for daily review (1 combined + 7 per-subtopic, color-coded).
-- **Block B (Loop Forms × Strings)** Patterns 1–5 taught + traced. Pattern 3 (palindrome / reverse / are_reverses) all 3 functions implemented cold by user — 5/5 test cases per function.
-- **Block C + D** (Variable-width shapes, pyramid, inverted pyramid, hollow rectangle) — user got the geometric reasoning behind formulas. D.1/D.2/D.4 traced but mostly not implemented by user.
-- **Stick-to-curriculum** rule locked after a Pattern 3 drill-skip incident. **Blocks E + F skipped** citing energy — flagged as major gaps.
-- **Energy 3/5** — moderate end-of-day fatigue.
+(Day 4 first half — 2026-05-21) — Loop Week Day 4 half-day: Comprehensions + zip/enumerate. Blocks A-C locked (8-form ladder, 5 translation patterns, dict/set/gen comps, zip/enumerate/parallel iteration). F3 surfaced 2-3×. Energy 5/5.
 
 ## Last 3 sessions summary
 
-- **2026-05-21** (Loop Week Day 4 half-day) — Comprehensions + zip/enumerate, Blocks A-C complete. D/E/F + Day 3 Block F gate outstanding. F3 surfaced 2-3×. Energy 5/5.
-- **2026-05-20** (Loop Week Day 3 fresh teach) — Strings & Variable-Width Shapes. Blocks A–D covered (~80%). E + F entirely skipped. 8 cheat sheet HTMLs created. Pen-on-paper teaching method locked. Energy 3/5.
-- **2026-05-19** (Loop Week Day 1+2 review) — Concept refresh + targeted A1/F3 reps. 2 cold A1 reps post-teach. F3 boundary clean. Spec-rigor soft spot surfaced (8 sightings). Energy 3/5.
+- **2026-05-22** (Loop Week Day 4 second half) — Blocks D, E, F. Range mastery, 10 functions + MatrixOps, mini-boss passed. Object/class wall climbed. F1 escalated, B2 held. Energy 5/5.
+- **2026-05-21** (Loop Week Day 4 first half) — Comprehensions + zip/enumerate, Blocks A-C complete. F3 surfaced 2-3×. Energy 5/5.
+- **2026-05-20** (Loop Week Day 3 fresh teach) — Strings & Variable-Width Shapes. Blocks A–D covered (~80%). E + F entirely skipped. 8 cheat sheet HTMLs created. Energy 3/5.

@@ -1,38 +1,37 @@
 ---
-last_updated: 2026-05-21T21:05:00+05:30
-updated_by: /post-session
-session_id: 2026-05-21-day4-half
+last_updated: 2026-05-22T22:24:29+05:30
+updated_by: /day-wrap
+session_id: 2026-05-22-day4-second-half
 energy_score: 5
 independence_score: 3
 ---
 
 ## What landed
 
-- **Block A — comprehension fundamentals.** The mental model, the full 8-form ladder cold (copy → transform → filter → filter+transform → if/else trap → nested loops → nested+filter → nested comp), A.3 reading practice (8/8 after one fix), A.4 when-not-to-use, A.5 edge cases. The if/else-vs-filter trap (Form 5) was 4/4 cold.
-- **Block B — translation drills + dict/set/gen comprehensions.** B.1's five patterns taught pattern-by-pattern (counter, filter, accumulator, search, tracker) + the 6-problem drill; B.2 which-patterns-translate; B.3 string patterns via `"".join`; B.4 dict comp — duplicate-key trap nailed cold; B.5 set comp; B.6 generator expressions + exhaustion.
-- **Block C — zip / enumerate / parallel iteration.** zip fundamentals, zip inside comprehensions, enumerate in comp context, C.4 parallel patterns (opposite-direction zip, 3-way zip, dict-of-dicts). `enumerate` reached for unprompted multiple times.
+- **Block D — Range Mastery, all 5 sub-stages.** D.1 Range Tier 5 (opposite-direction `zip`, descending-range boundary, crossing guard); D.2 the √n bound — `is_prime` and `factor_pairs` both cold; D.3 exotic ranges (recognize-don't-use); D.4 six anti-patterns + the legit `range(len())` cases (5 refactors clean); D.5 five comp traps predicted 7/7 cold. F3 had a real workout — `*`/`**` and `**2`/`**0.5` slips surfaced and were corrected; clean F3 reps earned on `is_prime` and the symmetric-check drill.
+- **Block E — Functions + MatrixOps.** All 10 E.1 functions (`squares_of_evens`, `flatten`, `transpose`, `pythagorean_triples`, `dict_from_pairs`, `invert_safely`, `is_prime`, `factor_pairs`, `element_wise_sum`, `indices_where`) and the full 9-method `MatrixOps` class. The object/class wall — "what is an object, why wrap a matrix result, instances created inside methods" — was the hard climb of the day; took many re-angles but landed, and the class runs end-to-end with method chaining.
+- **Block F — mini-boss passed.** A (translate 5 loops) was rough — Loops 2/3/4 needed diagnosis hints and redos. B (`is_prime`) and C (`pythagorean_triples`) clean cold. Only one of three problems needed hints, so no loop-back triggered.
 
 ## What didn't land or got paused
 
-- **Day 4 Blocks D, E, F not started** — Range mastery, Functions + `MatrixOps`, the Day 4 mini-boss. Today was a planned half-day (A-C).
-- **Day 3 Block F mini-boss gate still outstanding** — `diamond` + `compress` unverified (skipped at session start).
-- **F3 (operator/condition confusion) — re-fired 2-3×** — `*` read as `**` in A.3, `>` vs `<` in B.1's search drill. Escalated weak spot; no clean reps earned.
-- **F1 (variable naming) — 2 slips** — loop-var shadowing the lists (C.2), plural/singular `ages`/`age` mix-up (C.4). Flagged as an escalation candidate.
-- **Comprehension spec-completeness** — twice a comp shipped missing a spec-required clause (the squaring, the evens filter). All second-pass fixes clean.
+- **Day 3 Block F mini-boss gate — STILL outstanding.** `diamond` + `compress` unverified; skipped again at session start by user choice. Carry to Day 5.
+- **Translation reflexes shaky** — Mini-Boss A exposed two soft spots: summing structure (`sum(x)` per-element vs `sum(gen)` over the filtered set) and Form 6 vs Form 8 (nested `for` clauses in one comp vs comp-inside-comp).
+- **Output-paste discipline gap** — code submitted without run output ~5× across the session despite repeated flags; companion ran verification each time.
+- **`element_wise` bail attempt** — user asked the companion to write the last method; companion held the line (B2), user then wrote it themselves.
 
 ## Tomorrow's first task
 
-**Resume Day 4 at Block D — Range Mastery (Phase 3b L7).** D.1 Range Tier 5, D.2 the √n bound — implement `is_prime(n)` and `factor_pairs(n)`, D.3 exotic ranges, D.4 the 5 anti-patterns + when `range(len(...))` is justified, D.5 the 5 comp traps. D.4/D.5 are operator-heavy — the right place to earn clean F3 reps.
-
-**Also still owed:** the Day 3 Block F gate (`diamond`, `is_palindrome_clean`, `compress`) — flag it before Block D.
+**Start Loop Week Day 5 — Functions DEEP + While Family + Nested-Loop Traps (Phase 3b L5+L6).** Block A. Also still owed: the Day 3 Block F gate (`diamond`, `is_palindrome_clean`, `compress`) — flag it before Block A and let the user decide.
 
 ## Energy state
 
-**5/5 — fully charged.** Long session, strong finish — ended engaged and sharper than it started.
+**5/5 — fully charged.** Long, demanding session with a genuine mid-session frustration spike on the object/class concept ("fucking confusing"), but pushed through and finished strong — Mini-Boss B and C both cold-clean.
 
 ## Drift this session
 
-- **Independence 3, emotional state engaged.** No `[AI]`-completed drills — user wrote every comprehension. B2 clean (no bail — 4th clean session).
-- **F3 re-fired** on operator/condition checks; **F1** (variable naming) fired 2× — escalation candidate, confirm next session.
-- **Rushed Pattern 4 of C.4** — 3-line teach, re-taught after user flag. **Form 8 needed two re-angles** — jargon-heavy first pass triggered `/teach-from-win`.
-- User re-flagged (3× today) the need for plain, simple English in explanations.
+- **F1 escalated** watch → active — the `mat`/`m` define/use mismatch in D.3.3 was a drill-block variable-naming miss; per the session-start rule, F1 escalated on the spot.
+- **B2 held** — bail attempt on `element_wise` resisted; user wrote it. No `[AI]`-completed drills.
+- **Object/class teach needed many re-angles** — the "return a new `MatrixOps`" concept took ~6 explanation passes (box analogy rejected, then plain-code re-angle, side-by-side visual, timeline framing) before landing. Foundation gap: Day 3's class block was skipped, so "what is an object" was never solidly taught.
+- **User instruction mid-session:** stop flagging variable names inline during drills (companion complied; still logging F1 silently for post-session).
+- **Curriculum bug found:** Day 4 `pythagorean_triples(20)` answer key omits the valid triple `(12,16,20)` — needs upstream fix in the curriculum sync source.
+- Full RTI drift detail to be written by `/post-session`.
