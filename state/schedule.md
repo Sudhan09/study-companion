@@ -1,85 +1,112 @@
 ---
-last_updated: 2026-05-22T09:05:22+05:30
+last_updated: 2026-05-23T09:00:00+05:30
 updated_by: study-morning-briefing
-date: 2026-05-22
+date: 2026-05-23
 stale_flags: []
 ---
 
-# Today's plan — 2026-05-22 (Phase 2 • Bootcamp Day 15 • Loop Week Day 4 cont.)
+# Today's plan — 2026-05-23 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
 
 > **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22–42) is NOT today's driver.
-> All content is Loop Foundations Boot Camp. Loop Week Day 4 is **half-done** — Blocks A, B, C locked yesterday. Today picks up at the Day 3 Block F gate + Blocks D, E, F.
+> All content is Loop Foundations Boot Camp. Loop Week Day 5 is a fresh full day.
 
-> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-22T08:35:56+05:30 (pipeline commit af63ff8).
-> Note: `progress_state.xml` internal `last_updated="2026-04-16"` reflects the pipeline's last authorship date — not a staleness signal; file was freshly synced today.
+> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-23T08:36:54+05:30 (pipeline commit af63ff8).
 
 > **Note:** `bootcamp.current_day=15` (user-set on resume, 2026-05-10) is < `completed_through_day=21`. User-maintained — confirm or update when ready.
 
-> **⚠️ F1 escalation confirm needed at session start:** `active_weak_spots.md` records F1 (variable naming) as an "escalation candidate" from yesterday — 2 slips in one session (C.2 style-only + C.4 real bug). Confirm escalation or keep on watch before first drill.
+> **⚠️ Day 3 Block F mini-boss gate STILL outstanding:** `diamond`, `is_palindrome_clean`, `compress` — skipped at both 2026-05-21 and 2026-05-22 session starts by user choice. Flag before Block A and let the user decide: attempt now (cold) or defer to end of Day 5. This is the third carry.
 
-> **⚠️ F3 status reminder:** Band 2 escalated (0/2 clean reps since escalation). Today's Block D is the designed earn-back zone — D.2 (`is_prime`, √n boundary) + D.4 (anti-pattern refactors) are operator-heavy. Every `<` vs `<=`, `**` vs `*`, `+1` placement must be called out explicitly.
+> **⚠️ F1 escalated to active yesterday** (the `mat`/`m` define/use mismatch in D.3.3 + C.4 singular/plural bug on 2026-05-22). Confirmed in `active_weak_spots.md`. F1 drill targets are now baked into Block A and Block E.
 
-> **Day 3 Block F gate still outstanding:** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21 session start. Flag and gate-check before Block D.
+> **F3 status:** Band 2 escalated (0/2 clean reps since escalation, last fired 2026-05-21). Today's Block A.3 + Block B drills are operator-aware. Call out every `<` vs `<=`, `*` vs `**` decision explicitly.
 
 ---
 
 ## Topic
 
-**Loop Week Day 4 (resumed) — Range Mastery + Functions + MatrixOps + Mini-Boss**
-Phase 3b L7: deep `range` (Tiers 5–6), anti-patterns, comp trap drills. Then wrapping comp logic in 10 standalone functions and a 9-method `MatrixOps` class. Day closes with the mini-boss (5 loop translations + `is_prime` + Pythagorean triples, cold).
+**Loop Week Day 5 — Functions DEEP + While Family + Nested-Loop Traps (Phase 3b L5+L6)**
+
+*Theme:* The day functions stop being wrappers and become first-class tools. While-family of nested loops gets its own focused drill. 4 classic nested-loop traps get diagnosed cold. The day's payoff: function discipline IS the cure for the nested-loop traps — `return` beats flag-and-break, helpers beat shadowing, refactor beats `else` confusion.
+
+*Split:* ~40% for, 60% while. Day 5 is the while counterbalance to Day 4's for-only pass.
 
 ---
 
 ## Block plan
 
-- **Pre-Block gate (15 min) — Day 3 Block F check-in:** Flag the outstanding gate at session start. User decides: attempt now (cold) or defer to end-of-day. If deferred, log it and proceed. `diamond`, `is_palindrome_clean`, `compress` are the three outstanding items.
+- **Pre-Block gate (15 min) — Day 3 Block F check-in:**
+  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. If deferred, log it and proceed. Third carry — worth noting the streak.
 
-- **Block D (1.5h) — Phase 3b L7: Range Mastery:**
-  - D.1 Range Tier 5 (20 min): Two-index opposite-direction `zip` — `zip(range(n), range(n-1, -1, -1))`. Trace, two-pointer preview, compare with while-loop palindrome form from Day 3.
-  - D.2 Range Tier 6 legitimate (25 min): `int(n**0.5) + 1` — implement `is_prime(n)` and `factor_pairs(n)` cold. √n proof. Test on 2, 3, 4, 7, 49, 97, 100. **F3 primary earn-back drills** — every `+ 1` placement and `<` vs `<=` decision called out.
-  - D.3 Exotic ranges (10 min): `range(n % k)`, `range(n**2)`, `range(*list)` — recognize-don't-use tier. Predict + refactor.
-  - D.4 Anti-patterns deep (35 min): 5 refactor drills cold — `range(0, n, 1)`, `range(len(lst))` overuse, index-only-to-access, `range(len(a))` for parallel, plain-copy comp. **F3 secondary zone** — operator discipline on every refactored form.
-  - D.5 Five comp traps cold (10 min): filter vs ternary position, nesting order, generator exhaustion, dict comp duplicate keys, set comp unhashables.
+- **Block A (1.5 hr) — Pure Functions, Multi-Return, Predicates, Scope, Type Hints:**
+  - A.1 (15 min): Pure function discipline — input via param, output via return, no side effects. Drill: `count_evens`, bug-spot two impure functions.
+  - A.2 (15 min): Multi-return via tuple. `find_extremes(lst)` returning `(min, max, mean)`. When to use tuple vs dict.
+  - A.3 (15 min): Predicate pattern (`is_*`, `has_*`, `can_*`). Write 5 predicates, use in list comp + `filter`. **F3 earn-back zone** — every boolean operator in `is_prime`, `is_sorted_ascending` called out explicitly.
+  - A.4 (15 min): Scope (LEGB) reinforcement. Shadowing trap. `global` keyword (avoid). `nonlocal` preview.
+  - A.5 (10 min): Type hints (light) — annotate earlier functions.
+  - A.6 (20 min): Default arguments + the mutable default trap. `def f(x=[])` → shared default. Fix: `None` sentinel. **F1 drill zone** — function signature naming discipline; parameter names vs internal loop variable names disambiguated explicitly.
 
-- **Block E (1.5h) — Functions + MatrixOps class:**
-  - E.1 (45 min): 10 functions — `squares_of_evens`, `flatten`, `transpose`, `pythagorean_triples`, `dict_from_pairs`, `invert_safely`, `is_prime`, `factor_pairs`, `element_wise_sum`, `indices_where`. Use comp where appropriate. **A1 primary earn-back drills**: `pythagorean_triples` (triple-nested comp, multi-step body), `factor_pairs` (loop + pair collection).
-  - E.2 (45 min): `MatrixOps` class — 9 methods using comp/zip internally. Immutability discipline (matrix-returning methods return new `MatrixOps`). `lambda` in `element_wise` previews Day 5.
+- **Block B (1.5 hr) — Higher-Order Functions, Closures, Lambdas:**
+  - B.1 (20 min): Higher-order functions — `apply_to_all`, `count_matching`, `find_first`. Functions passed as arguments.
+  - B.2 (15 min): Lambda — syntax, constraints, when to use/not use. Sort by lambda, filter by lambda. **F3 watch** — operator in lambda predicates (`> 0`, `>= 2`, `% 2 == 0`).
+  - B.3 (15 min): `map`, `filter`, `reduce` — and why comprehensions usually win. `reduce` for product (no built-in).
+  - B.4 (25 min): Closures + function factories. `make_multiplier`, `make_validator`, `make_counter` with `nonlocal`. Late binding gotcha + default-arg fix.
+  - B.5 (15 min): Lambda + closures cross-pollination. Refactor `make_validator` to lambda inside. `sorted` with closure over priority dict.
 
-- **Block F mini-boss (30 min) — cold:**
-  - Mini-Boss A: Translate 5 loops to comprehensions (counter, filter+sum, nested pairs, string vowels, frequency — explain why loop 5 needs `Counter` not comp).
-  - Mini-Boss B: `is_prime(n)` cold — 9 test cases including n < 2 and 49 (the √n trap).
-  - Mini-Boss C: `pythagorean_triples(n)` via triple-nested comp with filter.
-  - **Pass condition:** All 3 correct cold or ≤1 self-corrected bug per problem. Hints on >1 → loop back to Block B translation drills before Day 5.
+- **Block C (1.5 hr) — Phase 3b L5: While Family + Hybrid Loops:**
+  - C.1 (30 min): `while` inside `while`. Inner-reset discipline. Drill: 4×3 grid, trace 3 broken snippets, nested while multiplication table.
+  - C.2 (20 min): `for` inside `while`. Sentinel outer + fixed inner. Convergence outer + fixed inner. **A1 earn-back zone** — two-step body (check condition + transform inner) must be named step-by-step before coding.
+  - C.3 (20 min): `while` inside `for`. Fixed outer, convergence inner. Halving sequence, removing chars, grade input prompt.
+  - C.4 (10 min): Decision table — when to pick which hybrid. Lock the 4-cell table.
+  - C.5 (10 min): Range → while conversions. 3 drills cold.
+
+- **Block D (1 hr) — Phase 3b L6: 4 Classic Traps + Function-Based Fixes:**
+  - D.1 (40 min): All 4 traps — variable shadowing, `break` only exits inner, flag-and-break boilerplate, `for/while else` confusion. Each trap: run buggy → diagnose → fix by rename/function. Function fix is the preferred path for traps 2 and 3.
+  - D.2 (10 min): The merger table — function discipline as the systematic cure for all 4. Lock `return` as the cleanest exit.
+  - D.3 (10 min): Performance awareness — O(n²) threshold table. Brute-force two-sum vs hash-map.
+
+- **Block E (1 hr) — Wrap Block: `Pipeline` Class + `*args`/`**kwargs` + Decorators:**
+  - E.1 (30 min): `Pipeline` class — fluent API, `return self` chaining, functions-as-data. 3 pipelines: numeric, string, filter+sum. **F1 discipline** — class attribute `self.steps` vs local `step` in loop body; distinct names required, enforced.
+  - E.2 (15 min): `*args` + `**kwargs` + call-site unpacking. `sum_all`, `make_record`, unpack list into function call.
+  - E.3 (15 min): Decorators — light touch. Read + explain `@timer`. Write `@logger`. Optional bonus: `@memoize` (preview for Day 16 recursion).
+
+- **Block F — Day 5 Mini-Boss (30 min), cold:**
+  - Mini-Boss A: Hybrid halving sequence — `[16, 7, 100, 1, 50]`, for + while, output one sequence per line.
+  - Mini-Boss B: Debug 4 broken nested-loop snippets — identify trap + fix. Trap diagnosis errors weighted heavily; 3/4 = fail.
+  - Mini-Boss C: `count_matching` + `apply_to_all` higher-order pair, then compose them.
+  - **Pass condition:** All 3 correct cold or ≤1 self-corrected bug per problem. Hints on >1 → loop back to Block C/D before Day 6.
 
 ---
 
 ## Active weak spots in scope today
 
-- **F3** — Operator/condition confusion (Band 2 escalated, 0/2 reps since escalation, last fired 2026-05-21) → **Primary drill target.** Block D.2 `is_prime`/`factor_pairs` (√n boundary, `+1` placement, `<` vs `<=`), D.4 anti-pattern refactors (operator discipline). Every operator decision must be stated aloud, not assumed.
+- **F3** — Operator/condition confusion (Band 2 escalated, 0/2 clean reps since escalation, last fired 2026-05-21)
+  → **Primary drill target.** A.3 predicates (boolean operators in `is_prime`, `is_sorted_ascending`), B.2 lambda predicates (`> 0`, `% 2 == 0`). Every operator decision must be stated aloud before writing. Clean, independent reps in A.3 or B.2 count toward graduation (need 2 total).
 
-- **A1** — Multi-step loop body (Band 2 escalated, 1/3 reps since escalation, last fired 2026-05-12) → **Secondary drill target.** Block E.1 `pythagorean_triples` (triple-nested comp, multi-step body) and `factor_pairs` (pair collection accumulator). Rep #2 of 3 toward Band 2 graduation available here.
+- **A1** — Multi-step loop body (Band 2 escalated, 1/3 reps since escalation, last fired 2026-05-12)
+  → **Secondary drill target.** C.2 + C.3 hybrid loops (two-step body: check condition + transform/accumulate). Name the steps in English before coding. Rep #2 of 3 toward Band 2 graduation available in Block C.
 
-- **F1** — Variable naming (Band watch, escalation candidate, first/last seen 2026-05-21) → **Confirm or override escalation at session start.** If escalated: singular-vs-plural convention + loop-var-vs-collection disambiguation drills added to Block E.1.
+- **F1** — Variable naming, now active (escalated 2026-05-22, 0 reps since escalation, first/last seen 2026-05-22)
+  → **Active target.** A.6 (parameter naming discipline — default args + internal names), E.1 (`self.steps` vs `step` in loop body). Rule: singular for loop variable, plural for collection, never reuse a name between an outer list and its inner loop variable.
 
-- **B2** — Bail to AI (Band 2 watch improving, 4/5 clean sessions, last fired 2026-04-08) → Monitoring only. One more clean session → downgrade from watch. No bail protocol active: if stuck >5 min, mandatory "I need ___, I know ___, I'm stuck on ___" before any hint request.
+- **B2** — Bail to AI, watch improving (4/5 clean sessions, last fired 2026-04-08)
+  → Monitoring only. One more clean session → downgrade from watch. No bail protocol active: if stuck >5 min, mandatory "I need ___, I know ___, I'm stuck on ___" before any hint request.
 
 ---
 
 ## Yesterday recap
 
-**Completed:** Loop Week Day 4 half-day (2026-05-21 — Block A, B, C).
-- Block A: Full 8-form comprehension ladder locked. A.3 reading practice 8/8 (one fix). A.4 when-not-to. A.5 edge cases. Form 8 needed two re-angles.
-- Block B: Five translation patterns (counter, filter, accumulator, search, tracker) + 6-problem drill. B.2–B.6 (dict comp, set comp, gen expression, exhaustion trap). Duplicate-key trap nailed cold.
-- Block C: zip fundamentals, zip-in-comp, enumerate-in-comp, C.4 parallel iteration (opposite-direction, 3-way, dict-of-dicts). `enumerate` reached for unprompted multiple times.
+**Completed (2026-05-22 — Loop Week Day 4 second half):**
+- Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `factor_pairs` cold), exotic ranges, 6 anti-patterns + legit `range(len())` cases, 5 comp traps 7/7 cold.
+- Block E locked: 10 functions + 9-method `MatrixOps` class. Object/class wall climbed after many re-angles. Class runs end-to-end with method chaining.
+- Block F mini-boss PASSED: A (loop translations) rough (Loops 2/3/4 needed redos); B (`is_prime`) + C (`pythagorean_triples`) clean cold.
 
-**Unresolved (candidates for today's warm-up gate):**
-- Day 3 Block F gate (`diamond`, `is_palindrome_clean`, `compress`) — skipped at session start, still owed.
-- Day 4 Blocks D, E, F — the remainder of Day 4. Today's full plan.
-- F3 re-fired 2-3× (no clean reps earned). F1 fired 2× (escalation candidate).
-- Comprehension spec-completeness: 2 instances of missing a spec-required clause (squaring, evens filter) — fixed on second pass.
+**Unresolved (candidates for today's pre-Block gate):**
+- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — skipped again (user choice). **Third carry. Flag before Block A.**
+- Output-paste discipline gap — code submitted without run output ~5× during Day 4 despite repeated flags. Worth flagging again at day start.
+- F1 escalated (watch → active) from the `mat`/`m` naming mismatch in D.3.3.
 
 ---
 
 ## Curriculum anchor
 
-[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 4 (cont.)] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_04.md`. Phase 3b L7 is today's primary coverage zone (Range Tiers 5–6, anti-patterns). Mini-boss closes the day. Curriculum sync: OK at 2026-05-22T08:35:56+05:30 (pipeline commit af63ff8).
+[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps). Mini-boss closes the day. Curriculum sync: OK at 2026-05-23T08:36:54+05:30 (pipeline commit af63ff8).
