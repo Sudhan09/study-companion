@@ -1,6 +1,6 @@
 ---
 last_updated: 2026-05-22T22:24:29+05:30
-updated_by: /day-wrap
+updated_by: /post-session
 session_id: 2026-05-22-day4-second-half
 energy_score: 5
 independence_score: 3
@@ -34,4 +34,4 @@ independence_score: 3
 - **Object/class teach needed many re-angles** — the "return a new `MatrixOps`" concept took ~6 explanation passes (box analogy rejected, then plain-code re-angle, side-by-side visual, timeline framing) before landing. Foundation gap: Day 3's class block was skipped, so "what is an object" was never solidly taught.
 - **User instruction mid-session:** stop flagging variable names inline during drills (companion complied; still logging F1 silently for post-session).
 - **Curriculum bug found:** Day 4 `pythagorean_triples(20)` answer key omits the valid triple `(12,16,20)` — needs upstream fix in the curriculum sync source.
-- Full RTI drift detail to be written by `/post-session`.
+- **F1 escalated** watch → escalated-band-2 (the 2026-05-21 escalation-candidate flag confirmed: `mat`/`m` D.3.3 + `num`/`n` E.1.4, both define/use mismatches). **B2 graduated** — 5 clean no-bail sessions; the `element_wise` bail impulse was self-corrected. **A1 at 2/3 reps** (`factor_pairs` cold-clean). **F3** re-fired ×2 on exponent semantics but earned 2 clean boundary reps. Full RTI analysis in `room-to-improve/sessions/2026-05-22.md`.
