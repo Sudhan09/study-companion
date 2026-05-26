@@ -1,27 +1,30 @@
 ---
-last_updated: 2026-05-25T09:04:11+05:30
+last_updated: 2026-05-26T09:05:22+05:30
 updated_by: study-morning-briefing
-date: 2026-05-25
-stale_flags: [STALE-INPUT:current_day.md(60h), STALE-INPUT:active_weak_spots.md(84h→>72h), STALE-INPUT:last_session_summary.md(60h)]
+date: 2026-05-26
+stale_flags:
+  - STALE-INPUT(current_day.md, 82h, >72h-threshold)
+  - STALE-INPUT(active_weak_spots.md, 108h, >72h-threshold)
+  - STALE-INPUT(last_session_summary.md, 82h, >72h-threshold)
 ---
 
-# Today's plan — 2026-05-25 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
+# Today's plan — 2026-05-26 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
 
 > **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22–42) is NOT today's driver.
-> All content is Loop Foundations Boot Camp. Loop Week Day 5 is today's full day — carried from both 2026-05-23 AND 2026-05-24 (no sessions either day per unchanged state files).
+> All content is Loop Foundations Boot Camp. Loop Week Day 5 is today's full day — carried from 2026-05-23, 2026-05-24, AND 2026-05-25 (no sessions any of those days per unchanged state files). **Third carry. Fourth attempt day.**
 
-> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-25T08:36:44+05:30 (pipeline commit af63ff8).
+> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-26T08:34:35+05:30 (pipeline commit af63ff8).
 
 > **Note:** `bootcamp.current_day=15` (user-set on resume, 2026-05-10) is < `completed_through_day=21`. User-maintained — confirm or update when ready.
 
-> **⚠️ STALE-INPUT (3 files):** State files are stale — expected, no session occurred on 2026-05-23 or 2026-05-24.
-> - `state/current_day.md` — 60h old (last updated 2026-05-22T22:24:29+05:30) — >24h threshold
-> - `state/active_weak_spots.md` — **84h old** (last updated 2026-05-21T21:05:00+05:30) — **>72h threshold** (values sourced from disk; flag for user confirmation before treating as authoritative)
-> - `state/last_session_summary.md` — 60h old (last updated 2026-05-22T22:24:29+05:30) — >24h threshold
+> **⚠️ STALE-INPUT (3 files):** No sessions since 2026-05-22; all state files are stale.
+> - `state/current_day.md` — **82h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold** (values sourced from disk; confirm before treating as authoritative)
+> - `state/active_weak_spots.md` — **108h old** (last updated 2026-05-21T21:05:00+05:30) — **>72h threshold** (values sourced from disk; confirm before treating as authoritative)
+> - `state/last_session_summary.md` — **82h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold** (values sourced from disk; confirm before treating as authoritative)
 >
 > Values below are sourced from disk. Do NOT treat as live state without confirming nothing changed manually.
 
-> **⚠️ Day 3 Block F mini-boss gate STILL OUTSTANDING (4th carry):** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21, 2026-05-22, 2026-05-23 session starts, and unaddressed on 2026-05-24. Flag before Block A and let the user decide: attempt cold now or defer to end of Day 5. **Fourth carry — the streak is real; name it and decide.**
+> **⚠️ Day 3 Block F mini-boss gate STILL OUTSTANDING (5th carry):** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21, 2026-05-22, 2026-05-23, 2026-05-24, and 2026-05-25. Flag before Block A and let the user decide: attempt cold now or defer to end of Day 5. **Fifth carry — name it, log the decision.**
 
 > **⚠️ F1 escalated to active** (2026-05-22 — `mat`/`m` define/use mismatch in D.3.3 + C.4 singular/plural bug). F1 drill targets baked into Block A.6 and Block E.1.
 
@@ -43,8 +46,8 @@ stale_flags: [STALE-INPUT:current_day.md(60h), STALE-INPUT:active_weak_spots.md(
 
 ## Block plan
 
-- **Pre-Block gate (15 min) — Day 3 Block F check-in (4th carry):**
-  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. Four carries — log the decision regardless and name the streak.
+- **Pre-Block gate (15 min) — Day 3 Block F check-in (5th carry):**
+  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. Five carries — log the decision regardless and name the streak.
 
 - **Block A (1.5 hr) — Pure Functions, Multi-Return, Predicates, Scope, Type Hints:**
   - A.1 (15 min): Pure function discipline — input via param, output via return, no side effects. Drills: `count_evens`, bug-spot two impure functions.
@@ -98,21 +101,23 @@ stale_flags: [STALE-INPUT:current_day.md(60h), STALE-INPUT:active_weak_spots.md(
 
 - **F1** — Variable naming (active since 2026-05-22, 0 reps since escalation)
   → **Active target.** A.6 (parameter naming vs internal names — default args context), E.1 (`self.steps` vs `step` in loop body). Rule: singular for loop variable, plural for collection. Enforced mid-drill.
+  ⚠️ Source file >72h old — confirm no updates since 2026-05-22.
 
 - **B2** — Bail to AI, watch improving (4/5 clean sessions, last fired 2026-04-08)
   → Monitoring only. One more clean session → downgrade from watch. No bail protocol active: if stuck >5 min, mandatory "I need ___, I know ___, I'm stuck on ___" before any hint request.
+  ⚠️ Source file >72h old — confirm no updates since 2026-05-21.
 
 ---
 
 ## Yesterday recap
 
-**Note:** No sessions on 2026-05-23 or 2026-05-24 (state files unchanged since 2026-05-22). Last real session was 2026-05-22.
+**Note:** No sessions on 2026-05-23, 2026-05-24, or 2026-05-25 (state files unchanged since 2026-05-22). Last real session was 2026-05-22.
 
 **Completed (2026-05-22 — Loop Week Day 4 second half):**
 Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `factor_pairs` cold), exotic ranges, 6 anti-patterns + legit `range(len())` cases, 5 comp traps 7/7 cold. Block E locked: 10 functions + 9-method `MatrixOps` class — object/class wall climbed after many re-angles, class runs end-to-end. Block F mini-boss PASSED: A (loop translations) rough (Loops 2/3/4 needed redos); B + C cold-clean.
 
 **Unresolved (candidates for today's Pre-Block gate):**
-- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — **fourth carry**. Flag before Block A.
+- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — **fifth carry**. Flag before Block A.
 - Output-paste discipline gap — code submitted without run output ~5× on 2026-05-22. Flag at day start.
 - F1 escalated (watch → active, 2026-05-22) — first full drill block available today.
 - Curriculum bug: `pythagorean_triples(20)` answer key omits `(12,16,20)` — upstream fix needed in pipeline repo.
@@ -121,4 +126,4 @@ Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `facto
 
 ## Curriculum anchor
 
-[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps, function discipline). Mini-boss closes the day. Curriculum sync: OK at 2026-05-25T08:36:44+05:30 (pipeline commit af63ff8).
+[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps, function discipline). Mini-boss closes the day. Curriculum sync: OK at 2026-05-26T08:34:35+05:30 (pipeline commit af63ff8).
