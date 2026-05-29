@@ -1,34 +1,34 @@
 ---
-last_updated: 2026-05-28T09:10:13+05:30
+last_updated: 2026-05-29T09:11:07+05:30
 updated_by: study-morning-briefing
-date: 2026-05-28
-stale_flags: [STALE-INPUT, STATE-DISCREPANCY]
+date: 2026-05-29
+stale_flags: [STALE-INPUT]
 ---
 
-# Today's plan — 2026-05-28 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
+# Today's plan — 2026-05-29 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
 
 > **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22–42) is NOT today's driver.
-> All content is Loop Foundations Boot Camp. Loop Week Day 5 is today's full day — carried from 2026-05-23, 2026-05-24, 2026-05-25, 2026-05-26, AND 2026-05-27 (no sessions any of those days per unchanged state files). **Fifth consecutive no-session carry. Sixth attempt day.**
+> All content is Loop Foundations Boot Camp. Loop Week Day 5 is today's full day — carried from 2026-05-23, 2026-05-24, 2026-05-25, 2026-05-26, 2026-05-27, AND 2026-05-28 (no sessions any of those days per unchanged state files). **Sixth consecutive no-session carry. Seventh attempt day.**
 
-> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-28T08:32:22+05:30 (pipeline commit af63ff8).
+> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-05-29T08:32:47+05:30 (pipeline commit af63ff8).
 
 > **Note:** `bootcamp.current_day=15` (user-set on resume, 2026-05-10) is < `completed_through_day=21`. User-maintained — confirm or update when ready.
 
 > **⚠️ STALE-INPUT (3 files — ALL >72h, beyond refuse threshold):**
 > All three state files are beyond the 72h threshold. Values below are sourced from disk. Confirm nothing changed manually before treating as authoritative.
-> - `state/current_day.md` — **~131h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
-> - `state/active_weak_spots.md` — **~156h old** (last updated 2026-05-21T21:05:00+05:30) — **>72h threshold**
-> - `state/last_session_summary.md` — **~131h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
+> - `state/current_day.md` — **~155h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
+> - `state/active_weak_spots.md` — **~180h old** (last updated 2026-05-21T21:05:00+05:30) — **>72h threshold**
+> - `state/last_session_summary.md` — **~155h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
 
 > **⚠️ STATE DISCREPANCY — active_weak_spots.md vs last_session_summary.md:**
 > `last_session_summary.md` (2026-05-22) records RTI changes NOT yet reflected in `active_weak_spots.md` (last written 2026-05-21):
 > 1. **F1 escalated** watch → Band 2 active (confirmed: `mat`/`m` D.3.3 + `num`/`n` E.1.4). File still shows "watch — escalation candidate."
 > 2. **B2 graduated** — 5 clean no-bail sessions (`element_wise` bail impulse self-corrected). File still lists B2 as "Band 2 watch (improving), 4 clean sessions."
 > 3. **A1 at 2/3 reps** — `factor_pairs` cold-clean on 2026-05-22 per session summary. File still shows 1/3 reps.
-> 4. **F3 — potential graduation (needs confirmation):** session summary says "earned 2 clean boundary reps" (`is_prime` + symmetric-check drill). F3 needs 2 reps to graduate. But F3 also re-fired ×2 in the same session (exponent semantics). Unclear whether graduation criteria were met — confirm at session start. Full RTI analysis in `room-to-improve/sessions/2026-05-22.md`.
+> 4. **F3 — potential graduation (needs confirmation):** session summary says "earned 2 clean boundary reps" (`is_prime` + symmetric-check), which meets the 2-rep graduation threshold. But F3 also re-fired ×2 in the same session (exponent semantics). Read `room-to-improve/sessions/2026-05-22.md` to confirm. F3 graduation flagged for session-start confirmation.
 > The weak spots section below applies the 2026-05-22 session's confirmed changes where unambiguous. F3 graduation flagged for confirmation.
 
-> **⚠️ Day 3 Block F mini-boss gate STILL OUTSTANDING (7th carry):** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21 and 2026-05-22 sessions; no sessions 2026-05-23 through 2026-05-27. Flag before Block A and let the user decide: attempt cold now or defer to end of Day 5. **Seven carries — this needs a named decision, not another silent carry.**
+> **⚠️ Day 3 Block F mini-boss gate STILL OUTSTANDING (8th carry):** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21 and 2026-05-22 sessions; no sessions 2026-05-23 through 2026-05-28. Flag before Block A and let the user decide: attempt cold now or defer to end of Day 5. **Eight carries — this needs a named decision, not another silent carry.**
 
 > **⚠️ F1 at Band 2 active** (confirmed 2026-05-22 — `mat`/`m` D.3.3 + `num`/`n` E.1.4). F1 drill targets baked into Block A.6 and Block E.1.
 
@@ -48,8 +48,8 @@ stale_flags: [STALE-INPUT, STATE-DISCREPANCY]
 
 ## Block plan
 
-- **Pre-Block gate (15 min) — Day 3 Block F check-in (7th carry):**
-  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. Seven carries — log the decision regardless and name the streak.
+- **Pre-Block gate (15 min) — Day 3 Block F check-in (8th carry):**
+  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. Eight carries — log the decision regardless and name the streak.
 
 - **Block A (1.5 hr) — Pure Functions, Multi-Return, Predicates, Scope, Type Hints:**
   - A.1 (15 min): Pure function discipline — input via param, output via return, no side effects. Drills: `count_evens`, bug-spot two impure functions.
@@ -68,7 +68,7 @@ stale_flags: [STALE-INPUT, STATE-DISCREPANCY]
 
 - **Block C (1.5 hr) — Phase 3b L5: While Family + Hybrid Loops:**
   - C.1 (30 min): `while` inside `while`. Inner-reset discipline. Drill: 4×3 grid, trace 3 broken snippets, nested multiplication table.
-  - C.2 (20 min): `for` inside `while`. Sentinel outer + fixed inner. **A1 earn-back zone** — two-step body named in English before coding. Rep #2 of 3 toward Band 2 graduation (or #3 if 2026-05-22 session counts — confirm).
+  - C.2 (20 min): `for` inside `while`. Sentinel outer + fixed inner. **A1 earn-back zone** — two-step body named in English before coding. Rep #3 of 3 toward Band 2 graduation (confirm whether 2026-05-22 `factor_pairs` rep counts at session start).
   - C.3 (20 min): `while` inside `for`. Fixed outer, convergence inner. Halving sequence, removing chars.
   - C.4 (10 min): Decision table — 4-cell lock (for+for, for+while, while+for, while+while).
   - C.5 (10 min): Range → while conversions. 3 drills cold.
@@ -99,26 +99,26 @@ stale_flags: [STALE-INPUT, STATE-DISCREPANCY]
 
 - **A1** — Multi-step loop body (Band 2 escalated, **2/3 reps** per last_session_summary — confirm at session start; active_weak_spots.md still shows 1/3)
   → **Secondary drill target.** C.2 + C.3 hybrid loops — two-step body (check condition + transform/accumulate) must be named in English before coding. Rep #3 of 3 toward Band 2 graduation available in Block C if 2026-05-22 rep confirmed.
-  ⚠️ active_weak_spots.md still shows 1/3 reps (132h+ old). Confirmed 2/3 per last_session_summary.
+  ⚠️ active_weak_spots.md still shows 1/3 reps (180h+ old). Confirmed 2/3 per last_session_summary.
 
 - **F1** — Variable naming (Band 2 active — confirmed 2026-05-22 per last_session_summary; 0 clean reps since escalation)
   → **Active target.** A.6 (parameter naming vs internal names — default args context), E.1 (`self.steps` vs `step` in loop body). Rule: singular for loop variable, plural for collection, never reuse param name as loop var.
-  ⚠️ active_weak_spots.md still shows pre-confirmation state ("watch — escalation candidate", 156h+ old). Confirmed escalation per last_session_summary.
+  ⚠️ active_weak_spots.md still shows pre-confirmation state ("watch — escalation candidate", 180h+ old). Confirmed escalation per last_session_summary.
 
 - **B2** — Bail to AI — **GRADUATED** per 2026-05-22 session (5 clean sessions, `element_wise` bail self-corrected). Monitoring only — no active drill protocol.
-  ⚠️ active_weak_spots.md still lists B2 as active watch (156h+ old, pre-graduation). Update the file on session start.
+  ⚠️ active_weak_spots.md still lists B2 as active watch (180h+ old, pre-graduation). Update the file at session start.
 
 ---
 
 ## Yesterday recap
 
-**Note:** No sessions on 2026-05-23, 2026-05-24, 2026-05-25, 2026-05-26, or 2026-05-27 (state files unchanged since 2026-05-22). Last real session was 2026-05-22.
+**Note:** No sessions on 2026-05-23, 2026-05-24, 2026-05-25, 2026-05-26, 2026-05-27, or 2026-05-28 (state files unchanged since 2026-05-22). Last real session was 2026-05-22.
 
 **Completed (2026-05-22 — Loop Week Day 4 second half):**
 Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `factor_pairs` cold), exotic ranges, 6 anti-patterns + legit `range(len())` cases, 5 comp traps 7/7 cold. Block E locked: 10 functions + 9-method `MatrixOps` class — object/class wall climbed after many re-angles, class runs end-to-end. Block F mini-boss PASSED: A (loop translations) rough (Loops 2/3/4 needed redos); B + C cold-clean.
 
 **Unresolved (candidates for today's Pre-Block gate):**
-- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — **seventh carry**. Flag before Block A.
+- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — **eighth carry**. Flag before Block A.
 - Output-paste discipline gap — code submitted without run output ~5× on 2026-05-22. Renew flag at day start.
 - active_weak_spots.md needs update: F1 escalation to Band 2 active, B2 graduation, A1 at 2/3 reps, F3 graduation TBD (all from 2026-05-22 session — file was last written 2026-05-21).
 - Curriculum bug: `pythagorean_triples(20)` answer key omits `(12,16,20)` — upstream fix needed in pipeline repo.
@@ -127,4 +127,4 @@ Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `facto
 
 ## Curriculum anchor
 
-[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps, function discipline). Mini-boss closes the day. Curriculum sync: OK at 2026-05-28T08:32:22+05:30 (pipeline commit af63ff8).
+[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps, function discipline). Mini-boss closes the day. Curriculum sync: OK at 2026-05-29T08:32:47+05:30 (pipeline commit af63ff8).
