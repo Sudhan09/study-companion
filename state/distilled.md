@@ -1,13 +1,20 @@
 ---
-last_updated: 2026-06-01T09:04:36+05:30
+last_updated: 2026-06-08T09:03:45+05:30
 updated_by: study-monday-distillation
-last_run: 2026-06-01
+last_run: 2026-06-08
 ---
 
 # Distilled archive index
 
 | Date | Sessions | Wins | Drills | Drift | File |
 |------|----------|------|--------|-------|------|
+| 2026-05-31 | 0 | 0 | 0 | 0 | [archive/completed_days/2026-05-31.md](../archive/completed_days/2026-05-31.md) |
+| 2026-05-30 | 0 | 0 | 1 | 0 | [archive/completed_days/2026-05-30.md](../archive/completed_days/2026-05-30.md) |
+| 2026-05-29 | 0 | 0 | 1 | 0 | [archive/completed_days/2026-05-29.md](../archive/completed_days/2026-05-29.md) |
+| 2026-05-28 | 0 | 0 | 1 | 0 | [archive/completed_days/2026-05-28.md](../archive/completed_days/2026-05-28.md) |
+| 2026-05-27 | 0 | 0 | 1 | 0 | [archive/completed_days/2026-05-27.md](../archive/completed_days/2026-05-27.md) |
+| 2026-05-26 | 0 | 0 | 1 | 0 | [archive/completed_days/2026-05-26.md](../archive/completed_days/2026-05-26.md) |
+| 2026-05-25 | 0 | 0 | 1 | 0 | [archive/completed_days/2026-05-25.md](../archive/completed_days/2026-05-25.md) |
 | 2026-05-24 | 0 | 0 | 0 | 0 | [archive/completed_days/2026-05-24.md](../archive/completed_days/2026-05-24.md) |
 | 2026-05-23 | 0 | 0 | 0 | 0 | [archive/completed_days/2026-05-23.md](../archive/completed_days/2026-05-23.md) |
 | 2026-05-22 | 1 | 0 | 22 | 0 | [archive/completed_days/2026-05-22.md](../archive/completed_days/2026-05-22.md) |
