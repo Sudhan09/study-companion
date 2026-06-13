@@ -1,27 +1,28 @@
 ---
-last_updated: 2026-06-12T09:02:25+05:30
+last_updated: 2026-06-13T09:02:15+05:30
 updated_by: study-morning-briefing
-date: 2026-06-12
+date: 2026-06-13
 stale_flags:
-  - STALE-INPUT: state/current_day.md (~476h old, >72h threshold)
-  - STALE-INPUT: state/active_weak_spots.md (~500h old, >72h threshold)
-  - STALE-INPUT: state/last_session_summary.md (~476h old, >72h threshold)
+  - STALE-INPUT:state/current_day.md
+  - STALE-INPUT:state/active_weak_spots.md
+  - STALE-INPUT:state/last_session_summary.md
+  - STATE-DISCREPANCY:active_weak_spots.md-vs-last_session_summary.md
 ---
 
-# Today's plan — 2026-06-12 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
+# Today's plan — 2026-06-13 (Phase 2 • Bootcamp Day 15 • Loop Week Day 5)
 
 > **mode: loop_week** — Bootcamp curriculum (Phase 2, Days 22–42) is NOT today's driver.
-> All content is Loop Foundations Boot Camp. Loop Week Day 5 is today's full day — carried from 2026-05-23 through 2026-06-11 (no sessions across any of those days per unchanged state files). **Twentieth consecutive no-session carry. Twenty-first attempt day.**
+> All content is Loop Foundations Boot Camp. Loop Week Day 5 is today's full day — carried from 2026-05-23 through 2026-06-12 (no sessions across any of those days per unchanged state files). **Twenty-first consecutive no-session carry. Twenty-second attempt day.**
 
-> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-06-12T08:33:52+05:30 (pipeline commit af63ff8bb6f0c06c75a126dba79705fd68dc4be8).
+> **Cross-check:** `progress_state.xml` `completed_through_day=21` ✅ matches `current_day.md.bootcamp.completed_through_day=21`. Curriculum sync: OK at 2026-06-13T08:34:10+05:30 (pipeline commit af63ff8bb6f0c06c75a126dba79705fd68dc4be8).
 
 > **Note:** `bootcamp.current_day=15` (user-set on resume, 2026-05-10) is < `completed_through_day=21`. User-maintained — confirm or update when ready.
 
 > **⚠️ STALE-INPUT (3 files — ALL >72h, beyond refuse threshold):**
 > All three state files are beyond the 72h threshold. Values below are sourced from disk + last_session_summary reconciliation. Confirm nothing changed manually before treating as authoritative.
-> - `state/current_day.md` — **~476h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
-> - `state/active_weak_spots.md` — **~500h old** (last updated 2026-05-21T21:05:00+05:30) — **>72h threshold**
-> - `state/last_session_summary.md` — **~476h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
+> - `state/current_day.md` — **~500h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
+> - `state/active_weak_spots.md` — **~524h old** (last updated 2026-05-21T21:05:00+05:30) — **>72h threshold**
+> - `state/last_session_summary.md` — **~500h old** (last updated 2026-05-22T22:24:29+05:30) — **>72h threshold**
 
 > **⚠️ STATE DISCREPANCY — active_weak_spots.md vs last_session_summary.md:**
 > `last_session_summary.md` (2026-05-22) + `room-to-improve/sessions/2026-05-22.md` record RTI changes NOT yet reflected in `active_weak_spots.md` (last written 2026-05-21). Confirmed changes:
@@ -31,7 +32,7 @@ stale_flags:
 > 4. **F3 — NOT graduated** (confirmed): earned 2 clean boundary reps (`is_prime` D.2.1 + symmetric-check), but same-session exponent re-fires (`**2` misread as square root; `a**a` instead of `a**2`) block the downgrade. Band 2 escalated holds. Reps counter: 2 (was 0 in stale file). Graduation NOT awarded.
 > All reconciled values applied in briefing below. **Update `active_weak_spots.md` at session start today.**
 
-> **⚠️ Day 3 Block F mini-boss gate STILL OUTSTANDING (21st carry):** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21 and 2026-05-22 sessions; no sessions 2026-05-23 through 2026-06-11. Flag before Block A and let the user decide: attempt cold now or defer to end of Day 5. **Twenty-one carries — this cannot carry to Day 6. Make the call today.**
+> **⚠️ Day 3 Block F mini-boss gate STILL OUTSTANDING (22nd carry):** `diamond`, `is_palindrome_clean`, `compress` — skipped at 2026-05-21 and 2026-05-22 sessions; no sessions 2026-05-23 through 2026-06-12. Flag before Block A and let the user decide: attempt cold now or defer to end of Day 5. **Twenty-two carries — this cannot carry to Day 6. Make the call today.**
 
 > **⚠️ F1 at Band 2 active** (confirmed 2026-05-22 — `mat`/`m` D.3.3 + `num`/`n` E.1.4). F1 drill targets baked into Block A.6 and Block E.1.
 
@@ -51,8 +52,8 @@ stale_flags:
 
 ## Block plan
 
-- **Pre-Block gate (15 min) — Day 3 Block F check-in (21st carry):**
-  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. Twenty-one carries — log the decision regardless and name the streak. This cannot carry to Day 6.
+- **Pre-Block gate (15 min) — Day 3 Block F check-in (22nd carry):**
+  Flag `diamond`, `is_palindrome_clean`, `compress`. User decides: attempt cold now or defer to end of day. Twenty-two carries — log the decision regardless. Cannot carry to Day 6.
 
 - **Block A (1.5 hr) — Pure Functions, Multi-Return, Predicates, Scope, Type Hints:**
   - A.1 (15 min): Pure function discipline — input via param, output via return, no side effects. Drills: `count_evens`, bug-spot two impure functions.
@@ -98,30 +99,30 @@ stale_flags:
 
 - **F3** — Operator/condition confusion (Band 2 escalated, **2/2 boundary reps earned, NOT graduated**)
   → RTI session (2026-05-22) confirmed: earned `is_prime` D.2.1 + symmetric-check (both boundary-discipline reps), but exponent-face re-fired ×2 (`**2` misread as square root; `a**a` typo). Same-session re-fires block the downgrade per RTI rules. Still Band 2 escalated. **Primary drill target** → A.3 predicates + B.2 lambda predicates. Every operator/exponent decision stated aloud before writing.
-  ⚠️ `active_weak_spots.md` stale (~500h) — shows 0 reps; confirmed 2 reps from RTI session file.
+  ⚠️ `active_weak_spots.md` stale (~524h) — shows 0 reps; confirmed 2 reps from RTI session file.
 
 - **A1** — Multi-step loop body (Band 2 escalated, **2/3 reps** — confirmed from RTI session 2026-05-22)
   → **Secondary drill target.** C.2 + C.3 hybrid loops — two-step body (check condition + transform/accumulate) must be named in English before coding. Rep #3 of 3 toward Band 2 graduation available in Block C.
-  ⚠️ `active_weak_spots.md` stale (~500h) — still shows 1/3 reps; confirmed 2/3 from RTI session.
+  ⚠️ `active_weak_spots.md` stale (~524h) — still shows 1/3 reps; confirmed 2/3 from RTI session.
 
 - **F1** — Variable naming (Band 2 active — confirmed 2026-05-22 per RTI session; 0 clean reps since escalation)
   → **Active target.** A.6 (parameter naming vs internal names — default args context), E.1 (`self.steps` vs `step` in loop body). Rule: singular for loop variable, plural for collection, never reuse param name as loop var.
-  ⚠️ `active_weak_spots.md` stale (~500h) — still shows pre-escalation state ("watch — escalation candidate").
+  ⚠️ `active_weak_spots.md` stale (~524h) — still shows pre-escalation state ("watch — escalation candidate").
 
 - **B2** — Bail to AI — **GRADUATED** per 2026-05-22 RTI session (5 clean sessions, `element_wise` bail self-corrected). Monitoring only.
-  ⚠️ `active_weak_spots.md` stale (~500h) — still lists B2 as active watch.
+  ⚠️ `active_weak_spots.md` stale (~524h) — still lists B2 as active watch.
 
 ---
 
 ## Yesterday recap
 
-**Note:** No sessions on 2026-05-23 through 2026-06-11 (state files unchanged since 2026-05-22). Last real session was 2026-05-22.
+**Note:** No sessions on 2026-05-23 through 2026-06-12 (state files unchanged since 2026-05-22). Last real session was 2026-05-22.
 
 **Completed (2026-05-22 — Loop Week Day 4 second half):**
 Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `factor_pairs` cold), exotic ranges, 6 anti-patterns + legit `range(len())` cases, 5 comp traps 7/7 cold. Block E locked: 10 functions + 9-method `MatrixOps` class — object/class wall climbed after ~6 re-angles, class runs end-to-end. Block F mini-boss PASSED: A (loop translations) rough (Loops 2/3/4 needed redos); B + C cold-clean.
 
 **Unresolved (candidates for today's Pre-Block gate):**
-- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — **twenty-first carry**.
+- Day 3 Block F mini-boss gate (`diamond`, `is_palindrome_clean`, `compress`) — **twenty-second carry**.
 - Output-paste discipline gap — code submitted without run output ~5× on 2026-05-22. Renew flag at day start.
 - `active_weak_spots.md` needs update: F1 escalation to Band 2 active, B2 graduation, A1 at 2/3 reps, F3 at 2 earned reps / not graduated (all from 2026-05-22 session — file was last written 2026-05-21).
 - Curriculum bug: `pythagorean_triples(20)` answer key omits `(12,16,20)` — upstream fix needed in pipeline repo.
@@ -130,4 +131,4 @@ Block D locked (all 5 sub-stages): Range Tier 5, √n bound (`is_prime` + `facto
 
 ## Curriculum anchor
 
-[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps, function discipline). Mini-boss closes the day. Curriculum sync: OK at 2026-06-12T08:33:52+05:30 (pipeline commit af63ff8bb6f0c06c75a126dba79705fd68dc4be8).
+[Phase 2 • Bootcamp Day 15 (user-set) / completed_through=21 • Loop Week Day 5] — sourced from `state/current_day.md` + `instructions/loop_curriculum/loop_week_day_05.md`. Phase 3b L5+L6 is today's primary coverage zone (while family, 4 classic traps, function discipline). Mini-boss closes the day. Curriculum sync: OK at 2026-06-13T08:34:10+05:30 (pipeline commit af63ff8bb6f0c06c75a126dba79705fd68dc4be8).
